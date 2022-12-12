@@ -1,0 +1,14 @@
+= form_with model: @vacancy, local: true do |f|
+ p
+  = f.label :title
+  = f.text_field :title
+ p
+  = f.label :description
+  = f.text_area :description
+ p
+  = f.label :email
+  = f.text_field :email
+ p
+  = f.label :phone
+  = f.text_field :phone
+ = f.submit 'Create'
