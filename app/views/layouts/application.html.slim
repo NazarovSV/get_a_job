@@ -10,6 +10,8 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
     .container
-      #flash
-        = render 'shared/flash'
-      = yield
+      .row
+        .col-lg-9
+          #flash
+            = render 'shared/flash'
+          = yield
