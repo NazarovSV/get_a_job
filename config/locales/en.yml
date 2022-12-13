@@ -9,3 +9,5 @@ en:
         description: 'Description'
         phone: 'Phone'
         email: 'Email'
+  vacancy:
+    created: 'Your vacancy successfully created.'
