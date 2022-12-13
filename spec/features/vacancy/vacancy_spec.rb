@@ -35,15 +35,12 @@ feature 'Any user can add new vacancy', '
 
       click_on 'Create'
 
-
       expect(page).to have_content 'Your vacancy successfully created.'
 
       expect(page).to have_content vacancy.title
       expect(page).to have_content vacancy.description
       expect(page).to have_content vacancy.email
     end
-
-
 
     scenario 'can`t add new vacancy without title' do
       visit new_vacancy_path

@@ -1,0 +1,11 @@
+ru:
+  helpers:
+    submit:
+      vacancy:
+        create: 'Готово'
+    label:
+      vacancy:
+        title: 'Название вакансии'
+        description: 'Описание'
+        phone: 'Контактный телефон'
+        email: 'Email'
