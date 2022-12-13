@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class VacanciesController < ApplicationController
-  before_action :vacancy_by_id, only: :show
+  before_action :load_vacancy, only: :show
   def index; end
 
   def new
@@ -11,7 +11,7 @@ class VacanciesController < ApplicationController
   def create
     @vacancy = Vacancy.new(vacancy_params)
     if @vacancy.save
-      redirect_to @vacancy, notice: 'Your vacancy successfully created.'
+      redirect_to @vacancy, notice: t('vacancy.created')
     else
       render :new
     end
@@ -25,7 +25,7 @@ class VacanciesController < ApplicationController
     params.require(:vacancy).permit(:title, :description, :email, :phone)
   end
 
-  def vacancy_by_id
+  def load_vacancy
     @vacancy = Vacancy.find(params[:id])
   end
 end

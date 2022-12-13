@@ -17,5 +17,6 @@ class Vacancy < ApplicationRecord
 
   validates_with PhoneNumberValidator
   validates :title, :description, :email, presence: true
-  validates_length_of :title, maximum: 128
+  validates :title, length: { maximum: 255 }
+  validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
 end

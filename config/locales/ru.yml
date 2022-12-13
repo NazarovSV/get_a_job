@@ -9,3 +9,5 @@ ru:
         description: 'Описание'
         phone: 'Контактный телефон'
         email: 'Email'
+  vacancy:
+    created: 'Вакансия успешно создана.'
