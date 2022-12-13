@@ -9,5 +9,8 @@ en:
         description: 'Description'
         phone: 'Phone'
         email: 'Email'
+  errors:
+    messages:
+      invalid: 'is not valid'
   vacancy:
     created: 'Your vacancy successfully created.'

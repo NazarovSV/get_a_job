@@ -4,12 +4,18 @@ require 'telephone_number'
 
 class PhoneNumberValidator < ActiveModel::Validator
   def validate(record)
-    record.errors.add(:phone, 'is not valid') unless phone_valid?(record.phone)
+    return if phone_valid?(record.phone)
+
+    record.errors.add(:phone, I18n.t('errors.messages.invalid'))
   end
 
   private
 
   def phone_valid?(phone)
-    phone.nil? || phone.empty? || TelephoneNumber.valid?(phone, :RU)
+    phone_is_blank?(phone) || TelephoneNumber.valid?(phone, :RU)
+  end
+
+  def phone_is_blank?(phone)
+    phone.nil? || phone.empty?
   end
 end
