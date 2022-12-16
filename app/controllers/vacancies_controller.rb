@@ -2,7 +2,9 @@
 
 class VacanciesController < ApplicationController
   before_action :load_vacancy, only: :show
-  def index; end
+  def index
+    @vacancies = Vacancy.all
+  end
 
   def new
     @vacancy = Vacancy.new

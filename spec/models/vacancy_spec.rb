@@ -23,7 +23,7 @@ RSpec.describe Vacancy, type: :model do
   it { should allow_value('address@email.com').for(:email) }
 
   describe 'validate phone number' do
-    it { expect(build(:vacancy)).to allow_value(FFaker::PhoneNumberRU.phone_number).for(:phone) }
+    it { expect(build(:vacancy)).to allow_value(Faker::PhoneNumber.phone_number).for(:phone) }
     it { expect(build(:vacancy, :blank_phone)).to allow_value('').for(:phone) }
     it { expect(build(:vacancy, :nil_phone)).to allow_value('').for(:phone) }
     it { expect(build(:vacancy)).to_not allow_value('123123123123123').for(:phone) }

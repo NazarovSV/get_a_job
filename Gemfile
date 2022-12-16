@@ -19,7 +19,8 @@ gem 'webpacker', '~> 5.0'
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'ffaker'
+  gem 'faker'
+  # gem 'ffaker'
   gem 'rspec-rails'
 end
 
@@ -33,6 +34,7 @@ end
 
 group :test do
   gem 'capybara', '>= 3.26'
+  gem 'launchy'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   gem 'shoulda-matchers'

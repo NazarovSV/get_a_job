@@ -14,10 +14,10 @@
 #
 FactoryBot.define do
   factory :vacancy do
-    title { FFaker::Lorem.sentence[0..127] }
-    description { FFaker::Lorem.paragraph }
-    phone { FFaker::PhoneNumberRU.phone_number }
-    email { FFaker::Internet.email }
+    title { Faker::Lorem.sentence[0..127] }
+    description { Faker::Lorem.paragraph(sentence_count: 25) }
+    phone { Faker::PhoneNumber.phone_number }
+    email { Faker::Internet.email }
 
     trait :blank_phone do
       phone { '' }

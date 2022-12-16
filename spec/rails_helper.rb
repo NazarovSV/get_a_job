@@ -2,7 +2,7 @@
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-require 'ffaker'
+require 'faker'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
@@ -72,4 +72,6 @@ RSpec.configure do |config|
       with.library :rails
     end
   end
+
+  Faker::Config.locale = 'ru'
 end
