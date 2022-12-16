@@ -1,4 +1,7 @@
-p
-  = vacancy.title
-  br
-  = cut_paragraph(text: vacancy.description)
+div class='card rounded-0 border-1 border-light'
+  div class='card-body'
+    = link_to vacancy.title, vacancy_path(vacancy), id: "vacancy_id_#{vacancy.id}", class: "link-success text-decoration-none stretched-link"
+    br
+    br
+    = cut_paragraph(text: vacancy.description)
+br
