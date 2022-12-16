@@ -4,6 +4,6 @@ module VacanciesHelper
   def cut_paragraph(text:, length: 250)
     return if length <= 0
 
-    "#{text[0..length]}..."
+    text.length <= length ? text : "#{text[0..length]}..."
   end
 end
