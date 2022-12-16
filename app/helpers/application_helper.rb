@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-
   def flash_message(type)
     return unless flash[type]
 
@@ -19,6 +18,6 @@ module ApplicationHelper
   }.freeze
 
   def message_type(type)
-    MESSAGE_TYPE.has_key?(type) ? MESSAGE_TYPE[type] : 'alert-info'
+    MESSAGE_TYPE.key?(type) ? MESSAGE_TYPE[type] : 'alert-info'
   end
 end

@@ -34,4 +34,18 @@ RSpec.describe VacanciesController, type: :controller do
       expect(response).to render_template :show
     end
   end
+
+  describe 'GET #index' do
+    let!(:vacancies) { create_list(:vacancy, 10) }
+
+    before { get :index }
+
+    it 'populates an array of all vacancies' do
+      expect(assigns(:vacancies)).to match_array(vacancies)
+    end
+
+    it 'renders index view' do
+      expect(response).to render_template :index
+    end
+  end
 end
