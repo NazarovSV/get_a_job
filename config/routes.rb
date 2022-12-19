@@ -6,5 +6,9 @@ Rails.application.routes.draw do
 
   root to: 'vacancies#index'
 
-  resources :vacancies, only: %i[create index new show update]
+  namespace :employer do
+    resources :vacancies, only: %i[create index new show update]
+  end
+
+  resources :vacancies, only: %i[index show]
 end

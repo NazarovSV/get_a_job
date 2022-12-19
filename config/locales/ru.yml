@@ -14,3 +14,8 @@ ru:
       invalid: 'не валиден'
   vacancy:
     created: 'Вакансия успешно создана.'
+  navbar:
+    menu:
+      enter: 'Войти'
+      login: 'Log in'
+      logout: 'Выход'

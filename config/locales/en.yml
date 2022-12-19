@@ -14,3 +14,8 @@ en:
       invalid: 'is not valid'
   vacancy:
     created: 'Your vacancy successfully created.'
+  navbar:
+    menu:
+      enter: 'Enter'
+      login: 'Login'
+      logout: 'Logout'

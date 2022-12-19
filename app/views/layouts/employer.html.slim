@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title
+      | GetAJob
+    meta[name="viewport" content="width=device-width,initial-scale=1"]
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    = render 'employer/shared/navbar'
+    .container
+      .row
+        .col-lg-9
+          #flash
+            = render 'shared/flash'
+          = yield
+
