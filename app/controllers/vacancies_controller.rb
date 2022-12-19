@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class VacanciesController < ApplicationController
+  before_action :authenticate_employer!, only: %i[create new]
   before_action :load_vacancy, only: :show
   def index
     @vacancies = Vacancy.all
@@ -12,6 +13,8 @@ class VacanciesController < ApplicationController
 
   def create
     @vacancy = Vacancy.new(vacancy_params)
+    @vacancy.employer = current_employer
+
     if @vacancy.save
       redirect_to @vacancy, notice: t('vacancy.created')
     else

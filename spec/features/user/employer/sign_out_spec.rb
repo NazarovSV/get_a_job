@@ -9,7 +9,7 @@ feature 'Employer can sign out', '
 ' do
   scenario 'Registered user tries to sign out' do
     employer = create(:employer)
-    sign_in(employer)
+    sign_in_employer(employer)
 
     visit root_path
 
