@@ -22,24 +22,15 @@
 #  index_employers_on_email                 (email) UNIQUE
 #  index_employers_on_reset_password_token  (reset_password_token) UNIQUE
 #
-require 'rails_helper'
+class Employer < ApplicationRecord
+  has_many :vacancies, dependent: :destroy
+  # Include default devise modules. Others available are:
+  # :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :confirmable
 
-RSpec.describe Employer, type: :model do
-  it { is_expected.to validate_presence_of :email }
-  it { is_expected.to validate_presence_of :password }
-  it { is_expected.to have_many(:vacancies).dependent(:destroy) }
-
-  describe "checking the vacancy's author" do
-    let(:vacancy) { create(:vacancy) }
-
-    it 'current user is the author of the vacancy' do
-      employer = vacancy.employer
-      expect(employer).to be_author(vacancy)
-    end
-
-    it 'current user is not the author of the question' do
-      employer = create(:employer)
-      expect(employer).to_not be_author(vacancy)
-    end
+  def author?(entity)
+    id == entity.employer_id
   end
 end

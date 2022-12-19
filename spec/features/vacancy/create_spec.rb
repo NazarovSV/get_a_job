@@ -2,15 +2,21 @@
 
 require 'rails_helper'
 
-feature 'Any user can add new vacancy', '
+feature 'Only authenticated user as employer can add new vacancy', '
   to find a new employee
-  user can create a new vacancy
+  user can register as employer
+  and create a new vacancy
 ' do
-  describe 'Unauthenticated user' do
-    given(:vacancy) { build(:vacancy) }
-    scenario 'can add new vacancy with phone' do
-      visit new_vacancy_path
+  describe 'Authenticated user' do
+    given!(:employer) { create(:employer) }
+    given(:vacancy) { build(:vacancy, employer:) }
 
+    background do
+      sign_in_employer(employer)
+      visit new_vacancy_path
+    end
+
+    scenario 'can add new vacancy with phone' do
       fill_in 'Title', with: vacancy.title
       fill_in 'Description', with: vacancy.description
       fill_in 'Phone', with: vacancy.phone
@@ -27,8 +33,6 @@ feature 'Any user can add new vacancy', '
     end
 
     scenario 'can add new vacancy without phone' do
-      visit new_vacancy_path
-
       fill_in 'Title', with: vacancy.title
       fill_in 'Description', with: vacancy.description
       fill_in 'Email', with: vacancy.email
@@ -43,8 +47,6 @@ feature 'Any user can add new vacancy', '
     end
 
     scenario 'can`t add new vacancy without title' do
-      visit new_vacancy_path
-
       fill_in 'Description', with: vacancy.description
       fill_in 'Email', with: vacancy.email
 
@@ -54,8 +56,6 @@ feature 'Any user can add new vacancy', '
     end
 
     scenario 'can`t add new vacancy without description' do
-      visit new_vacancy_path
-
       fill_in 'Title', with: vacancy.title
       fill_in 'Email', with: vacancy.email
 
@@ -65,14 +65,19 @@ feature 'Any user can add new vacancy', '
     end
 
     scenario 'can`t add new vacancy without email' do
-      visit new_vacancy_path
-
       fill_in 'Title', with: vacancy.title
       fill_in 'Description', with: vacancy.description
 
       click_on 'Create'
 
       expect(page).to have_content "Email can't be blank"
+    end
+  end
+
+  describe 'Unathenticated user' do
+    scenario 'can`t access to creating vacancy path' do
+      visit new_vacancy_path
+      expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
 end

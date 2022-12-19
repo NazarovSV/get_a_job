@@ -8,9 +8,10 @@ feature 'Employer can sign up', '
   I want to be able to register on the site
 ' do
   scenario 'Unauthenticated user tries to sign up' do
-    visit questions_path
+    visit root_path
 
-    click_on 'Registration'
+    click_on 'Login'
+    click_on 'Sign up'
 
     fill_in 'Email', with: 'test@test.ru'
     fill_in 'Password', with: '12345678'
@@ -23,21 +24,22 @@ feature 'Employer can sign up', '
   end
 
   scenario 'Unauthenticated employer tries to sign up with invalid data' do
-    visit questions_path
+    visit root_path
 
-    click_on 'Registration'
+    click_on 'Login'
+    click_on 'Sign up'
 
     click_on 'Sign up'
 
-    expect(page).to have_content 'prohibited this user from being saved'
+    expect(page).to have_content 'prohibited this employer from being saved'
     expect(page).to have_content "Email can't be blank"
     expect(page).to have_content "Password can't be blank"
   end
 
   scenario 'Registered user does not see the registration' do
-    user = create(:user)
-    sign_in(user)
-    visit questions_path
+    employer = create(:employer)
+    sign_in_employer(employer)
+    visit root_path
 
     expect(page).to_not have_content 'Registration'
   end
