@@ -13,7 +13,7 @@ feature 'Only authenticated user as employer can add new vacancy', '
 
     background do
       sign_in_employer(employer)
-      visit new_vacancy_path
+      visit new_employer_vacancy_path
     end
 
     scenario 'can add new vacancy with phone' do
@@ -76,7 +76,7 @@ feature 'Only authenticated user as employer can add new vacancy', '
 
   describe 'Unathenticated user' do
     scenario 'can`t access to creating vacancy path' do
-      visit new_vacancy_path
+      visit new_employer_vacancy_path
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
