@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-module Employer
-  class VacanciesController < Employer::BaseController
+module Hire
+  class VacanciesController < Hire::BaseController
     before_action :load_vacancy, only: :show
 
     def index
-      @vacancies = Vacancy.all
+      @vacancies = current_user.vacancies
     end
 
     def new
@@ -17,7 +17,7 @@ module Employer
       @vacancy.employer = current_employer
 
       if @vacancy.save
-        redirect_to employer_vacancy_path(id: @vacancy), notice: t('vacancy.created')
+        redirect_to hire_vacancy_path(id: @vacancy), notice: t('vacancy.created')
       else
         render :new
       end

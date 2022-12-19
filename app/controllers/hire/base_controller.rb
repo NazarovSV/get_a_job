@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Employer
+module Hire
   class BaseController < ApplicationController
-    layout 'employer'
+    layout 'hire'
 
     before_action :authenticate_employer!
 
