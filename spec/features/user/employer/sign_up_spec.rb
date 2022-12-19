@@ -23,7 +23,7 @@ feature 'Employer can sign up', '
     expect(current_path).to eq root_path
   end
 
-  scenario 'Unauthenticated employer tries to sign up with invalid data' do
+  scenario 'Unauthenticated hire tries to sign up with invalid data' do
     visit root_path
 
     click_on 'Login'

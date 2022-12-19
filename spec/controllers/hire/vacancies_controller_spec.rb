@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Employer::VacanciesController, type: :controller do
+RSpec.describe Hire::VacanciesController, type: :controller do
   describe 'POST #create' do
     let!(:employer) { create(:employer) }
     let!(:vacancy) { create(:vacancy, employer:) }
@@ -17,7 +17,7 @@ RSpec.describe Employer::VacanciesController, type: :controller do
       it 'redirects to created vacancy' do
         post :create, params: { vacancy: attributes_for(:vacancy) }
 
-        expect(response).to redirect_to employer_vacancy_path(id: assigns(:vacancy).id)
+        expect(response).to redirect_to hire_vacancy_path(id: assigns(:vacancy).id)
         expect(flash[:notice]).to match('Your vacancy successfully created.')
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe Employer::VacanciesController, type: :controller do
 
     it 'renders show view' do
       get :show, params: { id: vacancy }
-      expect(response).to render_template 'employer/vacancies/show'
+      expect(response).to render_template :show
     end
   end
 

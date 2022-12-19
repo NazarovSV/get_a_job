@@ -1,5 +1,5 @@
 = render 'shared/errors', resource: @vacancy
-= form_with model: [:employer, @vacancy], local: true do |f|
+= form_with model: [:hire, @vacancy], local: true do |f|
  p
   = f.label :title, t('helpers.label.vacancy.title'), class: 'form-label'
   = f.text_field :title, class: 'form-control'

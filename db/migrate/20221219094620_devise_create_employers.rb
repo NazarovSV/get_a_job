@@ -37,7 +37,7 @@ class DeviseCreateEmployers < ActiveRecord::Migration[6.1]
 
     add_index :employers, :email,                unique: true
     add_index :employers, :reset_password_token, unique: true
-    # add_index :employers, :confirmation_token,   unique: true
-    # add_index :employers, :unlock_token,         unique: true
+    # add_index :hire, :confirmation_token,   unique: true
+    # add_index :hire, :unlock_token,         unique: true
   end
 end
