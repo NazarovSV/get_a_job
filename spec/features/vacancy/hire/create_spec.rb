@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Only authenticated user as hire can add new vacancy', '
+feature 'Only authenticated user as employer can add new vacancy', '
   to find a new employee
   user can register as hire
   and create a new vacancy

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root to: 'vacancies#index'
 
   namespace :hire do
-    resources :vacancies, only: %i[create index new show update]
+    resources :vacancies, only: %i[create index new show edit update]
   end
 
   resources :vacancies, only: %i[index show]

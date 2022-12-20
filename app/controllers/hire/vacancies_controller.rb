@@ -2,7 +2,11 @@
 
 module Hire
   class VacanciesController < Hire::BaseController
-    before_action :load_vacancy, only: :show
+    before_action :load_vacancy, only: %i[show edit update]
+
+    def edit
+      authorize [:hire, @vacancy]
+    end
 
     def index
       @vacancies = current_user.vacancies
@@ -23,7 +27,19 @@ module Hire
       end
     end
 
-    def show; end
+    def show
+      authorize [:hire, @vacancy]
+    end
+
+    def update
+      authorize [:hire, @vacancy]
+
+      if @vacancy.update(vacancy_params)
+        redirect_to [:hire, @vacancy], notice: t('vacancy.updated')
+      else
+        render :edit
+      end
+    end
 
     private
 
