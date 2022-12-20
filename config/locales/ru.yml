@@ -14,9 +14,15 @@ ru:
       invalid: 'не валиден'
   vacancy:
     created: 'Вакансия успешно создана.'
+    updated: 'Вакансия успешно обновлена.'
   navbar:
     menu:
       enter: 'Войти'
       login: 'Log in'
       logout: 'Выход'
       vacancy: 'Мои вакансии'
+
+  hire:
+    vacancies:
+      edit:
+        submit: 'Сохранить'

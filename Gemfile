@@ -10,6 +10,7 @@ gem 'devise'
 gem 'jbuilder', '~> 2.7'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
+gem 'pundit'
 gem 'rails', '~> 6.1.7'
 gem 'sass-rails', '>= 6'
 gem 'slim-rails'
@@ -22,6 +23,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   # gem 'ffaker'
+  gem 'pry-byebug'
   gem 'rspec-rails'
 end
 
