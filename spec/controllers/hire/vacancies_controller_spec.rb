@@ -67,50 +67,49 @@ RSpec.describe Hire::VacanciesController, type: :controller do
   end
 
   describe 'PATCH #update' do
-      let!(:employer) { create(:employer) }
-      let!(:vacancy) { create(:vacancy, employer:) }
-      let!(:second_vacancy) { create(:vacancy, employer: create(:employer)) }
+    let!(:employer) { create(:employer) }
+    let!(:vacancy) { create(:vacancy, employer:) }
+    let!(:second_vacancy) { create(:vacancy, employer: create(:employer)) }
 
-      context 'sign in as vacancy author' do
-        before { login_employer(vacancy.employer) }
+    context 'sign in as vacancy author' do
+      before { login_employer(vacancy.employer) }
 
-        context 'with valid attributes' do
-          before { patch :update, params: { id: vacancy, vacancy: { description: 'New description' } } }
+      context 'with valid attributes' do
+        before { patch :update, params: { id: vacancy, vacancy: { description: 'New description' } } }
 
-          it 'changes vacancy attributes' do
-            vacancy.reload
+        it 'changes vacancy attributes' do
+          vacancy.reload
 
-            expect(vacancy.description).to eq 'New description'
-          end
-
-          it 'renders show view' do
-            expect(response).to redirect_to hire_vacancy_path(id: vacancy.id)
-          end
+          expect(vacancy.description).to eq 'New description'
         end
 
-        context 'with invalid attributes' do
-          it 'does not change vacancy attributes' do
-            expect do
-              patch :update, params: { id: vacancy, vacancy: { description: nil } }
-            end.to_not change(vacancy, :description)
-          end
+        it 'renders show view' do
+          expect(response).to redirect_to hire_vacancy_path(id: vacancy.id)
+        end
+      end
 
-          it 'renders update view' do
+      context 'with invalid attributes' do
+        it 'does not change vacancy attributes' do
+          expect do
             patch :update, params: { id: vacancy, vacancy: { description: nil } }
-            expect(response).to render_template :edit
-          end
+          end.to_not change(vacancy, :description)
+        end
+
+        it 'renders update view' do
+          patch :update, params: { id: vacancy, vacancy: { description: nil } }
+          expect(response).to render_template :edit
         end
       end
+    end
 
-      context "trying to change other employers vacancy" do
-        it 'does not change answer attributes' do
-          patch :update, params: { id: second_vacancy, vacancy: { description: 'New description' } }
+    context 'trying to change other employers vacancy' do
+      it 'does not change answer attributes' do
+        patch :update, params: { id: second_vacancy, vacancy: { description: 'New description' } }
 
-          second_vacancy.reload
+        second_vacancy.reload
 
-          expect(second_vacancy.description).to_not eq 'New description'
-        end
+        expect(second_vacancy.description).to_not eq 'New description'
       end
-
+    end
   end
 end

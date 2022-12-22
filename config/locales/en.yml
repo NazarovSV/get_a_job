@@ -15,6 +15,9 @@ en:
   vacancy:
     created: 'Your vacancy successfully created.'
     updated: 'Your vacancy successfully updated.'
+  vacancies:
+    show:
+      vacancies: 'Vacancies'
   navbar:
     menu:
       enter: 'Enter'
@@ -26,3 +29,8 @@ en:
     vacancies:
       edit:
         submit: 'Save'
+        vacancies: 'My vacancies'
+      new:
+        vacancies: 'My vacancies'
+      show:
+        vacancies: 'My vacancies'

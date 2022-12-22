@@ -1,3 +1,10 @@
+nav aria-label='breadcrumb'
+ ol class='breadcrumb'
+  li class='breadcrumb-item'
+   = link_to t('.vacancies'), hire_vacancies_path
+  li class='breadcrumb-item active' aria-current='page'
+   | New
+
 = render 'shared/errors', resource: @vacancy
 = form_with model: [:hire, @vacancy], local: true do |f|
  p
