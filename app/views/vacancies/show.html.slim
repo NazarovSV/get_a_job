@@ -1,10 +1,18 @@
+nav aria-label='breadcrumb'
+  ol class='breadcrumb'
+    li class='breadcrumb-item'
+      = link_to t('.vacancies'), vacancies_path
+    li class='breadcrumb-item active' aria-current='page'
+      = @vacancy.id
+
 h3= @vacancy.title
 p= @vacancy.description
 p
   b= t('helpers.label.vacancy.email')
   br
   = @vacancy.email
-p
-  b= t('helpers.label.vacancy.phone')
-  br
-  = @vacancy.phone
+- unless @vacancy.phone.empty?
+  p
+    b= t('helpers.label.vacancy.phone')
+    br
+    = @vacancy.phone

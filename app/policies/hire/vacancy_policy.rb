@@ -1,16 +1,20 @@
-class Hire::VacancyPolicy < ApplicationPolicy
-  def show?
-    user == record.employer
-  end
+# frozen_string_literal: true
 
-  def update?
-    user == record.employer
-  end
+module Hire
+  class VacancyPolicy < ApplicationPolicy
+    def show?
+      user == record.employer
+    end
 
-  class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
+    def update?
+      user == record.employer
+    end
+
+    class Scope < Scope
+      # NOTE: Be explicit about which records you allow access to!
+      # def resolve
+      #   scope.all
+      # end
+    end
   end
 end
