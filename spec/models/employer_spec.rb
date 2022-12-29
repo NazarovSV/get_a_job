@@ -39,7 +39,7 @@ RSpec.describe Employer, type: :model do
 
     it 'current user is not the author of the question' do
       employer = create(:employer)
-      expect(employer).to_not be_author(vacancy)
+      expect(employer).not_to be_author(vacancy)
     end
   end
 end

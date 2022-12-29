@@ -3,5 +3,5 @@ div class='card rounded-0 border-1 border-light'
     = link_to vacancy.title, hire_vacancy_path(vacancy), id: "vacancy_id_#{vacancy.id}", class: "link-success text-decoration-none stretched-link"
     br
     br
-    = cut_paragraph(text: vacancy.description)
+    = vacancy.description.truncate(250)
 br

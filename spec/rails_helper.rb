@@ -78,4 +78,8 @@ RSpec.configure do |config|
   end
 
   Faker::Config.locale = 'ru'
+
+  Pundit::Matchers.configure do |config|
+    config.user_alias = :employer
+  end
 end

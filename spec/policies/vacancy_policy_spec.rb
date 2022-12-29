@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe VacancyPolicy, type: :policy do
-  let(:user) { User.new }
-
   subject { described_class }
+
+  let(:user) { User.new }
 
   permissions :index? do
     it 'grants access any user' do

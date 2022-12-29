@@ -6,6 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.2'
 
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'breadcrumbs_on_rails'
 gem 'devise'
 gem 'jbuilder', '~> 2.7'
 gem 'pg', '~> 1.1'
@@ -39,6 +40,7 @@ end
 group :test do
   gem 'capybara', '>= 3.26'
   gem 'launchy'
+  gem 'pundit-matchers', '~> 1.8.4'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   gem 'shoulda-matchers'

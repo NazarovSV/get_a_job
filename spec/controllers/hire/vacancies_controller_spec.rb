@@ -27,8 +27,10 @@ RSpec.describe Hire::VacanciesController, type: :controller do
     let!(:employer) { create(:employer) }
     let!(:vacancy) { create(:vacancy, employer:) }
 
-    before { login_employer(employer) }
-    before { get :new }
+    before do
+      login_employer(employer)
+      get :new
+    end
 
     it 'renders new view' do
       expect(response).to render_template :new
@@ -92,7 +94,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
         it 'does not change vacancy attributes' do
           expect do
             patch :update, params: { id: vacancy, vacancy: { description: nil } }
-          end.to_not change(vacancy, :description)
+          end.not_to change(vacancy, :description)
         end
 
         it 'renders update view' do
@@ -108,7 +110,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
         second_vacancy.reload
 
-        expect(second_vacancy.description).to_not eq 'New description'
+        expect(second_vacancy.description).not_to eq 'New description'
       end
     end
   end

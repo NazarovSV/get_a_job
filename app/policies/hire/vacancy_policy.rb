@@ -10,11 +10,20 @@ module Hire
       user == record.employer
     end
 
+    def new?
+      user.is_a? Employer
+    end
+
+    def create?
+      user.is_a? Employer
+    end
+
     class Scope < Scope
-      # NOTE: Be explicit about which records you allow access to!
-      # def resolve
-      #   scope.all
-      # end
+      def resolve
+        raise Pundit::NotAuthorizedError, 'not allowed to view this action' unless user.is_a? Employer
+
+        scope.where(employer: user)
+      end
     end
   end
 end

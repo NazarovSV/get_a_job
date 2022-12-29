@@ -3,11 +3,15 @@
 class VacanciesController < ApplicationController
   before_action :load_vacancy, only: :show
 
+  add_breadcrumb I18n.t('.vacancies'), :root_path
+
   def index
     @vacancies = Vacancy.all
   end
 
-  def show; end
+  def show
+    add_breadcrumb @vacancy.id.to_s, :vacancy_path
+  end
 
   private
 

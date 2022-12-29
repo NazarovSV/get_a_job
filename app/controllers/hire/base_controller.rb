@@ -6,8 +6,6 @@ module Hire
 
     before_action :authenticate_employer!
 
-    def current_user
-      current_employer
-    end
+    alias current_user current_employer
   end
 end
