@@ -2,18 +2,32 @@
 
 require 'rails_helper'
 
-RSpec.describe Hire::VacancyPolicy, type: :policy do
-  let!(:employer) { create(:employer) }
+describe Hire::VacancyPolicy do
+  subject { described_class.new(user, vacancy) }
 
-  subject { described_class }
+  let(:vacancy) { create(:vacancy) }
 
-  permissions :show?, :edit?, :update? do
-    it 'grant access if user is author' do
-      expect(subject).to permit(employer, create(:vacancy, employer:))
+  describe 'being a employer' do
+    context 'as vacancy author' do
+      let(:user) { vacancy.employer }
+
+      it do
+        expect(subject).to permit_actions(%i[show update edit])
+      end
+
+      it { is_expected.to permit_new_and_create_actions }
     end
 
-    it 'not grant access if user is not author' do
-      expect(subject).to_not permit(employer, create(:vacancy, employer: create(:employer)))
+    context 'as not an author' do
+      let!(:user) { create(:employer) }
+
+      it { is_expected.to forbid_actions(%i[show update edit]) }
     end
+  end
+
+  context 'being a guest' do
+    let!(:user) { nil }
+
+    it { is_expected.to forbid_actions(%i[show update edit create new]) }
   end
 end

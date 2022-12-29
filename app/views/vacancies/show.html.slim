@@ -1,9 +1,5 @@
-nav aria-label='breadcrumb'
-  ol class='breadcrumb'
-    li class='breadcrumb-item'
-      = link_to t('.vacancies'), vacancies_path
-    li class='breadcrumb-item active' aria-current='page'
-      = @vacancy.id
+= render_breadcrumbs builder: BootstrapBreadcrumbsBuilder
+br
 
 h3= @vacancy.title
 p= @vacancy.description

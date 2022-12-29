@@ -3,17 +3,22 @@
 module Hire
   class VacanciesController < Hire::BaseController
     before_action :load_vacancy, only: %i[show edit update]
+    before_action :check_authorize, only: %i[new create]
+
+    add_breadcrumb I18n.t('.vacancies'), :hire_vacancies_path
 
     def edit
-      authorize [:hire, @vacancy]
+      add_breadcrumb @vacancy.id, [:hire, @vacancy]
+      add_breadcrumb 'Edit', edit_hire_vacancy_url
     end
 
     def index
-      @vacancies = current_user.vacancies
+      @vacancies = policy_scope([:hire, Vacancy])
     end
 
     def new
       @vacancy = Vacancy.new
+      add_breadcrumb 'New', new_hire_vacancy_url
     end
 
     def create
@@ -21,19 +26,17 @@ module Hire
       @vacancy.employer = current_employer
 
       if @vacancy.save
-        redirect_to hire_vacancy_path(id: @vacancy), notice: t('vacancy.created')
+        redirect_to [:hire, @vacancy], notice: t('vacancy.created')
       else
         render :new
       end
     end
 
     def show
-      authorize [:hire, @vacancy]
+      add_breadcrumb @vacancy.id, [:hire, @vacancy]
     end
 
     def update
-      authorize [:hire, @vacancy]
-
       if @vacancy.update(vacancy_params)
         redirect_to [:hire, @vacancy], notice: t('vacancy.updated')
       else
@@ -43,12 +46,17 @@ module Hire
 
     private
 
+    def check_authorize
+      authorize [:hire, Vacancy]
+    end
+
     def vacancy_params
       params.require(:vacancy).permit(:title, :description, :email, :phone)
     end
 
     def load_vacancy
       @vacancy = Vacancy.find(params[:id])
+      authorize [:hire, @vacancy]
     end
   end
 end

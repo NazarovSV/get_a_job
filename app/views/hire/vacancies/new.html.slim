@@ -1,22 +1,4 @@
-nav aria-label='breadcrumb'
- ol class='breadcrumb'
-  li class='breadcrumb-item'
-   = link_to t('.vacancies'), hire_vacancies_path
-  li class='breadcrumb-item active' aria-current='page'
-   | New
+= render_breadcrumbs builder: BootstrapBreadcrumbsBuilder
 
 = render 'shared/errors', resource: @vacancy
-= form_with model: [:hire, @vacancy], local: true do |f|
- p
-  = f.label :title, t('helpers.label.vacancy.title'), class: 'form-label'
-  = f.text_field :title, class: 'form-control'
- p
-  = f.label :description, t('helpers.label.vacancy.description'), class: 'form-label'
-  = f.text_area :description, class: 'form-control'
- p
-  = f.label :email, t('helpers.label.vacancy.email'), class: 'form-label'
-  = f.text_field :email, class: 'form-control'
- p
-  = f.label :phone, t('helpers.label.vacancy.phone'), class: 'form-label'
-  = f.text_field :phone, type: "tel", class: 'form-control'
- = f.submit class: 'btn btn-primary'
+= render 'form', vacancy: @vacancy
