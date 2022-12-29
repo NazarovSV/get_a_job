@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Any user can open vacancy and watch full info about job', '
+describe 'Any user can open vacancy and watch full info about job', '
   to find a new job
   user can open vacancy page
   and watch all info about job
@@ -10,7 +10,8 @@ feature 'Any user can open vacancy and watch full info about job', '
   describe 'Unauthenticated user' do
     let!(:vacancies) { create_list(:vacancy, 2) }
     let!(:vacancy) { vacancies.first }
-    scenario 'User can open vacancy' do
+
+    it 'User can open vacancy' do
       visit vacancies_path
 
       click_link("vacancy_id_#{vacancy.id}")

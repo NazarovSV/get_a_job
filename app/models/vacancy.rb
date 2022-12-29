@@ -11,12 +11,21 @@
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  employer_id :bigint           not null
+#
+# Indexes
+#
+#  index_vacancies_on_employer_id  (employer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (employer_id => employers.id)
 #
 class Vacancy < ApplicationRecord
-  include ActiveModel::Validations
+  belongs_to :employer
 
   validates_with PhoneNumberValidator
   validates :title, :description, :email, presence: true
   validates :title, length: { maximum: 255 }
-  validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 end

@@ -16,6 +16,6 @@ class PhoneNumberValidator < ActiveModel::Validator
   end
 
   def phone_is_blank?(phone)
-    phone.nil? || phone.empty?
+    phone.blank?
   end
 end

@@ -11,6 +11,15 @@
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  employer_id :bigint           not null
+#
+# Indexes
+#
+#  index_vacancies_on_employer_id  (employer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (employer_id => employers.id)
 #
 FactoryBot.define do
   factory :vacancy do
@@ -18,6 +27,7 @@ FactoryBot.define do
     description { Faker::Lorem.paragraph(sentence_count: 25) }
     phone { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email }
+    employer
 
     trait :blank_phone do
       phone { '' }

@@ -1,0 +1,8 @@
+div class='dropdown'
+  button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+    = current_employer.email
+  ul class='dropdown-menu dropdown-menu-end'
+    li
+      = link_to t('navbar.menu.vacancy'), hire_vacancies_path, method: :get, class: 'dropdown-item'
+    li
+      = link_to t('navbar.menu.logout'), destroy_employer_session_path, method: :delete, class: 'dropdown-item'

@@ -1,0 +1,19 @@
+/ nav aria-label='breadcrumb'
+/   ol class='breadcrumb'
+/     li class='breadcrumb-item'
+/       = link_to t('.vacancies'), hire_vacancies_path
+/     li class='breadcrumb-item active'
+/       = @vacancy.id
+= render_breadcrumbs builder: BootstrapBreadcrumbsBuilder
+
+h3= @vacancy.title
+p= @vacancy.description
+p
+  b= t('helpers.label.vacancy.email')
+  br
+  = @vacancy.email
+p
+  b= t('helpers.label.vacancy.phone')
+  br
+  = @vacancy.phone
+= link_to t('.edit'), edit_hire_vacancy_path(@vacancy), class: 'link-dark'

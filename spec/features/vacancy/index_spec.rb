@@ -2,19 +2,19 @@
 
 require 'rails_helper'
 
-feature 'Any user can view list of vacancies', '
+describe 'Any user can view list of vacancies', '
   to find a new job
   user can view the list of vacancies
 ' do
   describe 'Unauthenticated user' do
     let!(:vacancies) { create_list(:vacancy, 10) }
 
-    scenario 'User sees list of all vacancies' do
+    it 'User sees list of all vacancies' do
       visit vacancies_path
 
       vacancies.each do |vacancy|
         expect(page).to have_content vacancy.title
-        expect(page).to have_content "#{vacancy.description[0..250]}..."
+        expect(page).to have_content vacancy.description.truncate(250)
       end
     end
   end
