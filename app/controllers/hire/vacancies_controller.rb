@@ -5,7 +5,7 @@ module Hire
     before_action :load_vacancy, only: %i[show edit update]
     before_action :check_authorize, only: %i[new create]
 
-    add_breadcrumb I18n.t('.vacancies'), :hire_vacancies_path
+    add_breadcrumb I18n.t('.vacancies', scope: :hire), :hire_vacancies_path
 
     def edit
       add_breadcrumb @vacancy.id, [:hire, @vacancy]

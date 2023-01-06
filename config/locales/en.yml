@@ -2,6 +2,7 @@ en:
   helpers:
     submit:
       vacancy:
+        update: 'Save'
         create: 'Create'
     label:
       vacancy:
@@ -9,31 +10,18 @@ en:
         description: 'Description'
         phone: 'Phone'
         email: 'Email'
+  hire:
+    vacancies: 'My vacancy'
   errors:
     messages:
       invalid: 'is not valid'
   vacancy:
     created: 'Your vacancy successfully created.'
     updated: 'Your vacancy successfully updated.'
-  vacancies: "Vacancies"
+  vacancies: 'Vacancies'
   navbar:
     menu:
       enter: 'Enter'
       login: 'Login'
       logout: 'Logout'
       vacancy: 'My vacancies'
-
-  hire:
-    vacancies:
-      form:
-        edit:
-          submit: 'Update'
-        submit:
-          edit: 'Update'
-      edit:
-        submit: 'Save'
-        vacancies: 'My vacancies'
-      new:
-        vacancies: 'My vacancies'
-      show:
-        vacancies: 'My vacancies'

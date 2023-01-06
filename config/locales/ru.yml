@@ -2,6 +2,7 @@ ru:
   helpers:
     submit:
       vacancy:
+        edit: 'Обновить'
         create: 'Готово'
     label:
       vacancy:

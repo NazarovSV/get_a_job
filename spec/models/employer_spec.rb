@@ -29,15 +29,15 @@ RSpec.describe Employer, type: :model do
   it { is_expected.to validate_presence_of :password }
   it { is_expected.to have_many(:vacancies).dependent(:destroy) }
 
-  describe "checking the vacancy's author" do
+  describe 'author?' do
     let(:vacancy) { create(:vacancy) }
 
-    it 'current user is the author of the vacancy' do
+    it 'return true if current user is an author of vacancy' do
       employer = vacancy.employer
       expect(employer).to be_author(vacancy)
     end
 
-    it 'current user is not the author of the question' do
+    it 'return false if current user is not an author of vacancy' do
       employer = create(:employer)
       expect(employer).not_to be_author(vacancy)
     end
