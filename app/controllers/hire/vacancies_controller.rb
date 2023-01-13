@@ -2,7 +2,7 @@
 
 module Hire
   class VacanciesController < Hire::BaseController
-    before_action :load_vacancy, only: %i[show edit update publish]
+    before_action :load_vacancy, only: %i[archive show edit update publish]
     before_action :check_authorize, only: %i[new create]
 
     add_breadcrumb I18n.t('.vacancies', scope: :hire), :hire_vacancies_path
@@ -42,6 +42,10 @@ module Hire
       else
         render :edit
       end
+    end
+
+    def archive
+      @vacancy.archive!
     end
 
     def publish

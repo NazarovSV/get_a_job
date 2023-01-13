@@ -5,7 +5,7 @@ require 'rails_helper'
 describe 'Employer can publish his new vacancy', '
   in order for everyone
   to see the vacancy
-  you can publish it
+  employer can publish it
 ' do
   describe 'Authenticated user' do
     let!(:employer) { create(:employer) }

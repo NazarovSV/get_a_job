@@ -18,6 +18,10 @@ module Hire
       user == record.employer
     end
 
+    def archive?
+      user == record.employer
+    end
+
     def create?
       user.is_a? Employer
     end

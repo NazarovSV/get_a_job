@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :hire do
     resources :vacancies, only: %i[create index new show edit update] do
       patch :publish, on: :member
+      patch :archive, on: :member
     end
   end
 
