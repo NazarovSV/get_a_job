@@ -15,7 +15,7 @@ RSpec.describe VacanciesController, type: :controller do
 
   describe 'GET #index' do
     let!(:employer) { create(:employer) }
-    let!(:vacancies) { create(:vacancy, employer:) }
+    let!(:vacancies) { create(:vacancy, :published, employer:) }
 
     before { get :index }
 

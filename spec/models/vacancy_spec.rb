@@ -8,6 +8,7 @@
 #  description :string           not null
 #  email       :string           not null
 #  phone       :string
+#  state       :string
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

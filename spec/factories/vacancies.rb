@@ -8,6 +8,7 @@
 #  description :string           not null
 #  email       :string           not null
 #  phone       :string
+#  state       :string
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -35,6 +36,10 @@ FactoryBot.define do
 
     trait :nil_phone do
       phone { nil }
+    end
+
+    trait :published do
+      state { 'published' }
     end
   end
 end

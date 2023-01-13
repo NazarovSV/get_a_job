@@ -8,7 +8,7 @@ describe 'Any user can open vacancy and watch full info about job', '
   and watch all info about job
 ' do
   describe 'Unauthenticated user' do
-    let!(:vacancies) { create_list(:vacancy, 2) }
+    let!(:vacancies) { create_list(:vacancy, 2, :published) }
     let!(:vacancy) { vacancies.first }
 
     it 'User can open vacancy' do
