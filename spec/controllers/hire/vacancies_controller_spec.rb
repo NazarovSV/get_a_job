@@ -114,4 +114,45 @@ RSpec.describe Hire::VacanciesController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #publish' do
+    let!(:employer) { create(:employer) }
+    let!(:vacancy) { create(:vacancy, employer:) }
+
+    describe 'as author' do
+      before { login_employer(vacancy.employer) }
+
+      it 'change vacancy`s state' do
+        patch :publish, params: { id: vacancy }, format: :js
+        vacancy.reload
+        expect(vacancy).to have_state(:published)
+      end
+
+      it 'render publish template' do
+        patch :publish, params: { id: vacancy }, format: :js
+        expect(response).to render_template :publish
+      end
+    end
+
+    describe 'as another employer' do
+      before { login_employer(create(:employer)) }
+
+      it 'fails with publish' do
+        expect { patch :publish, params: { id: vacancy }, format: :js }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+
+    describe 'as guest' do
+      it 'vacancy`s state not changed' do
+        patch :publish, params: { id: vacancy }, format: :js
+        vacancy.reload
+        expect(vacancy).to have_state(:drafted)
+      end
+
+      it 'not render publish template' do
+        patch :publish, params: { id: vacancy }, format: :js
+        expect(response).to_not render_template :publish
+      end
+    end
+  end
 end

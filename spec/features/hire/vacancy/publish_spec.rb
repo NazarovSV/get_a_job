@@ -16,12 +16,11 @@ describe 'Employer can publish his new vacancy', '
     it 'Employer can publish his vacancy', js: true do
       visit hire_vacancies_path
 
-      click_link("vacancy_id_#{vacancy.id}_publish")
+      click_link "vacancy_id_#{vacancy.id}_publish"
 
-      within "#vacancy_id_#{vacancies.first.id}" do
+      within "#vacancy_id_#{vacancy.id}" do
         expect(page).to have_content 'published'
       end
     end
   end
 end
-

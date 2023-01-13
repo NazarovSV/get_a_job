@@ -14,6 +14,10 @@ module Hire
       user.is_a? Employer
     end
 
+    def publish?
+      user == record.employer
+    end
+
     def create?
       user.is_a? Employer
     end
