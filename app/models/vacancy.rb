@@ -35,6 +35,10 @@ class Vacancy < ApplicationRecord
     event :publish do
       transitions from: :drafted, to: :published
     end
+
+    event :archive do
+      transitions from: :published, to: :archived
+    end
   end
 
   validates_with PhoneNumberValidator

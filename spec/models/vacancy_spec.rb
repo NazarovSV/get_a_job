@@ -33,6 +33,7 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to validate_length_of(:title).is_at_most(255) }
   it { is_expected.to allow_value('address@email.com').for(:email) }
   it { is_expected.to belong_to(:employer) }
+  it { is_expected.to transition_from(:drafted).to(:published).on_event(:publish)}
 
   describe 'validate phone number' do
     it { expect(build(:vacancy)).to allow_value(Faker::PhoneNumber.phone_number).for(:phone) }

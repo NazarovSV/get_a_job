@@ -17,15 +17,18 @@ describe 'Employer can view list of his vacancies', '
     end
 
     it 'User sees only his vacancies' do
-      expect(page).to have_content vacancies.first.title
-      expect(page).to have_content vacancies.first.description.truncate(250)
+      within "#vacancy_id_#{vacancies.first.id}" do
+        expect(page).to have_content vacancies.first.title
+        expect(page).to have_content vacancies.first.state
+      end
 
-      expect(page).to have_content vacancy.title
-      expect(page).to have_content vacancy.description.truncate(250)
+      within "#vacancy_id_#{vacancy.id}" do
+        expect(page).to have_content vacancy.title
+        expect(page).to have_content vacancy.state
+      end
 
       vacancies[1..].each do |vacancy|
         expect(page).not_to have_content vacancy.title
-        expect(page).not_to have_content vacancy.description.truncate(250)
       end
     end
   end

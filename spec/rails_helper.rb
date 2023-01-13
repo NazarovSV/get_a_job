@@ -4,6 +4,7 @@
 require 'spec_helper'
 require 'faker'
 require 'pundit/rspec'
+require 'aasm/rspec'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
@@ -38,6 +39,8 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FactoryBot::Syntax::Methods
   config.include FeatureHelpers, type: :feature
+
+  Capybara.javascript_driver = :selenium_chrome_headless
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
