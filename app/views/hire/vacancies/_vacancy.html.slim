@@ -6,12 +6,11 @@ div id="vacancy_id_#{vacancy.id}"
         = vacancy_state(state: vacancy.state)
   div
     br
-      = link_to 'Edit', edit_hire_vacancy_path(vacancy), class: 'text-left'
+      = link_to 'Edit', edit_hire_vacancy_path(vacancy)
       - if vacancy.may_publish?
         <span> | </span>
-        = link_to 'Publish', root_path, class: 'text-left'
+        = link_to 'Publish', publish_hire_vacancy_path(vacancy), method: :patch, remote: true, id: "vacancy_id_#{vacancy.id}_publish"
       - if vacancy.may_archive?
         <span> | </span>
-        = link_to 'Archive', root_path, class: 'text-left'
-hr
-br
+        = link_to 'Archive', hire_vacancies_path
+  br

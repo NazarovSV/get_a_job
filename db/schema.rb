@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,38 +12,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_12_112756) do
-
+ActiveRecord::Schema.define(version: 20_230_112_112_756) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "employers", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_employers_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_employers_on_reset_password_token", unique: true
+  create_table 'employers', force: :cascade do |t|
+    t.string 'email', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.datetime 'remember_created_at'
+    t.string 'confirmation_token'
+    t.datetime 'confirmed_at'
+    t.datetime 'confirmation_sent_at'
+    t.string 'unconfirmed_email'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['email'], name: 'index_employers_on_email', unique: true
+    t.index ['reset_password_token'], name: 'index_employers_on_reset_password_token', unique: true
   end
 
-  create_table "vacancies", force: :cascade do |t|
-    t.string "title", null: false
-    t.string "description", null: false
-    t.string "email", null: false
-    t.string "phone"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "employer_id", null: false
-    t.string "state"
-    t.index ["employer_id"], name: "index_vacancies_on_employer_id"
+  create_table 'vacancies', force: :cascade do |t|
+    t.string 'title', null: false
+    t.string 'description', null: false
+    t.string 'email', null: false
+    t.string 'phone'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'employer_id', null: false
+    t.string 'state'
+    t.index ['employer_id'], name: 'index_vacancies_on_employer_id'
   end
 
-  add_foreign_key "vacancies", "employers"
+  add_foreign_key 'vacancies', 'employers'
 end
