@@ -16,7 +16,7 @@ describe 'Employer can open his vacancies and watch final version', '
     it 'User can open his vacancy' do
       visit hire_vacancies_path
 
-      click_link("vacancy_id_#{vacancy.id}")
+      click_link("vacancy_id_#{vacancy.id}_link")
 
       expect(page).to have_content vacancy.title
       expect(page).to have_content vacancy.description

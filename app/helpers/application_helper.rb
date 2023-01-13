@@ -10,11 +10,23 @@ module ApplicationHelper
     end
   end
 
+  def vacancy_state(state:)
+    color = VACANCY_STATE[state.to_sym]
+
+    content_tag :span, state, class: color
+  end
+
   private
 
   MESSAGE_TYPE = {
     notice: 'alert-success',
     alert: 'alert-danger'
+  }.freeze
+
+  VACANCY_STATE = {
+    drafted: 'text-secondary',
+    published: 'text-danger',
+    archived: 'text-info'
   }.freeze
 
   def message_type(type)
