@@ -8,6 +8,7 @@
 #  description :string           not null
 #  email       :string           not null
 #  phone       :string
+#  state       :string
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -22,7 +23,19 @@
 #  fk_rails_...  (employer_id => employers.id)
 #
 class Vacancy < ApplicationRecord
+  include AASM
+
   belongs_to :employer
+
+  aasm column: 'state' do
+    state :drafted, initial: true
+    state :published
+    state :archived
+
+    event :publish do
+      transitions from: :drafted, to: :published
+    end
+  end
 
   validates_with PhoneNumberValidator
   validates :title, :description, :email, presence: true
