@@ -39,7 +39,11 @@ FactoryBot.define do
     end
 
     trait :published do
-      state { 'published' }
+      state { :published }
+    end
+
+    trait :archived do
+      state { :archived }
     end
   end
 end

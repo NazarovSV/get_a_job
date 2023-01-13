@@ -35,6 +35,7 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to belong_to(:employer) }
   it { is_expected.to transition_from(:drafted).to(:published).on_event(:publish) }
   it { is_expected.to transition_from(:published).to(:archived).on_event(:archive) }
+  it { is_expected.to transition_from(:archived).to(:published).on_event(:publish) }
 
   describe 'validate phone number' do
     it { expect(build(:vacancy)).to allow_value(Faker::PhoneNumber.phone_number).for(:phone) }
