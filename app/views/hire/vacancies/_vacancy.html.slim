@@ -7,6 +7,9 @@ div id="vacancy_id_#{vacancy.id}"
   div
     br
       = link_to 'Edit', edit_hire_vacancy_path(vacancy)
+      - if vacancy.drafted?
+        <span> | </span>
+        = link_to 'Delete', hire_vacancy_path(vacancy), method: :delete, remote: true
       - if vacancy.may_publish?
         <span> | </span>
         = link_to 'Publish', publish_hire_vacancy_path(vacancy), method: :patch, remote: true, id: "vacancy_id_#{vacancy.id}_publish"
