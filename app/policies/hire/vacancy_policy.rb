@@ -26,6 +26,10 @@ module Hire
       user.is_a? Employer
     end
 
+    def destroy?
+      user == record.employer
+    end
+
     class Scope < Scope
       def resolve
         raise Pundit::NotAuthorizedError, 'not allowed to view this action' unless user.is_a? Employer

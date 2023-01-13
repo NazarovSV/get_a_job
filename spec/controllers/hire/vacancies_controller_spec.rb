@@ -196,4 +196,71 @@ RSpec.describe Hire::VacanciesController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    describe 'as author' do
+      let!(:employer) { create(:employer) }
+
+      describe 'drafted vacancy' do
+        let!(:vacancy) { create(:vacancy, employer:) }
+
+        before { login_employer(vacancy.employer) }
+
+        it 'destroy vacancy' do
+          expect { delete :destroy, params: { id: vacancy }, format: :js }.to change(Vacancy, :count).by(-1)
+        end
+
+        it 'render destroy view' do
+          delete :destroy, params: { id: vacancy }, format: :js
+
+          expect(response).to render_template :destroy
+          expect(flash[:notice]).to match('Your vacancy successfully deleted.')
+        end
+      end
+
+      describe 'published vacancy' do
+        let!(:vacancy) { create(:vacancy, :published, employer:) }
+
+        before { login_employer(vacancy.employer) }
+
+        it 'destroy vacancy' do
+          expect { delete :destroy, params: { id: vacancy }, format: :js }.to_not change(Vacancy, :count)
+        end
+
+        it 'not render destroy view' do
+          delete :destroy, params: { id: vacancy }, format: :js
+
+          expect(response).to render_template :destroy
+          expect(flash[:alert]).to match('Vacancy is not drafted. Can`t delete this vacancy!')
+        end
+      end
+
+      describe 'archived vacancy' do
+        let!(:vacancy) { create(:vacancy, :archived, employer:) }
+
+        before { login_employer(vacancy.employer) }
+
+        it 'destroy vacancy' do
+          expect { delete :destroy, params: { id: vacancy }, format: :js }.to_not change(Vacancy, :count)
+        end
+
+        it 'not render destroy view' do
+          delete :destroy, params: { id: vacancy }, format: :js
+
+          expect(response).to render_template :destroy
+          expect(flash[:alert]).to match('Vacancy is not drafted. Can`t delete this vacancy!')
+        end
+      end
+    end
+
+    describe 'as another user' do
+      let!(:vacancy) { create(:vacancy) }
+
+      before { login_employer(create(:employer)) }
+
+      it 'can`t destroy vacancy' do
+        expect { delete :destroy, params: { id: vacancy }, format: :js }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+  end
 end

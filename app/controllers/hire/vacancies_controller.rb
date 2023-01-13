@@ -2,7 +2,7 @@
 
 module Hire
   class VacanciesController < Hire::BaseController
-    before_action :load_vacancy, only: %i[archive show edit update publish]
+    before_action :load_vacancy, only: %i[archive show edit update publish destroy]
     before_action :check_authorize, only: %i[new create]
 
     add_breadcrumb I18n.t('.vacancies', scope: :hire), :hire_vacancies_path
@@ -34,6 +34,15 @@ module Hire
 
     def show
       add_breadcrumb @vacancy.id, [:hire, @vacancy]
+    end
+
+    def destroy
+      if @vacancy.drafted?
+        @vacancy.destroy!
+        flash.now[:notice] = 'Your vacancy successfully deleted!'
+      else
+        flash.now[:alert] = 'Vacancy is not drafted. Can`t delete this vacancy!'
+      end
     end
 
     def update

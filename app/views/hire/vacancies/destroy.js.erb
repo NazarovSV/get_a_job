@@ -1,0 +1,7 @@
+<% if !@vacancy.errors.present? && !@vacancy.persisted? %>
+  $("<%= "#vacancy_id_#{@vacancy.id}" %>").remove();
+<% else %>
+  $('<%= "#vacancy_id_#{@vacancy.id}" %>').html('<%= j render @vacancy %>')
+<% end %>
+
+$('#flash').html('<%= j render partial: "shared/flash" %>');
