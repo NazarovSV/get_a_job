@@ -155,4 +155,45 @@ RSpec.describe Hire::VacanciesController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #archive' do
+    let!(:employer) { create(:employer) }
+    let!(:vacancy) { create(:vacancy, :published, employer:) }
+
+    describe 'as author' do
+      before { login_employer(vacancy.employer) }
+
+      it 'change vacancy`s state' do
+        patch :archive, params: { id: vacancy }, format: :js
+        vacancy.reload
+        expect(vacancy).to have_state(:archived)
+      end
+
+      it 'render archive template' do
+        patch :archive, params: { id: vacancy }, format: :js
+        expect(response).to render_template :archive
+      end
+    end
+
+    describe 'as another employer' do
+      before { login_employer(create(:employer)) }
+
+      it 'fails with archive' do
+        expect { patch :archive, params: { id: vacancy }, format: :js }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+
+    describe 'as guest' do
+      it 'vacancy`s state not changed' do
+        patch :archive, params: { id: vacancy }, format: :js
+        vacancy.reload
+        expect(vacancy).to have_state(:published)
+      end
+
+      it 'not render archive template' do
+        patch :archive, params: { id: vacancy }, format: :js
+        expect(response).to_not render_template :archive
+      end
+    end
+  end
 end
