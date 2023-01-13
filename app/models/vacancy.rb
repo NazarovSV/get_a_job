@@ -33,7 +33,7 @@ class Vacancy < ApplicationRecord
     state :archived
 
     event :publish do
-      transitions from: :drafted, to: :published
+      transitions from: %i[drafted archived], to: :published
     end
 
     event :archive do
