@@ -14,6 +14,9 @@ ru:
     messages:
       invalid: 'не валиден'
   vacancy:
+    state:
+      flash:
+        archived: 'Вакансия в архиве!'
     created: 'Вакансия успешно создана.'
     updated: 'Вакансия успешно обновлена.'
   navbar:
@@ -27,3 +30,7 @@ ru:
     vacancies:
       edit:
         submit: 'Сохранить'
+      destroy:
+        successfully: 'Вакансия успешно удалена!'
+        unsuccessfully: 'Вакансия не статусе "черновик". Удаление не возможно!'
+    my_vacancies: 'Мои вакансии'

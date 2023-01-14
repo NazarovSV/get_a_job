@@ -4,12 +4,34 @@ require 'rails_helper'
 
 RSpec.describe VacanciesController, type: :controller do
   describe 'GET #show' do
-    let!(:employer) { create(:employer) }
-    let!(:vacancy) { create(:vacancy, employer:) }
+    describe 'drafted vacancy' do
+      let!(:employer) { create(:employer) }
+      let!(:vacancy) { create(:vacancy, employer:) }
 
-    it 'renders show view' do
-      get :show, params: { id: vacancy }
-      expect(response).to render_template :show
+      it 'not renders show view' do
+        get :show, params: { id: vacancy }
+        expect(response).to_not render_template :show
+      end
+    end
+
+    describe 'published vacancy' do
+      let!(:employer) { create(:employer) }
+      let!(:vacancy) { create(:vacancy, :published, employer:) }
+
+      it 'renders show view' do
+        get :show, params: { id: vacancy }
+        expect(response).to render_template :show
+      end
+    end
+
+    describe 'archived vacancy' do
+      let!(:employer) { create(:employer) }
+      let!(:vacancy) { create(:vacancy, :archived, employer:) }
+
+      it 'renders archived_vacancy view' do
+        get :show, params: { id: vacancy }
+        expect(response).to render_template :archived_vacancy
+      end
     end
   end
 
