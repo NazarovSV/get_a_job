@@ -26,6 +26,14 @@ describe 'Employer can destroy his drafted vacancy', '
     expect(page).to_not have_content drafted_vacancy.title
   end
 
+  it 'can destroy vacancy from vacancy view' do
+    visit hire_vacancy_path(drafted_vacancy.id)
+
+    click_on 'Delete'
+
+    expect(page).to_not have_content drafted_vacancy.title
+  end
+
   it 'can`t delete published vacancy' do
     within "#vacancy_id_#{published_vacancy.id}" do
       expect(page).to_not have_content 'Delete'

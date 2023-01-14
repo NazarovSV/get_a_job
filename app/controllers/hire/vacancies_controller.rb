@@ -43,6 +43,11 @@ module Hire
       else
         flash.now[:alert] = t('.unsuccessfully')
       end
+
+      respond_to do |format|
+        format.js
+        format.html { redirect_to hire_vacancies_path }
+      end
     end
 
     def update

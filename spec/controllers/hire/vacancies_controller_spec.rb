@@ -216,6 +216,13 @@ RSpec.describe Hire::VacanciesController, type: :controller do
           expect(response).to render_template :destroy
           expect(flash[:notice]).to match('Your vacancy successfully deleted.')
         end
+
+        it 'redirect to hire index view' do
+          delete :destroy, params: { id: vacancy }
+
+          expect(response).to redirect_to hire_vacancies_path
+          expect(flash[:notice]).to match('Your vacancy successfully deleted.')
+        end
       end
 
       describe 'published vacancy' do
