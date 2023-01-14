@@ -14,13 +14,25 @@ describe 'Employer can publish his new vacancy', '
 
       before { sign_in_employer employer }
 
-      it 'Employer can publish his vacancy', js: true do
-        visit hire_vacancies_path
+      describe 'Employer can publish his vacancy', js: true do
+        it 'from list of all his vacancies' do
+          visit hire_vacancies_path
 
-        click_link "vacancy_id_#{vacancy.id}_publish"
+          click_link "vacancy_id_#{vacancy.id}_publish"
 
-        within "#vacancy_id_#{vacancy.id}" do
-          expect(page).to have_content 'published'
+          within "#vacancy_id_#{vacancy.id}" do
+            expect(page).to have_content 'Published'
+          end
+        end
+
+        it 'from his vacancy' do
+          visit hire_vacancy_path(vacancy)
+
+          click_link "vacancy_id_#{vacancy.id}_publish"
+
+          within "#vacancy_id_#{vacancy.id}_show" do
+            expect(page).to have_content 'Published'
+          end
         end
       end
     end
@@ -31,13 +43,25 @@ describe 'Employer can publish his new vacancy', '
 
       before { sign_in_employer employer }
 
-      it 'Employer can publish his archive vacancy', js: true do
-        visit hire_vacancies_path
+      describe 'Employer can publish his archive vacancy', js: true do
+        it 'from list of all his vacancies' do
+          visit hire_vacancies_path
 
-        click_link "vacancy_id_#{vacancy.id}_publish"
+          click_link "vacancy_id_#{vacancy.id}_publish"
 
-        within "#vacancy_id_#{vacancy.id}" do
-          expect(page).to have_content 'published'
+          within "#vacancy_id_#{vacancy.id}" do
+            expect(page).to have_content 'Published'
+          end
+        end
+
+        it 'from his vacancy' do
+          visit hire_vacancy_path(vacancy)
+
+          click_link "vacancy_id_#{vacancy.id}_publish"
+
+          within "#vacancy_id_#{vacancy.id}_show" do
+            expect(page).to have_content 'Published'
+          end
         end
       end
     end

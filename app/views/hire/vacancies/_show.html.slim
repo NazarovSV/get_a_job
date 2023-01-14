@@ -1,0 +1,30 @@
+=content_tag :div, id: "vacancy_id_#{@vacancy.id}_show" do
+  .current_state
+    h2 style='text-align:right;'
+      = content_tag :span, id: "vacancy_id_#{@vacancy.id}_current_state}" do
+        = vacancy_state(state: @vacancy.state)
+      end
+
+  = render_breadcrumbs builder: BootstrapBreadcrumbsBuilder
+
+  h3= @vacancy.title
+  p= @vacancy.description
+  p
+    b= t('helpers.label.vacancy.email')
+    br
+    = @vacancy.email
+  p
+    b= t('helpers.label.vacancy.phone')
+    br
+    = @vacancy.phone
+  = link_to t('.edit'), edit_hire_vacancy_path(@vacancy), class: 'link-dark'
+  / - if @vacancy.drafted?
+  /   <span> | </span>
+  /   = link_to 'Delete', hire_vacancy_path(@vacancy), method: :delete, remote: true
+  - if @vacancy.may_publish?
+    <span> | </span>
+    = link_to 'Publish', publish_hire_vacancy_path(@vacancy), method: :patch, remote: true, id: "vacancy_id_#{@vacancy.id}_publish"
+  - if @vacancy.may_archive?
+    <span> | </span>
+    = link_to 'Archive', archive_hire_vacancy_path(@vacancy), method: :patch, remote: true, id: "vacancy_id_#{@vacancy.id}_archive"
+end

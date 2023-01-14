@@ -1,13 +1,3 @@
-= render_breadcrumbs builder: BootstrapBreadcrumbsBuilder
-
-h3= @vacancy.title
-p= @vacancy.description
-p
-  b= t('helpers.label.vacancy.email')
-  br
-  = @vacancy.email
-p
-  b= t('helpers.label.vacancy.phone')
-  br
-  = @vacancy.phone
-= link_to t('.edit'), edit_hire_vacancy_path(@vacancy), class: 'link-dark'
+= content_tag :div, id: "#show_vacancy_id_#{@vacancy.id}" do
+  = render 'hire/vacancies/show'
+end

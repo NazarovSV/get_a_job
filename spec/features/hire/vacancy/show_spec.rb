@@ -23,5 +23,29 @@ describe 'Employer can open his vacancies and watch final version', '
       expect(page).to have_content vacancy.email
       expect(page).to have_content vacancy.phone
     end
+
+    it 'have published state if it published' do
+      visit hire_vacancy_path(create(:vacancy, :published, employer:))
+
+      within('.current_state') do
+        expect(page).to have_content 'Published'
+      end
+    end
+
+    it 'have drafted state if it drafted' do
+      visit hire_vacancy_path(create(:vacancy, employer:))
+
+      within('.current_state') do
+        expect(page).to have_content 'Drafted'
+      end
+    end
+
+    it 'have archived state if it archived' do
+      visit hire_vacancy_path(create(:vacancy, :archived, employer:))
+
+      within('.current_state') do
+        expect(page).to have_content 'Archived'
+      end
+    end
   end
 end
