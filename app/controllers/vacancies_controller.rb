@@ -10,14 +10,10 @@ class VacanciesController < ApplicationController
   end
 
   def show
-    if @vacancy.drafted?
-      head :forbidden
-    elsif @vacancy.archived?
-      render 'vacancies/archived_vacancy'
-      add_breadcrumb @vacancy.id.to_s, :vacancy_path
-    else
-      add_breadcrumb @vacancy.id.to_s, :vacancy_path
-    end
+    add_breadcrumb @vacancy.id.to_s, :vacancy_path
+
+    render 'vacancies/archived_vacancy' if @vacancy.archived?
+    head :forbidden if @vacancy.drafted?
   end
 
   private

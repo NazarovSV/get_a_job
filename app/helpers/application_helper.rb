@@ -13,7 +13,7 @@ module ApplicationHelper
   def vacancy_state(state:)
     color = VACANCY_STATE[state.to_sym]
 
-    content_tag :span, state, class: color
+    content_tag :span, t(".#{state}"), class: color
   end
 
   private

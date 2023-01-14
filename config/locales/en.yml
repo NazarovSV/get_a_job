@@ -13,6 +13,14 @@ en:
   hire:
     my_vacancies: 'My vacancies'
     vacancies:
+      vacancy:
+        archived: 'Archived'
+        drafted: 'Drafted'
+        published: 'Published'
+      show:
+        archived: 'Archived'
+        drafted: 'Drafted'
+        published: 'Published'
       destroy:
         successfully: 'Your vacancy successfully deleted!'
         unsuccessfully: 'Vacancy is not drafted. Can`t delete this vacancy!'
