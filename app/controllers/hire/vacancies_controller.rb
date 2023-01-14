@@ -5,7 +5,7 @@ module Hire
     before_action :load_vacancy, only: %i[archive show edit update publish destroy]
     before_action :check_authorize, only: %i[new create]
 
-    add_breadcrumb I18n.t('.vacancies', scope: :hire), :hire_vacancies_path
+    add_breadcrumb I18n.t('.my_vacancies', scope: :hire), :hire_vacancies_path
 
     def edit
       add_breadcrumb @vacancy.id, [:hire, @vacancy]
@@ -39,9 +39,9 @@ module Hire
     def destroy
       if @vacancy.drafted?
         @vacancy.destroy!
-        flash.now[:notice] = 'Your vacancy successfully deleted!'
+        flash.now[:notice] = t('.successfully')
       else
-        flash.now[:alert] = 'Vacancy is not drafted. Can`t delete this vacancy!'
+        flash.now[:alert] = t('.unsuccessfully')
       end
     end
 

@@ -11,14 +11,22 @@ en:
         phone: 'Phone'
         email: 'Email'
   hire:
-    vacancies: 'My vacancy'
+    my_vacancies: 'My vacancies'
+    vacancies:
+      destroy:
+        successfully: 'Your vacancy successfully deleted!'
+        unsuccessfully: 'Vacancy is not drafted. Can`t delete this vacancy!'
   errors:
     messages:
       invalid: 'is not valid'
   vacancy:
+    state:
+      flash:
+        archived: 'Archived vacancy!'
     created: 'Your vacancy successfully created.'
     updated: 'Your vacancy successfully updated.'
   vacancies: 'Vacancies'
+
   navbar:
     menu:
       enter: 'Enter'

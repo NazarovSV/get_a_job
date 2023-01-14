@@ -22,7 +22,7 @@ describe 'Employer can destroy his drafted vacancy', '
       click_on 'Delete'
     end
 
-    expect(page).to have_content 'Your vacancy successfully deleted.'
+    expect(page).to have_content 'Your vacancy successfully deleted!'
     expect(page).to_not have_content drafted_vacancy.title
   end
 
