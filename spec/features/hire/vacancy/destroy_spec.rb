@@ -23,7 +23,7 @@ describe 'Employer can destroy his drafted vacancy', '
     end
 
     expect(page).to have_content 'Your vacancy successfully deleted!'
-    expect(page).to_not have_content drafted_vacancy.title
+    expect(page).not_to have_content drafted_vacancy.title
   end
 
   it 'can destroy vacancy from vacancy view' do
@@ -31,18 +31,18 @@ describe 'Employer can destroy his drafted vacancy', '
 
     click_on 'Delete'
 
-    expect(page).to_not have_content drafted_vacancy.title
+    expect(page).not_to have_content drafted_vacancy.title
   end
 
   it 'can`t delete published vacancy' do
     within "#vacancy_id_#{published_vacancy.id}" do
-      expect(page).to_not have_content 'Delete'
+      expect(page).not_to have_content 'Delete'
     end
   end
 
   it 'can`t delete archived vacancy' do
     within "#vacancy_id_#{archive_vacancy.id}" do
-      expect(page).to_not have_content 'Delete'
+      expect(page).not_to have_content 'Delete'
     end
   end
 end

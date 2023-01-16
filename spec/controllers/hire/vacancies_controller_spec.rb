@@ -151,7 +151,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
       it 'not render publish template' do
         patch :publish, params: { id: vacancy }, format: :js
-        expect(response).to_not render_template :publish
+        expect(response).not_to render_template :publish
       end
     end
   end
@@ -192,7 +192,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
       it 'not render archive template' do
         patch :archive, params: { id: vacancy }, format: :js
-        expect(response).to_not render_template :archive
+        expect(response).not_to render_template :archive
       end
     end
   end
@@ -231,7 +231,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
         before { login_employer(vacancy.employer) }
 
         it 'destroy vacancy' do
-          expect { delete :destroy, params: { id: vacancy }, format: :js }.to_not change(Vacancy, :count)
+          expect { delete :destroy, params: { id: vacancy }, format: :js }.not_to change(Vacancy, :count)
         end
 
         it 'not render destroy view' do
@@ -248,7 +248,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
         before { login_employer(vacancy.employer) }
 
         it 'destroy vacancy' do
-          expect { delete :destroy, params: { id: vacancy }, format: :js }.to_not change(Vacancy, :count)
+          expect { delete :destroy, params: { id: vacancy }, format: :js }.not_to change(Vacancy, :count)
         end
 
         it 'not render destroy view' do

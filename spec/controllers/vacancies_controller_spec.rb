@@ -10,7 +10,7 @@ RSpec.describe VacanciesController, type: :controller do
 
       it 'not renders show view' do
         get :show, params: { id: vacancy }
-        expect(response).to_not render_template :show
+        expect(response).not_to render_template :show
       end
     end
 

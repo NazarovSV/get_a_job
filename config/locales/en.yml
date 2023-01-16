@@ -27,6 +27,9 @@ en:
   errors:
     messages:
       invalid: 'is not valid'
+  searches:
+    index:
+      empty: 'Request is empty!'
   shared:
     navbar:
       search: 'Search'
