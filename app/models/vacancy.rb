@@ -24,8 +24,11 @@
 #
 class Vacancy < ApplicationRecord
   include AASM
+  include PgSearch::Model
 
   belongs_to :employer
+
+  pg_search_scope :search, against: [:title, :description]
 
   aasm column: 'state' do
     state :drafted, initial: true

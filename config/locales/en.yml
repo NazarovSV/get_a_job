@@ -27,6 +27,11 @@ en:
   errors:
     messages:
       invalid: 'is not valid'
+  shared:
+    navbar:
+      search: 'Search'
+    search:
+      search: Search
   vacancy:
     state:
       flash:

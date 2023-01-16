@@ -12,6 +12,7 @@ gem 'devise'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'pg', '~> 1.1'
+gem 'pg_search'
 gem 'puma', '~> 5.0'
 gem 'pundit'
 gem 'rails', '~> 6.1.7'
@@ -25,7 +26,6 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'faker'
-  # gem 'ffaker'
   gem 'pry-byebug'
   gem 'rspec-rails'
 end
