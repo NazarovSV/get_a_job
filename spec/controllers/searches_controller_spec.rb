@@ -7,19 +7,28 @@ RSpec.describe SearchesController, type: :controller do
     let!(:employer) { create(:employer) }
     let!(:vacancies) { create_list(:vacancy, 10, :published, employer:) }
 
-    before { get :index, params: { request: vacancies.first.title } }
+    describe 'valid request' do
+      before { get :index, params: { request: vacancies.first.title } }
 
-    it "renders index view" do
-      expect(response).to render_template :index
+      it 'renders index view' do
+        expect(response).to render_template :index
+      end
+
+      it '200' do
+        expect(response).to be_successful
+      end
+
+      it 'return only first vacancy' do
+        expect(assigns(:vacancies)).to eq([vacancies.first])
+      end
     end
 
-    it "200" do
-      expect(response).to be_successful
-    end
+    describe 'invalid request' do
+      it 'renders index view' do
+        get :index, params: { request: nil }
 
-    it "return only first vacancy" do
-      expect(assigns(:vacancies)).to eq([vacancies.first])
+        expect(response).to redirect_to :root
+      end
     end
-
   end
 end

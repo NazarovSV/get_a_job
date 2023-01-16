@@ -28,7 +28,7 @@ class Vacancy < ApplicationRecord
 
   belongs_to :employer
 
-  pg_search_scope :search, against: [:title, :description]
+  pg_search_scope :search, against: %i[title description]
 
   aasm column: 'state' do
     state :drafted, initial: true
