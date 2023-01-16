@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(_resource)
-    hire_vacancies_path unless current_employer.nil?
+    return hire_vacancies_path unless current_employer.nil?
+
+    root_path
   end
 end
