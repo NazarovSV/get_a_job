@@ -1,14 +1,4 @@
-= render_breadcrumbs builder: BootstrapBreadcrumbsBuilder
-br
+= render 'vacancy_info'
 
-h3= @vacancy.title
-p= @vacancy.description
-p
-  b= t('helpers.label.vacancy.email')
-  br
-  = @vacancy.email
-- unless @vacancy.phone.empty?
-  p
-    b= t('helpers.label.vacancy.phone')
-    br
-    = @vacancy.phone
+- if employee_signed_in?
+  = link_to t('.apply'), new_vacancy_response_path(@vacancy), class: 'btn btn-outline-dark'
