@@ -5,7 +5,14 @@ require 'rails_helper'
 RSpec.describe SearchesController, type: :controller do
   describe 'GET #index' do
     let!(:employer) { create(:employer) }
-    let!(:vacancies) { create_list(:vacancy, 10, :published, employer:) }
+    let!(:vacancies) do
+      [
+        create(:vacancy, :published, title: 'title published one'),
+        create(:vacancy, :published, title: 'title published second'),
+        create(:vacancy, title: 'title drafted'),
+        create(:vacancy, :archived, title: 'title archived')
+      ]
+    end
 
     describe 'valid request' do
       before { get :index, params: { request: vacancies.first.title } }

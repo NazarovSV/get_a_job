@@ -20,6 +20,7 @@ gem 'sass-rails', '>= 6'
 gem 'slim-rails'
 gem 'telephone_number'
 gem 'turbolinks', '~> 5'
+gem 'validate_url'
 gem 'webpacker', '~> 5.0'
 
 group :development, :test do

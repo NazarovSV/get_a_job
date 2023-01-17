@@ -52,4 +52,24 @@ describe 'Any user can open vacancy and watch full info about job', '
       end
     end
   end
+
+  describe 'As employee' do
+    let!(:vacancy) { create(:vacancy, :published) }
+    let!(:employee) { create(:employee) }
+
+    before { visit vacancy_path(vacancy) }
+
+    it 'Candidate can response publish vacancy' do
+      sign_in_employee employee
+      visit vacancy_path(vacancy)
+
+      expect(page).to have_link 'Apply'
+    end
+
+    it 'Guest can`t response publish vacancy' do
+      visit vacancy_path(vacancy)
+
+      expect(page).not_to have_link 'Apply'
+    end
+  end
 end

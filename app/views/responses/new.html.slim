@@ -1,0 +1,14 @@
+= form_with model: [@vacancy, @response] do |f|
+  p
+    = f.label :email, class: 'form-label'
+    = f.text_field :email, class: 'form-control'
+  p
+    = f.label :phone, class: 'form-label'
+    = f.text_field :phone, class: 'form-control', rows: "5"
+  p
+    = f.label :resume_url,'Resume Url', class: 'form-label'
+    = f.text_field :resume_url, class: 'form-control'
+  p
+    = f.label :covering_letter,'Covering Letter', class: 'form-label'
+    = f.text_area :covering_letter, class: 'form-control'
+  = f.submit 'Create', class: 'btn btn-primary'

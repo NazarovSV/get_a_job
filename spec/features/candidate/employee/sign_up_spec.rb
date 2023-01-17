@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Employee can sign up', '
-  In order to apply for a vacancy,
+  In order to response for a vacancy,
   as an unregistered user,
   I want to be able to register on the site
 ' do
