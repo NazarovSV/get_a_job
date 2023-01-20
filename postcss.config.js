@@ -1,4 +1,4 @@
-module.exports = {
+lmodule.exports = {
   plugins: [
     require('postcss-import'),
     require('postcss-flexbugs-fixes'),
