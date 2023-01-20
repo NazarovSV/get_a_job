@@ -14,8 +14,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :vacancies, shallow: true, only: %i[index show] do
-    resources :responses, only: %i[show new create]
+  namespace :candidate do
+    resources :vacancies, shallow: true do
+      resources :responses, only: %i[show new create]
+    end
   end
 
 
