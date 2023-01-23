@@ -3,7 +3,7 @@
 module Candidate
   class ResponsePolicy < ApplicationPolicy
     def show?
-      user.is_a?(Employee) && user.id == record.employee_id
+      user&.id == record.employee_id
     end
 
     def new?

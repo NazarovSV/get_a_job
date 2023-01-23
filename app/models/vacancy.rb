@@ -29,6 +29,11 @@ class Vacancy < ApplicationRecord
   belongs_to :employer
   has_many :responses, dependent: :destroy
 
+  validates :title, :description, :email, presence: true
+  validates :title, length: { maximum: 255 }
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates_with PhoneNumberValidator
+
   pg_search_scope :search, against: %i[title description]
 
   aasm column: 'state' do
@@ -44,9 +49,4 @@ class Vacancy < ApplicationRecord
       transitions from: :published, to: :archived
     end
   end
-
-  validates_with PhoneNumberValidator
-  validates :title, :description, :email, presence: true
-  validates :title, length: { maximum: 255 }
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 end
