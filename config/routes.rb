@@ -14,11 +14,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :vacancies, shallow: true, only: %i[index show] do
-    resources :responses, only: %i[show new create]
-  end
-
-
-  resources :vacancies, shallow: true, only: %i[index show]
+  resources :vacancies, only: %i[index show]
   resources :searches, only: :index
 end

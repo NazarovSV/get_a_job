@@ -44,10 +44,7 @@ en:
         archived: 'Archived vacancy!'
     created: 'Your vacancy successfully created.'
     updated: 'Your vacancy successfully updated.'
-  bread_vacancies: 'Vacancies'
-  vacancies:
-    show:
-      apply: 'Apply'
+  vacancies: 'Vacancies'
 
   navbar:
     menu:
@@ -55,11 +52,3 @@ en:
       login: 'Login'
       logout: 'Logout'
       vacancy: 'My vacancies'
-  responses:
-    create:
-      successful: "'You applied for a job!'"
-    show:
-      email: "Email"
-      phone: "Phone"
-      resume: "Resume"
-      covering_letter: "Covering letter"

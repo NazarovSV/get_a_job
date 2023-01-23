@@ -5,8 +5,6 @@ require 'spec_helper'
 require 'faker'
 require 'pundit/rspec'
 require 'aasm/rspec'
-require 'validate_url/rspec_matcher'
-
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
