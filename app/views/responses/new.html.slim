@@ -1,5 +1,4 @@
-= render 'shared/errors', resource: @response
-= form_with model: [:candidate, @vacancy, @response] do |f|
+= form_with model: [@vacancy, @response] do |f|
   p
     = f.label :email, class: 'form-label'
     = f.text_field :email, class: 'form-control'

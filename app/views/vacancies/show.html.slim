@@ -1,4 +1,4 @@
 = render 'vacancy_info'
 
 - if employee_signed_in?
-  = link_to t('.apply'), new_candidate_vacancy_response_path(@vacancy), class: 'btn btn-outline-dark'
+  = link_to t('.apply'), new_vacancy_response_path(@vacancy), class: 'btn btn-outline-dark'
