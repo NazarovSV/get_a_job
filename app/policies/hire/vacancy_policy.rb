@@ -3,23 +3,23 @@
 module Hire
   class VacancyPolicy < ApplicationPolicy
     def show?
-      user == record.employer
+      user&.id == record.employer_id
     end
 
     def update?
-      user == record.employer
+      user&.id == record.employer_id
     end
 
     def new?
-      user.is_a? Employer
+      user&.is_a? Employer
     end
 
     def publish?
-      user == record.employer
+      user&.id == record.employer_id
     end
 
     def archive?
-      user == record.employer
+      user&.id == record.employer_id
     end
 
     def create?
@@ -27,7 +27,7 @@ module Hire
     end
 
     def destroy?
-      user == record.employer
+      user&.id == record.employer_id
     end
 
     class Scope < Scope

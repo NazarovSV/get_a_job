@@ -2,7 +2,7 @@
 
 module Hire
   class VacanciesController < Hire::BaseController
-    before_action :load_vacancy, only: %i[archive show edit update publish destroy]
+    before_action :load_vacancy, except: %i[index new create]
     before_action :check_authorize, only: %i[new create]
 
     add_breadcrumb I18n.t('.my_vacancies', scope: :hire), :hire_vacancies_path
