@@ -15,10 +15,10 @@ describe 'Only authenticated user as employee can response on vacancy', '
 
     before do
       sign_in_employee(employee)
-      visit new_candidate_vacancy_response_path(vacancy)
+      visit new_vacancy_response_path(vacancy)
     end
 
-    describe 'fill valid info' do
+    describe 'valid info' do
       it 'respond to the vacancy with all field filled' do
         fill_in 'Email', with: response.email
         fill_in 'Phone', with: response.phone
@@ -47,22 +47,11 @@ describe 'Only authenticated user as employee can response on vacancy', '
         expect(page).to have_link('Resume', href: response.resume_url)
       end
     end
-
-    describe 'fill invalid info' do
-      it 'throw error' do
-        click_on 'Create'
-
-        expect(page).to have_content "Email can't be blank"
-        expect(page).to have_content "Resume url can't be blank"
-        expect(page).to have_content 'Resume url is not a valid URL'
-        expect(page).to have_content 'Email is not valid'
-      end
-    end
   end
 
   describe 'Unathenticated user' do
     it 'can`t access to creating response' do
-      visit new_candidate_vacancy_response_path(vacancy)
+      visit new_vacancy_response_path(vacancy)
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end

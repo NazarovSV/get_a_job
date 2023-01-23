@@ -55,13 +55,11 @@ en:
       login: 'Login'
       logout: 'Logout'
       vacancy: 'My vacancies'
-  candidate:
-    responses:
-      create:
-        successful: "'You applied for a job!'"
-      show:
-        email: "Email"
-        phone: "Phone"
-        resume: "Resume"
-        covering_letter: "Covering letter"
-  not_allowed: "not allowed to view this action"
+  responses:
+    create:
+      successful: "'You applied for a job!'"
+    show:
+      email: "Email"
+      phone: "Phone"
+      resume: "Resume"
+      covering_letter: "Covering letter"
