@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
-describe 'Employee can sign up', '
-  In order to apply for a vacancy,
+describe 'Employer can sign up', '
+  To create new vacancy,
   as an unregistered user,
   I want to be able to register on the site
 ' do
   it 'Unauthenticated user tries to sign up' do
     visit root_path
 
-    click_on 'Find a Job'
+    click_on 'Login'
     click_on 'Sign up'
 
     fill_in 'Email', with: 'test@test.ru'
@@ -26,19 +26,19 @@ describe 'Employee can sign up', '
   it 'Unauthenticated hire tries to sign up with invalid data' do
     visit root_path
 
-    click_on 'Find a Job'
+    click_on 'Login'
     click_on 'Sign up'
 
     click_on 'Sign up'
 
-    expect(page).to have_content 'prohibited this employee from being saved'
+    expect(page).to have_content 'prohibited this employer from being saved'
     expect(page).to have_content "Email can't be blank"
     expect(page).to have_content "Password can't be blank"
   end
 
   it 'Registered user does not see the registration' do
-    employee = create(:employee)
-    sign_in_employee(employee)
+    employer = create(:employer)
+    sign_in_employer(employer)
     visit root_path
 
     expect(page).not_to have_content 'Registration'

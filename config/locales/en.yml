@@ -31,9 +31,6 @@ en:
     index:
       empty: 'Request is empty!'
   shared:
-    guest_menu:
-      job: 'Find a Job'
-      candidate: 'Find an employees'
     navbar:
       search: 'Search'
     search:
