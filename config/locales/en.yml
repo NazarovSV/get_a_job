@@ -24,6 +24,10 @@ en:
       destroy:
         successfully: 'Your vacancy successfully deleted!'
         unsuccessfully: 'Vacancy is not drafted. Can`t delete this vacancy!'
+    responses:
+      response:
+        email: "Email"
+        resume: "Resume"
   errors:
     messages:
       invalid: 'is not valid'

@@ -34,6 +34,10 @@ ru:
         successfully: 'Вакансия успешно удалена!'
         unsuccessfully: 'Вакансия не статусе "черновик". Удаление не возможно!'
     my_vacancies: 'Мои вакансии'
+    responses:
+      response:
+        email: "Почта"
+        resume: "Резюме"
   candidate:
     responses:
       create:

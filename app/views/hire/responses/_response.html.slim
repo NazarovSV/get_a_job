@@ -1,0 +1,7 @@
+div class='card rounded-0 border-1 border-light'
+  div class='card-body'
+    div id="response_id_#{response.id}"
+      = response.email
+      br
+      = link_to t('.resume'), response.resume_url, target: '_blank'
+br
