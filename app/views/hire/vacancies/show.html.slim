@@ -1,3 +1,4 @@
 = content_tag :div, id: "#show_vacancy_id_#{@vacancy.id}" do
+  = link_to 'Responses', hire_vacancy_responses_path(@vacancy)
   = render 'hire/vacancies/show'
 end
