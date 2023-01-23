@@ -3,5 +3,4 @@ div class='dropdown'
     = t('navbar.menu.enter')
   ul class='dropdown-menu dropdown-menu-end'
     li
-      = link_to t('.job'), new_employee_session_path, method: :get, class: 'dropdown-item'
-      = link_to t('.candidate'), new_employer_session_path, method: :get, class: 'dropdown-item'
+      = link_to t('navbar.menu.login'), new_employer_session_path, method: :get, class: 'dropdown-item'
