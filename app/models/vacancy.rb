@@ -27,7 +27,6 @@ class Vacancy < ApplicationRecord
   include PgSearch::Model
 
   belongs_to :employer
-  has_many :responses, dependent: :destroy
 
   pg_search_scope :search, against: %i[title description]
 

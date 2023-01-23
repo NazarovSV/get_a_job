@@ -3,7 +3,7 @@
 class VacanciesController < ApplicationController
   before_action :load_vacancy, only: :show
 
-  add_breadcrumb I18n.t('.bread_vacancies'), :root_path
+  add_breadcrumb I18n.t('.vacancies'), :root_path
 
   def index
     @vacancies = Vacancy.published
