@@ -30,6 +30,10 @@ module Hire
       user&.id == record.employer_id
     end
 
+    def list_of_response?
+      show?
+    end
+
     class Scope < Scope
       def resolve
         raise Pundit::NotAuthorizedError, 'not allowed to view this action' unless user.is_a? Employer

@@ -12,7 +12,7 @@ describe Hire::VacancyPolicy do
       let(:user) { vacancy.employer }
 
       it do
-        expect(subject).to permit_actions(%i[archive show update edit publish destroy])
+        expect(subject).to permit_actions(%i[archive show update edit publish destroy list_of_response])
       end
 
       it { is_expected.to permit_new_and_create_actions }

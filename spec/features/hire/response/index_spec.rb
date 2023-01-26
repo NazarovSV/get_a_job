@@ -11,17 +11,19 @@ describe 'Employer can view responses on his vacancies', '
     let!(:vacancy) { create(:vacancy, :published, employer:) }
     let!(:current_responses) { create_list(:response, 5, vacancy:) }
 
-    before { sign_in_employer employer }
+    describe 'as author of vacancy' do
+      before { sign_in_employer employer }
 
-    it 'Employer can see the responses on vacancy' do
-      visit hire_vacancy_path(vacancy)
+      it 'employer can see the responses on vacancy' do
+        visit hire_vacancy_path(vacancy)
 
-      click_on 'Responses'
+        click_on 'Responses'
 
-      current_responses.each do |current_response|
-        within("#response_id_#{current_response.id}") do
-          expect(page).to have_content current_response.email
-          expect(page).to have_link('Resume', href: current_response.resume_url)
+        current_responses.each do |current_response|
+          within("#response_id_#{current_response.id}") do
+            expect(page).to have_content current_response.email
+            expect(page).to have_link('Resume', href: current_response.resume_url)
+          end
         end
       end
     end

@@ -12,6 +12,7 @@ module Hire
 
     def load_vacancy
       @vacancy = Vacancy.find(params[:vacancy_id])
+      authorize [:hire, @vacancy], :list_of_response?
     end
   end
 end
