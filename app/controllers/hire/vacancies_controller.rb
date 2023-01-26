@@ -7,11 +7,6 @@ module Hire
 
     add_breadcrumb I18n.t('.my_vacancies', scope: :hire), :hire_vacancies_path
 
-    def edit
-      add_breadcrumb @vacancy.id, [:hire, @vacancy]
-      add_breadcrumb 'Edit', edit_hire_vacancy_url
-    end
-
     def index
       @vacancies = policy_scope([:hire, Vacancy])
     end
@@ -19,6 +14,11 @@ module Hire
     def new
       @vacancy = Vacancy.new
       add_breadcrumb 'New', new_hire_vacancy_url
+    end
+
+    def edit
+      add_breadcrumb @vacancy.id, [:hire, @vacancy]
+      add_breadcrumb 'Edit', edit_hire_vacancy_url
     end
 
     def create
