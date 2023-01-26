@@ -33,4 +33,35 @@ RSpec.describe Hire::ResponsesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    let!(:employer) { create(:employer) }
+    let!(:vacancy) { create(:vacancy, :published, employer:) }
+    let!(:current_response) { create(:response, vacancy:) }
+
+    describe 'as author of vacancy' do
+      before do
+        login_employer(vacancy.employer)
+        get :show, params: { id: current_response }
+      end
+
+      it 'return response of vacancy' do
+        expect(assigns(:response)).to eq(current_response)
+      end
+
+      it 'render show view' do
+        expect(response).to render_template :show
+      end
+    end
+
+    describe 'as another employer' do
+      before do
+        login_employer(create(:employer))
+      end
+
+      it 'fails with show' do
+        expect { get :show, params: { id: current_response } }.to raise_error(Pundit::NotAuthorizedError)
+      end
+    end
+  end
 end
