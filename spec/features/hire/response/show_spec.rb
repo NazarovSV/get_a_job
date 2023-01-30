@@ -9,14 +9,12 @@ describe 'Employer can open response', '
   describe 'Authenticated employer' do
     let!(:employer) { create(:employer) }
     let!(:vacancy) { create(:vacancy, :published, employer:) }
-    let!(:current_responses) { create_list(:response, 5, vacancy:) }
+    let!(:current_response) { create(:response, vacancy:) }
 
     describe 'as author of vacancy' do
       before { sign_in_employer employer }
 
       it 'employer can see the responses on vacancy' do
-        current_response = current_responses.first
-
         visit hire_response_path(current_response)
 
         expect(page).to have_content current_response.email

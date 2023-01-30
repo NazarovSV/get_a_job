@@ -15,7 +15,8 @@ describe 'Only authenticated user as employee can response on vacancy', '
 
     before do
       sign_in_employee(employee)
-      visit new_candidate_vacancy_response_path(vacancy)
+      visit vacancy_path(vacancy)
+      click_on 'Apply'
     end
 
     describe 'fill valid info' do
