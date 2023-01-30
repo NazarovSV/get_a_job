@@ -17,6 +17,8 @@
     b= t('helpers.label.vacancy.phone')
     br
     = @vacancy.phone
+  p
+    = link_to "Responses(#{@vacancy.responses.count})", hire_vacancy_responses_path(@vacancy), class: "text-decoration-none"
   = link_to t('.edit'), edit_hire_vacancy_path(@vacancy), class: 'link-dark'
   - if @vacancy.drafted?
     <span> | </span>
