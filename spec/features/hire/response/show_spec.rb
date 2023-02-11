@@ -17,10 +17,10 @@ describe 'Employer can open response', '
       it 'employer can see the responses on vacancy' do
         visit hire_response_path(current_response)
 
-        expect(page).to have_content current_response.email
-        expect(page).to have_content current_response.phone
-        expect(page).to have_content current_response.covering_letter
-        expect(page).to have_link('Resume', href: current_response.resume_url)
+        expect(page).to have_content(current_response.email)
+                    .and have_content(current_response.phone)
+                    .and have_content(current_response.covering_letter)
+                    .and have_link('Resume', href: current_response.resume_url)
       end
     end
   end

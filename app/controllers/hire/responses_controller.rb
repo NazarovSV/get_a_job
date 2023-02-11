@@ -4,8 +4,7 @@ module Hire
   class ResponsesController < Hire::BaseController
     before_action :load_vacancy, only: :index
     before_action :load_response, only: :show
-    def show;
-    end
+    def show; end
 
     def index
       @responses = @vacancy.responses

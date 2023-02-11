@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_16_120101) do
+ActiveRecord::Schema.define(version: 2023_01_31_123634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "country_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["country_id"], name: "index_cities_on_country_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "employees", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -47,6 +61,32 @@ ActiveRecord::Schema.define(version: 2023_01_16_120101) do
     t.index ["reset_password_token"], name: "index_employers_on_reset_password_token", unique: true
   end
 
+  create_table "house_numbers", force: :cascade do |t|
+    t.string "number"
+    t.bigint "street_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["street_id"], name: "index_house_numbers_on_street_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.bigint "country_id", null: false
+    t.bigint "city_id", null: false
+    t.bigint "street_id", null: false
+    t.bigint "house_number_id", null: false
+    t.bigint "vacancy_id", null: false
+    t.string "full_address"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["city_id"], name: "index_locations_on_city_id"
+    t.index ["country_id"], name: "index_locations_on_country_id"
+    t.index ["house_number_id"], name: "index_locations_on_house_number_id"
+    t.index ["street_id"], name: "index_locations_on_street_id"
+    t.index ["vacancy_id"], name: "index_locations_on_vacancy_id"
+  end
+
   create_table "responses", force: :cascade do |t|
     t.bigint "employee_id"
     t.bigint "vacancy_id"
@@ -58,6 +98,14 @@ ActiveRecord::Schema.define(version: 2023_01_16_120101) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["employee_id"], name: "index_responses_on_employee_id"
     t.index ["vacancy_id"], name: "index_responses_on_vacancy_id"
+  end
+
+  create_table "streets", force: :cascade do |t|
+    t.string "name"
+    t.bigint "city_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["city_id"], name: "index_streets_on_city_id"
   end
 
   create_table "vacancies", force: :cascade do |t|
@@ -72,5 +120,13 @@ ActiveRecord::Schema.define(version: 2023_01_16_120101) do
     t.index ["employer_id"], name: "index_vacancies_on_employer_id"
   end
 
+  add_foreign_key "cities", "countries"
+  add_foreign_key "house_numbers", "streets"
+  add_foreign_key "locations", "cities"
+  add_foreign_key "locations", "countries"
+  add_foreign_key "locations", "house_numbers"
+  add_foreign_key "locations", "streets"
+  add_foreign_key "locations", "vacancies"
+  add_foreign_key "streets", "cities"
   add_foreign_key "vacancies", "employers"
 end

@@ -24,6 +24,11 @@ en:
       destroy:
         successfully: 'Your vacancy successfully deleted!'
         unsuccessfully: 'Vacancy is not drafted. Can`t delete this vacancy!'
+      form:
+        country: "Country"
+        city: "City"
+        street: "Road"
+        house_number: "House number"
     responses:
       response:
         email: "Email"

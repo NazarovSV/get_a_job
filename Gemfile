@@ -9,6 +9,7 @@ gem 'aasm'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'breadcrumbs_on_rails'
 gem 'devise'
+gem 'geocoder'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'pg', '~> 1.1'
