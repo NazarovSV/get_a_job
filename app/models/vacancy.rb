@@ -28,6 +28,7 @@ class Vacancy < ApplicationRecord
 
   belongs_to :employer
   has_many :responses, dependent: :destroy
+  has_one :location
 
   validates :title, :description, :email, presence: true
   validates :title, length: { maximum: 255 }

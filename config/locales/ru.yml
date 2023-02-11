@@ -33,6 +33,11 @@ ru:
       destroy:
         successfully: 'Вакансия успешно удалена!'
         unsuccessfully: 'Вакансия не статусе "черновик". Удаление не возможно!'
+      form:
+        country: "Страна"
+        city: "Город"
+        street: "Улица"
+        house_number: "Номер дома"
     my_vacancies: 'Мои вакансии'
     responses:
       response:

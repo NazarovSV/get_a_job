@@ -5,17 +5,21 @@ require 'rails_helper'
 RSpec.describe Hire::VacanciesController, type: :controller do
   describe 'POST #create' do
     let!(:employer) { create(:employer) }
-    let!(:vacancy) { create(:vacancy, employer:) }
+    let(:vacancy) { create(:vacancy, employer:) }
 
     before { login_employer(employer) }
 
     context 'with valid attributes' do
       it 'saves a new vacancy in the database' do
-        expect { post :create, params: { vacancy: attributes_for(:vacancy) } }.to change(Vacancy, :count).by(1)
+        expect {
+          post :create, params: { vacancy: attributes_for(:vacancy), country: 'Russia' }
+        }.to change(Vacancy, :count).by(1)
+         .and change(Country, :count).by(1)
+         .and change(Location, :count).by(1)
       end
 
       it 'redirects to created vacancy' do
-        post :create, params: { vacancy: attributes_for(:vacancy) }
+        post :create, params: { vacancy: attributes_for(:vacancy), country: '' }
 
         expect(response).to redirect_to hire_vacancy_path(id: assigns(:vacancy).id)
         expect(flash[:notice]).to match('Your vacancy successfully created.')

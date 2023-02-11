@@ -1,14 +1,21 @@
 = form_with model: [:hire, vacancy], local: true do |f|
   p
-    = f.label :title, t('helpers.label.vacancy.title'), class: 'form-label'
-    = f.text_field :title, class: 'form-control'
+    = f.text_field :title, class: 'form-control', placeholder: t('helpers.label.vacancy.title')
   p
-    = f.label :description, t('helpers.label.vacancy.description'), class: 'form-label'
-    = f.text_area :description, class: 'form-control', rows: "5"
+    = f.text_area :description, class: 'form-control', rows: "5", placeholder:  t('helpers.label.vacancy.description')
   p
-    = f.label :email, t('helpers.label.vacancy.email'), class: 'form-label'
-    = f.text_field :email, class: 'form-control'
+    = f.text_field :email, class: 'form-control', placeholder: t('helpers.label.vacancy.email')
   p
-    = f.label :phone, t('helpers.label.vacancy.phone'), class: 'form-label'
-    = f.text_field :phone, type: "tel", class: 'form-control'
+    = f.text_field :phone, type: "tel", class: 'form-control', placeholder: t('helpers.label.vacancy.phone')
+  p
+    = text_field_tag :country, nil, class: 'form-control', placeholder: t('.country')
+  / = f.fields_for :location do |lf|
+  /   p
+  /     = lf.text_field :country, class: 'form-control', placeholder: t('.country')
+  /   p
+  /     = lf.text_field :city, class: 'form-control', placeholder: t('.city')
+  /   p
+  /     = lf.text_field :street, class: 'form-control', placeholder: t('.street')
+  /   p
+  /     = lf.text_field :house_number, class: 'form-control', placeholder: t('.house_number')
   = f.submit class: 'btn btn-primary'
