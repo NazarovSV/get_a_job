@@ -4,6 +4,8 @@ div id="vacancy_id_#{vacancy.id}"
     span style="float:right;"
       h4
         = vacancy_state(state: vacancy.state)
+    br
+      = vacancy.location.city.name
   div
     br
       = link_to 'Edit', edit_hire_vacancy_path(vacancy)

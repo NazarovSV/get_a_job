@@ -5,17 +5,19 @@ require 'rails_helper'
 RSpec.describe Hire::VacanciesController, type: :controller do
   describe 'POST #create' do
     let!(:employer) { create(:employer) }
-    let(:vacancy) { create(:vacancy, employer:) }
+    let(:vacancy) { build(:vacancy, employer:) }
 
     before { login_employer(employer) }
 
     context 'with valid attributes' do
       it 'saves a new vacancy in the database' do
-        expect {
-          post :create, params: { vacancy: attributes_for(:vacancy), country: 'Russia' }
-        }.to change(Vacancy, :count).by(1)
-         .and change(Country, :count).by(1)
-         .and change(Location, :count).by(1)
+        expect do
+          post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+        end.to change(Vacancy, :count).by(1)
+                                      .and change(Country, :count).by(1)
+                                                                  .and change(City, :count).by(1)
+                                                                                           .and change(Location,
+                                                                                                       :count).by(1)
       end
 
       it 'redirects to created vacancy' do
@@ -23,6 +25,18 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
         expect(response).to redirect_to hire_vacancy_path(id: assigns(:vacancy).id)
         expect(flash[:notice]).to match('Your vacancy successfully created.')
+      end
+
+      it 'don`t saves a new country and city if it already exists in database' do
+        post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+
+        expect do
+          post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+        end.to change(Vacancy, :count).by(1)
+                                      .and change(Location, :count).by(1)
+                                                                   .and change(Country, :count).by(0)
+                                                                                               .and change(City,
+                                                                                                           :count).by(0)
       end
     end
   end
@@ -81,7 +95,12 @@ RSpec.describe Hire::VacanciesController, type: :controller do
       before { login_employer(vacancy.employer) }
 
       context 'with valid attributes' do
-        before { patch :update, params: { id: vacancy, vacancy: { description: 'New description' } } }
+        before do
+          patch :update,
+                params: { id: vacancy,
+                          vacancy: { description: 'New description',
+                                     locations_attributes: { address: 'Russia, Moscow, Klimentovskiy Pereulok, 65' } } }
+        end
 
         it 'changes vacancy attributes' do
           vacancy.reload
