@@ -45,5 +45,13 @@ FactoryBot.define do
     trait :archived do
       state { :archived }
     end
+
+    after(:build) do |vacancy|
+      build(:location, vacancy:)
+    end
+
+    after(:create) do |vacancy|
+      build(:location, vacancy:)
+    end
   end
 end

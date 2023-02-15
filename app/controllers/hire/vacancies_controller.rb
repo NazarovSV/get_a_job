@@ -13,6 +13,7 @@ module Hire
 
     def new
       @vacancy = Vacancy.new
+      @vacancy.build_location
       add_breadcrumb 'New', new_hire_vacancy_url
     end
 
@@ -22,10 +23,8 @@ module Hire
     end
 
     def create
-      @vacancy = Vacancy.new(vacancy_params)
-      @vacancy.employer = current_employer
-
-      if @vacancy.save
+      @vacancy = current_employer.vacancies.build(vacancy_params)
+      if @vacancy.valid? && @vacancy.save!
         redirect_to [:hire, @vacancy], notice: t('vacancy.created')
       else
         render :new
@@ -73,12 +72,20 @@ module Hire
     end
 
     def vacancy_params
-      params.require(:vacancy).permit(:title, :description, :email, :phone)
+      params.require(:vacancy).permit(:title,
+                                      :description,
+                                      :email,
+                                      :phone,
+                                      location_attributes: [:address])
     end
 
     def load_vacancy
       @vacancy = Vacancy.find(params[:id])
       authorize [:hire, @vacancy]
     end
+    #
+    # def address_params
+    #   params.require :address
+    # end
   end
 end

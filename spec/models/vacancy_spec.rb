@@ -32,7 +32,10 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to validate_presence_of :email }
   it { is_expected.to validate_length_of(:title).is_at_most(255) }
   it { is_expected.to allow_value('address@email.com').for(:email) }
-  it { is_expected.to belong_to(:employer) }
+  it { is_expected.to belong_to :employer }
+  it { is_expected.to have_one(:location).dependent(:destroy) }
+  it { is_expected.to have_many(:responses).dependent(:destroy) }
+  it { is_expected.to accept_nested_attributes_for :location }
   it { is_expected.to transition_from(:drafted).to(:published).on_event(:publish) }
   it { is_expected.to transition_from(:published).to(:archived).on_event(:archive) }
   it { is_expected.to transition_from(:archived).to(:published).on_event(:publish) }

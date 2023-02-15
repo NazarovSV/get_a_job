@@ -29,6 +29,8 @@ en:
         city: "City"
         street: "Road"
         house_number: "House number"
+        address: 'Address'
+        additional_info: "Additional Info"
     responses:
       response:
         email: "Email"
@@ -74,3 +76,4 @@ en:
         resume: "Resume"
         covering_letter: "Covering letter"
   not_allowed: "not allowed to view this action"
+  invalid: "is invalid"

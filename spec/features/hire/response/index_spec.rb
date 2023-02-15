@@ -22,7 +22,7 @@ describe 'Employer can view responses on his vacancies', '
         current_responses.each do |current_response|
           within("#response_id_#{current_response.id}") do
             expect(page).to have_content(current_response.email)
-                        .and.to have_link('Resume', href: current_response.resume_url)
+                        .and have_link('Resume', href: current_response.resume_url)
           end
         end
       end

@@ -22,6 +22,7 @@ describe 'Employer can open his vacancies and watch final version', '
       expect(page).to have_content vacancy.description
       expect(page).to have_content vacancy.email
       expect(page).to have_content vacancy.phone
+      expect(page).to have_content vacancy.location.address
     end
 
     it 'have published state if it published' do

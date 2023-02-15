@@ -19,11 +19,13 @@ describe 'Employer can view list of his vacancies', '
     it 'User sees only his vacancies' do
       within "#vacancy_id_#{vacancies.first.id}" do
         expect(page).to have_content vacancies.first.title
+        expect(page).to have_content vacancies.first.location.city.name
         expect(page).to have_content vacancies.first.state.capitalize
       end
 
       within "#vacancy_id_#{vacancy.id}" do
         expect(page).to have_content vacancy.title
+        expect(page).to have_content vacancy.location.city.name
         expect(page).to have_content vacancy.state.capitalize
       end
 

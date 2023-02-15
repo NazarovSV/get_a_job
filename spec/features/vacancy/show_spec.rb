@@ -28,6 +28,7 @@ describe 'Any user can open vacancy and watch full info about job', '
       expect(page).to have_content vacancy.description
       expect(page).to have_content vacancy.email
       expect(page).to have_content vacancy.phone
+      expect(page).to have_content vacancy.location.address
     end
 
     describe 'archived vacancy' do

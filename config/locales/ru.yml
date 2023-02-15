@@ -38,6 +38,8 @@ ru:
         city: "Город"
         street: "Улица"
         house_number: "Номер дома"
+        additional_info: "Дополниительная информация"
+        address: "Адрес"
     my_vacancies: 'Мои вакансии'
     responses:
       response:
@@ -56,3 +58,4 @@ ru:
   searches:
     index:
       empty: "Запрос пуст"
+  invalid: "Не смогли подтвердить ваше местоположение"
