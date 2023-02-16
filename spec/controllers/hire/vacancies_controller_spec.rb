@@ -14,15 +14,13 @@ RSpec.describe Hire::VacanciesController, type: :controller do
         expect do
           post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
-                                      .and change(Country, :count).by(1)
-                                                                  .and change(City, :count).by(1)
-                                                                                           .and change(Location,
-                                                                                                       :count).by(1)
+           .and change(Country, :count).by(1)
+           .and change(City, :count).by(1)
+           .and change(Location, :count).by(1)
       end
 
       it 'redirects to created vacancy' do
-        post :create, params: { vacancy: attributes_for(:vacancy), country: '' }
-
+        post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
         expect(response).to redirect_to hire_vacancy_path(id: assigns(:vacancy).id)
         expect(flash[:notice]).to match('Your vacancy successfully created.')
       end
@@ -33,10 +31,9 @@ RSpec.describe Hire::VacanciesController, type: :controller do
         expect do
           post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
-                                      .and change(Location, :count).by(1)
-                                                                   .and change(Country, :count).by(0)
-                                                                                               .and change(City,
-                                                                                                           :count).by(0)
+           .and change(Location, :count).by(1)
+           .and change(Country, :count).by(0)
+           .and change(City,:count).by(0)
       end
     end
   end

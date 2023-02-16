@@ -32,6 +32,9 @@ class Vacancy < ApplicationRecord
 
   accepts_nested_attributes_for :location, allow_destroy: true
 
+  validates_associated :location
+  validates_presence_of :location
+
   validates :title, :description, :email, presence: true
   validates :title, length: { maximum: 255 }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }

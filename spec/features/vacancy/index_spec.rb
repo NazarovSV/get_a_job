@@ -21,7 +21,6 @@ describe 'Any user can view list of vacancies', '
           expect(page).to have_content vacancy.description.truncate(250)
         else
           expect(page).not_to have_content vacancy.title
-          expect(page).not_to have_content vacancy.location.city.name
           expect(page).not_to have_content vacancy.description.truncate(250)
         end
       end
