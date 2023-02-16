@@ -83,9 +83,5 @@ module Hire
       @vacancy = Vacancy.find(params[:id])
       authorize [:hire, @vacancy]
     end
-    #
-    # def address_params
-    #   params.require :address
-    # end
   end
 end
