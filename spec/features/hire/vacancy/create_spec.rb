@@ -100,6 +100,14 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
       expect(page).to have_content "Email can't be blank"
     end
+
+    it 'can use autocomplete in address field', js: true do
+      fill_in 'Address', with: 'Mos'
+
+      sleep 2
+
+      expect(page).to have_content "Russia, Moscow, Klimentovskiy Pereulok, 65"
+    end
   end
 
   describe 'Unathenticated user' do

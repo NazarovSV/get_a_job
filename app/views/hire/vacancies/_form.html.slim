@@ -9,6 +9,6 @@
     = f.text_field :phone, type: "tel", class: 'form-control', placeholder: t('helpers.label.vacancy.phone')
   = f.fields_for :location do |f_loc|
     p
-      = f_loc.text_field :address, class: 'form-control', placeholder: t('.address')
+      = f_loc.text_field :address, class: 'form-control', placeholder: t('.address'), address_data_behavior: "autocomplete"
   br
   = f.submit class: 'btn btn-primary'
