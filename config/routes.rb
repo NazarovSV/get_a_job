@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   root to: 'vacancies#index'
 
   namespace :hire do
+    get 'locations/search', to: 'locations#search'
+
     resources :vacancies, shallow: true do
       resources :responses, only: %i[index show]
+
       patch :publish, on: :member
       patch :archive, on: :member
     end
