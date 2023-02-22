@@ -33,7 +33,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
         end.to change(Vacancy, :count).by(1)
            .and change(Location, :count).by(1)
            .and change(Country, :count).by(0)
-           .and change(City,:count).by(0)
+           .and change(City, :count).by(0)
       end
     end
   end

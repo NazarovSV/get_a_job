@@ -3,7 +3,7 @@ document.addEventListener("turbolinks:load", function () {
 
     var options = {
         url: function(query) {
-            return location.origin + "/hire/locations/search.json?q=" + query;
+            return location.origin + "/hire/locations/search.json?search_letters=" + query;
         },
         getValue: "name",
     };

@@ -46,4 +46,36 @@ RSpec.describe Location, type: :model do
       expect(location.errors[:address]).to include('is invalid')
     end
   end
+
+  describe '.first_five_address_contains' do
+    context 'when a matching address exists' do
+      let!(:location_one) do
+        create(:location, address: 'Россия, Москва, улица Новый Арбат, 21с1', vacancy: create(:vacancy))
+      end
+      let!(:location_two) do
+        create(:location, address: 'Россия, Москва, Новочерёмушкинская улица, 39к1', vacancy: create(:vacancy))
+      end
+      let!(:location_three) do
+        create(:location, address: 'Россия, Москва, Нахимовский проспект, 31к2', vacancy: create(:vacancy))
+      end
+
+      it 'returns the matching addresses' do
+        results = Location.first_five_address_contains(search_letters: 'Нов')
+        expect(results).to include('Россия, Москва, улица Новый Арбат, 21с1')
+        expect(results).to include('Россия, Москва, Новочерёмушкинская улица, 39к1')
+        expect(results).not_to include('Россия, Москва, Нахимовский проспект, 31к2')
+      end
+    end
+
+    context 'when no matching address exists' do
+      let!(:location_one) do
+        create(:location, address: 'Россия, Москва, улица Новый Арбат, 21с1', vacancy: create(:vacancy))
+      end
+
+      it 'returns an empty array' do
+        results = Location.first_five_address_contains(search_letters: 'Сов')
+        expect(results).to be_empty
+      end
+    end
+  end
 end
