@@ -33,7 +33,7 @@ class Vacancy < ApplicationRecord
   accepts_nested_attributes_for :location, allow_destroy: true
 
   validates_associated :location
-  validates_presence_of :location
+  validates :location, presence: true
 
   validates :title, :description, :email, presence: true
   validates :title, length: { maximum: 255 }

@@ -44,12 +44,14 @@ end
 
 group :test do
   gem 'capybara', '>= 3.26'
+  gem 'capybara-webkit'
   gem 'launchy'
   gem 'pundit-matchers', '~> 1.8.4'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   gem 'shoulda-matchers'
   gem 'webdrivers'
+  gem 'webrick', '~> 1.8'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

@@ -14,8 +14,6 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
     before do
       sign_in_employer(employer)
-      visit hire_vacancies_path
-      click_on 'My vacancies'
       click_on 'New'
     end
 
@@ -102,11 +100,13 @@ describe 'Only authenticated user as employer can add new vacancy', '
     end
 
     it 'can use autocomplete in address field', js: true do
+      create(:vacancy)
+
       fill_in 'Address', with: 'Mos'
 
-      sleep 2
+      find('.easy-autocomplete-container li', text: 'Russia, Moscow, Klimentovskiy Pereulok, 65').click
 
-      expect(page).to have_content "Russia, Moscow, Klimentovskiy Pereulok, 65"
+      expect(page).to have_content 'Russia, Moscow, Klimentovskiy Pereulok, 65'
     end
   end
 
