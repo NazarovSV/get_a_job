@@ -32,9 +32,7 @@ class Location < ApplicationRecord
   belongs_to :vacancy
 
   validates_with AddressValidator
-  validates :address, presence: true
-  validates :city_id, presence: true
-  validates :country_id, presence: true
+  validates :country_id, :city_id, :address, presence: true
 
 
   geocoded_by :address, if: ->(record) { record.address.present? and record.address_changed? }

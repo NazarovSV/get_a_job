@@ -24,7 +24,7 @@ module Hire
 
     def create
       @vacancy = current_employer.vacancies.build(vacancy_params)
-      if @vacancy.valid? && @vacancy.save
+      if @vacancy.save
         redirect_to [:hire, @vacancy], notice: t('vacancy.created')
       else
         render :new
