@@ -19,9 +19,8 @@
 #  fk_rails_...  (country_id => countries.id)
 #
 class City < ApplicationRecord
-  belongs_to :country
-  has_many :streets
-  has_many :locations
+  belongs_to :country, validate: true
+  has_many :locations, validate: true
 
   validates :name, presence: true
 end

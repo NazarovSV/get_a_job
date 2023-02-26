@@ -11,7 +11,7 @@
 #
 class Country < ApplicationRecord
   has_many :cities
-  has_many :locations
+  has_many :locations, validate: true
 
   validates :name, presence: true
 end

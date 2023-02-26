@@ -44,7 +44,6 @@ end
 
 group :test do
   gem 'capybara', '>= 3.26'
-  gem 'capybara-webkit'
   gem 'launchy'
   gem 'pundit-matchers', '~> 1.8.4'
   gem 'rails-controller-testing'
