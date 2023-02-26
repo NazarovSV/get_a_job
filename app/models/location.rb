@@ -32,11 +32,12 @@ class Location < ApplicationRecord
   belongs_to :vacancy
 
   validates_with AddressValidator
-  validates :country_id, presence: true
-  validates :city_id, presence: true
   validates :address, presence: true
+  validates :city_id, presence: true
+  validates :country_id, presence: true
 
-  geocoded_by :current_address, if: ->(record) { record.address.present? and record.address_changed? }
+
+  geocoded_by :address, if: ->(record) { record.address.present? and record.address_changed? }
   before_validation :geocode
 
   def self.first_five_address_contains(search_letters:)
@@ -44,10 +45,6 @@ class Location < ApplicationRecord
   end
 
   private
-
-  def current_address
-    address
-  end
 
   def geocode
     geo_data = Geocoder.search(address)

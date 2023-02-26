@@ -28,13 +28,11 @@ class Vacancy < ApplicationRecord
 
   belongs_to :employer
   has_many :responses, dependent: :destroy
-  has_one :location, dependent: :destroy
+  has_one :location, dependent: :destroy, validate: true
 
   accepts_nested_attributes_for :location, allow_destroy: true
 
-  validates_associated :location
   validates :location, presence: true
-
   validates :title, :description, :email, presence: true
   validates :title, length: { maximum: 255 }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
