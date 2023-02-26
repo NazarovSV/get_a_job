@@ -49,29 +49,35 @@ RSpec.describe Location, type: :model do
 
   describe '.geocode' do
     context 'when address is valid' do
-      
       it 'returns coordinates and create country and cite' do
-        location = build(:location, address: 'Россия, Москва, улица Новый Арбат, 21с1')
+        location = create(:location, :blank, address: 'Россия, Москва, улица Новый Арбат, 21с1')
 
-        location.valid?
-
-        expect(location.latitude).to_not be_nil
-        expect(location.longitude).to_not be_nil
+        expect(location.latitude).not_to be_nil
+        expect(location.longitude).not_to be_nil
         expect(location.country.name).to eq('Russia')
         expect(location.city.name).to eq('Moscow')
         expect(location.city.country.name).to eq('Russia')
       end
 
-      it 'it not create new country and city if already exists' do
-        first_location = build(:location, address: 'Россия, Москва, улица Новый Арбат, 21с1')
-        first_location.valid?
-        second_location = build(:location, address: 'Россия, Москва, Новочерёмушкинская улица, 39к1')
-        second_location.valid?
-        
+      it 'not create new country and city if already exists' do
+        first_location = create(:location, :blank, address: 'Россия, Москва, улица Новый Арбат, 21с1')
+        second_location = create(:location, :blank, address: 'Россия, Москва, Новочерёмушкинская улица, 39к1')
+
         expect(second_location.country).to eq(first_location.country)
         expect(second_location.city).to eq(first_location.city)
       end
+    end
 
+    context 'when address is not valid' do
+      it 'returns nil' do
+        location = build(:location, :blank, address: '')
+
+        location.valid?
+
+        expect(location.errors.messages).to_not be_empty
+        expect(location.latitude).to be_nil
+        expect(location.longitude).to be_nil
+      end
     end
   end
 
