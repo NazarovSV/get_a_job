@@ -4,7 +4,12 @@ class Hire::LocationsController < Hire::BaseController
   skip_after_action :verify_authorized
 
   def search
-    search_letters = params[:search_letters]
-    @locations = Location.first_five_address_contains(search_letters:)
+    @locations = Location.first_five_address_contains(letters: params[:letters])
+  end
+
+  private
+
+  def letters_params
+    params.require(:letters).permit(:letters)
   end
 end

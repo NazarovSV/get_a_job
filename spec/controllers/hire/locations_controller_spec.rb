@@ -11,7 +11,7 @@ RSpec.describe Hire::LocationsController, type: :controller do
     before do
       login_employer(vacancy.employer)
 
-      get :search, params: { search_letters: 'Mos' }, format: :json
+      get :search, params: { letters: 'Mos' }, format: :json
     end
 
     it 'return http success' do
