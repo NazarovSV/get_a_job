@@ -3,11 +3,10 @@ document.addEventListener("turbolinks:load", function () {
 
     var options = {
         url: function(query) {
-            return location.origin + "/hire/locations/search.json?search_letters=" + query;
+            return location.origin + "/hire/locations/search.json?letters=" + query;
         },
         getValue: "name",
     };
-    console.log(options.url())
 
     $input.easyAutocomplete(options);
 })

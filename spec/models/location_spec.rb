@@ -74,7 +74,7 @@ RSpec.describe Location, type: :model do
 
         location.valid?
 
-        expect(location.errors.messages).to_not be_empty
+        expect(location.errors.messages).not_to be_empty
         expect(location.latitude).to be_nil
         expect(location.longitude).to be_nil
       end
@@ -94,7 +94,7 @@ RSpec.describe Location, type: :model do
       end
 
       it 'returns the matching addresses' do
-        results = Location.first_five_address_contains(search_letters: 'Нов')
+        results = Location.first_five_address_contains(letters: 'Нов')
         expect(results).to include('Россия, Москва, улица Новый Арбат, 21с1')
         expect(results).to include('Россия, Москва, Новочерёмушкинская улица, 39к1')
         expect(results).not_to include('Россия, Москва, Нахимовский проспект, 31к2')
@@ -107,7 +107,7 @@ RSpec.describe Location, type: :model do
       end
 
       it 'returns an empty array' do
-        results = Location.first_five_address_contains(search_letters: 'Сов')
+        results = Location.first_five_address_contains(letters: 'Сов')
         expect(results).to be_empty
       end
     end

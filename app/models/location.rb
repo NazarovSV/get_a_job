@@ -38,8 +38,8 @@ class Location < ApplicationRecord
   geocoded_by :address, if: ->(record) { record.address.present? and record.address_changed? }
   before_validation :geocode
 
-  def self.first_five_address_contains(search_letters:)
-    where('LOWER(address) LIKE ?', "%#{search_letters.downcase}%").pluck(:address).uniq.first(5)
+  def self.first_five_address_contains(letters:)
+    where('LOWER(address) LIKE ?', "%#{letters.downcase}%").pluck(:address).uniq.first(5)
   end
 
   private
