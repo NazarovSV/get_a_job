@@ -12,14 +12,17 @@
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  category_id :bigint           not null
 #  employer_id :bigint           not null
 #
 # Indexes
 #
+#  index_vacancies_on_category_id  (category_id)
 #  index_vacancies_on_employer_id  (employer_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (employer_id => employers.id)
 #
 require 'rails_helper'
@@ -34,6 +37,7 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to validate_length_of(:title).is_at_most(255) }
   it { is_expected.to allow_value('address@email.com').for(:email) }
   it { is_expected.to belong_to :employer }
+  it { is_expected.to belong_to :category }
   it { is_expected.to have_one(:location).dependent(:destroy) }
   it { is_expected.to have_many(:responses).dependent(:destroy) }
   it { is_expected.to accept_nested_attributes_for :location }

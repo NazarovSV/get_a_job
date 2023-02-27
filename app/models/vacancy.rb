@@ -12,14 +12,17 @@
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  category_id :bigint           not null
 #  employer_id :bigint           not null
 #
 # Indexes
 #
+#  index_vacancies_on_category_id  (category_id)
 #  index_vacancies_on_employer_id  (employer_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (employer_id => employers.id)
 #
 class Vacancy < ApplicationRecord
@@ -27,6 +30,7 @@ class Vacancy < ApplicationRecord
   include PgSearch::Model
 
   belongs_to :employer
+  belongs_to :category
   has_many :responses, dependent: :destroy
   has_one :location, dependent: :destroy, validate: true
 

@@ -12,14 +12,17 @@
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  category_id :bigint           not null
 #  employer_id :bigint           not null
 #
 # Indexes
 #
+#  index_vacancies_on_category_id  (category_id)
 #  index_vacancies_on_employer_id  (employer_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (employer_id => employers.id)
 #
 FactoryBot.define do
@@ -29,6 +32,7 @@ FactoryBot.define do
     phone { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email }
     employer
+    category
 
     trait :blank_phone do
       phone { '' }

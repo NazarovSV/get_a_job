@@ -76,6 +76,7 @@ module Hire
                                       :description,
                                       :email,
                                       :phone,
+                                      :category_id,
                                       location_attributes: [:address])
     end
 
