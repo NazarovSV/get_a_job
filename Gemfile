@@ -10,6 +10,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'breadcrumbs_on_rails'
 gem 'devise'
 gem 'geocoder'
+gem 'globalize', '~> 6.2'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
 gem 'pg', '~> 1.1'

@@ -9,6 +9,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
 ' do
   describe 'Authenticated user' do
     let!(:employer) { create(:employer) }
+    let!(:categories) { create_list(:category, 5) }
     let(:vacancy) { build(:vacancy, employer:) }
     let(:location) { build(:location, vacancy: create(:vacancy)) }
 
@@ -17,8 +18,9 @@ describe 'Only authenticated user as employer can add new vacancy', '
       click_on 'New'
     end
 
-    it 'can add new vacancy with phone' do
+    it 'can add new vacancy with all filled fields' do
       fill_in 'Title', with: vacancy.title
+      select categories.second.name, from: 'vacancy[category_id]'
       fill_in 'Description', with: vacancy.description
       fill_in 'Phone', with: vacancy.phone
       fill_in 'Email', with: vacancy.email
@@ -26,12 +28,13 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
       click_on 'Create'
 
-      expect(page).to have_content 'Your vacancy successfully created.'
-      expect(page).to have_content(vacancy.title)
-      expect(page).to have_content(vacancy.description)
-      expect(page).to have_content(vacancy.phone)
-      expect(page).to have_content(vacancy.email)
-      expect(page).to have_content(location.address)
+      expect(page).to have_content('Your vacancy successfully created.')
+                  .and have_content(vacancy.title)
+                  .and have_content(vacancy.description)
+                  .and have_content(vacancy.phone)
+                  .and have_content(vacancy.email)
+                  .and have_content(location.address)
+                  .and have_content(categories.second.name)
     end
 
     it 'can add new vacancy without phone' do
@@ -39,6 +42,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Description', with: vacancy.description
       fill_in 'Email', with: vacancy.email
       fill_in 'Address', with: vacancy.location.address
+      select categories.second.name, from: 'vacancy[category_id]'
 
       click_on 'Create'
 

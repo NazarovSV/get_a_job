@@ -21,6 +21,7 @@ en:
         archived: 'Archived'
         drafted: 'Drafted'
         published: 'Published'
+        type_of_employment: "Type of employment"
       destroy:
         successfully: 'Your vacancy successfully deleted!'
         unsuccessfully: 'Vacancy is not drafted. Can`t delete this vacancy!'

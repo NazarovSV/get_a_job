@@ -40,6 +40,8 @@ ru:
         house_number: "Номер дома"
         additional_info: "Дополниительная информация"
         address: "Адрес"
+      show:
+        type_of_employment: "Тип занятости"
     my_vacancies: 'Мои вакансии'
     responses:
       response:

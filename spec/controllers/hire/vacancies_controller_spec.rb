@@ -5,14 +5,17 @@ require 'rails_helper'
 RSpec.describe Hire::VacanciesController, type: :controller do
   describe 'POST #create' do
     let!(:employer) { create(:employer) }
-    let(:vacancy) { build(:vacancy, employer:) }
+    let!(:category) { create(:category) }
+    let(:vacancy) { build(:vacancy, category:, employer:) }
 
     before { login_employer(employer) }
 
     context 'with valid attributes' do
       it 'saves a new vacancy in the database' do
         expect do
-          post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+          post :create,
+               params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+                                                           location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
            .and change(Country, :count).by(1)
            .and change(City, :count).by(1)
@@ -20,16 +23,22 @@ RSpec.describe Hire::VacanciesController, type: :controller do
       end
 
       it 'redirects to created vacancy' do
-        post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+        post :create,
+             params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+                                                         location_attributes: attributes_for(:location)) }
         expect(response).to redirect_to hire_vacancy_path(id: assigns(:vacancy).id)
         expect(flash[:notice]).to match('Your vacancy successfully created.')
       end
 
       it 'don`t saves a new country and city if it already exists in database' do
-        post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+        post :create,
+             params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+                                                         location_attributes: attributes_for(:location)) }
 
         expect do
-          post :create, params: { vacancy: attributes_for(:vacancy, location_attributes: attributes_for(:location)) }
+          post :create,
+               params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+                                                           location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
            .and change(Location, :count).by(1)
            .and change(Country, :count).by(0)

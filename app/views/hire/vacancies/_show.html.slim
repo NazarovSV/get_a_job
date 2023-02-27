@@ -10,6 +10,10 @@
   h3= @vacancy.title
   p= @vacancy.description
   p
+    b= t('.type_of_employment')
+    br
+    = @vacancy.category.name
+  p
     b= t('helpers.label.vacancy.email')
     br
     = @vacancy.email

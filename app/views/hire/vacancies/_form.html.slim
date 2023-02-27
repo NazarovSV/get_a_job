@@ -2,7 +2,9 @@
   p
     = f.text_field :title, class: 'form-control', placeholder: t('helpers.label.vacancy.title')
   p
-    = f.text_area :description, class: 'form-control', rows: '5', placeholder:  t('helpers.label.vacancy.description')
+    = f.text_area :description, class: 'form-control', rows: '5', placeholder: t('helpers.label.vacancy.description')
+  p
+    = f.collection_select :category_id, Category.all, :id, :name, prompt: t('.type_of_employment'), class: "form-control"
   p
     = f.text_field :email, class: 'form-control', placeholder: t('helpers.label.vacancy.email')
   p
