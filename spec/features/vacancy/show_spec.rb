@@ -24,11 +24,12 @@ describe 'Any user can open vacancy and watch full info about job', '
 
       click_link("vacancy_id_#{vacancy.id}")
 
-      expect(page).to have_content vacancy.title
-      expect(page).to have_content vacancy.description
-      expect(page).to have_content vacancy.email
-      expect(page).to have_content vacancy.phone
-      expect(page).to have_content vacancy.location.address
+      expect(page).to have_content(vacancy.title)
+                  .and have_content(vacancy.description)
+                  .and have_content(vacancy.email)
+                  .and have_content(vacancy.phone)
+                  .and have_content(vacancy.location.address)
+                  .and have_content(vacancy.category.name)
     end
 
     describe 'archived vacancy' do

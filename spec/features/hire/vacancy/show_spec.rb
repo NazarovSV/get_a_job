@@ -18,11 +18,12 @@ describe 'Employer can open his vacancies and watch final version', '
 
       click_link("vacancy_id_#{vacancy.id}_link")
 
-      expect(page).to have_content vacancy.title
-      expect(page).to have_content vacancy.description
-      expect(page).to have_content vacancy.email
-      expect(page).to have_content vacancy.phone
-      expect(page).to have_content vacancy.location.address
+      expect(page).to have_content(vacancy.title)
+                  .and have_content(vacancy.description)
+                  .and have_content(vacancy.email)
+                  .and have_content(vacancy.phone)
+                  .and have_content(vacancy.location.address)
+                  .and have_content(vacancy.category.name)
     end
 
     it 'have published state if it published' do
