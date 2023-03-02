@@ -8,29 +8,37 @@
 #  description :string           not null
 #  email       :string           not null
 #  phone       :string
+#  salary_max  :integer
+#  salary_min  :integer
 #  state       :string
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint           not null
+#  currency_id :bigint
 #  employer_id :bigint           not null
 #
 # Indexes
 #
 #  index_vacancies_on_category_id  (category_id)
+#  index_vacancies_on_currency_id  (currency_id)
 #  index_vacancies_on_employer_id  (employer_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => categories.id)
+#  fk_rails_...  (currency_id => currencies.id)
 #  fk_rails_...  (employer_id => employers.id)
 #
 class Vacancy < ApplicationRecord
+  before_validation :clear_currency_if_no_salary
+
   include AASM
   include PgSearch::Model
 
   belongs_to :employer
   belongs_to :category
+  belongs_to :currency, optional: true
   has_many :responses, dependent: :destroy
   has_one :location, dependent: :destroy, validate: true
 
@@ -41,6 +49,7 @@ class Vacancy < ApplicationRecord
   validates :title, length: { maximum: 255 }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates_with PhoneNumberValidator
+  validates_with SalaryForkValidator
 
   pg_search_scope :search, against: %i[title description]
 
@@ -56,5 +65,11 @@ class Vacancy < ApplicationRecord
     event :archive do
       transitions from: :published, to: :archived
     end
+  end
+
+  private
+
+  def clear_currency_if_no_salary
+    self.currency_id = nil if salary_min.blank? && salary_max.blank?
   end
 end

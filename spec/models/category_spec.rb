@@ -12,7 +12,7 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  #it { is_expected.to validate_presence_of :name }
+  it { is_expected.to validate_presence_of :name }
   it { is_expected.to have_many(:vacancies) }
   it { is_expected.to have_many(:translations).dependent(:destroy) }
 
@@ -25,13 +25,13 @@ RSpec.describe Category, type: :model do
   it 'is invalid with unique name in the different locale' do
     create(:category, name: 'Category')
     category = build(:category, name: 'category')
-    expect(category).to_not be_valid
+    expect(category).not_to be_valid
   end
 
   it 'is invalid with non unique name in the different locale' do
     create(:category, name: 'Category')
     category = build(:category, name: 'category')
 
-    expect(category).to_not be_valid
+    expect(category).not_to be_valid
   end
 end

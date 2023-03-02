@@ -26,6 +26,41 @@ describe 'Employer can open his vacancies and watch final version', '
                   .and have_content(vacancy.category.name)
     end
 
+    describe 'User can see salary range' do
+      it 'User can see salary range' do
+        vacancy = vacancies.second
+        vacancy.publish!
+
+        visit hire_vacancy_path(vacancy)
+
+        expect(page).to have_content "#{vacancy.salary_min} - #{vacancy.salary_max} #{vacancy.currency.name}"
+      end
+
+      it 'User can see min salary if only min salary is set' do
+        vacancy = create(:vacancy, :published, salary_min: 2000, salary_max: nil, employer:)
+
+        visit hire_vacancy_path(vacancy)
+
+        expect(page).to have_content "From 2000 #{vacancy.currency.name}"
+      end
+
+      it 'User can see max salary if only max salary is set' do
+        vacancy = create(:vacancy, :published, salary_min: nil, salary_max: 2000, employer:)
+
+        visit hire_vacancy_path(vacancy)
+
+        expect(page).to have_content "To 2000 #{vacancy.currency.name}"
+      end
+
+      it 'User don`t see any currency if no salary' do
+        vacancy = create(:vacancy, :published, :without_salary, employer:)
+
+        visit hire_vacancy_path(vacancy)
+
+        expect(page).not_to have_content 'Salary'
+      end
+    end
+
     it 'have published state if it published' do
       visit hire_vacancy_path(create(:vacancy, :published, employer:))
 

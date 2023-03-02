@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_27_135458) do
+ActiveRecord::Schema.define(version: 2023_02_28_134108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,13 @@ ActiveRecord::Schema.define(version: 2023_02_27_135458) do
 
   create_table "countries", force: :cascade do |t|
     t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "currencies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -114,7 +121,11 @@ ActiveRecord::Schema.define(version: 2023_02_27_135458) do
     t.bigint "employer_id", null: false
     t.string "state"
     t.bigint "category_id", null: false
+    t.integer "salary_min"
+    t.integer "salary_max"
+    t.bigint "currency_id"
     t.index ["category_id"], name: "index_vacancies_on_category_id"
+    t.index ["currency_id"], name: "index_vacancies_on_currency_id"
     t.index ["employer_id"], name: "index_vacancies_on_employer_id"
   end
 
@@ -123,5 +134,6 @@ ActiveRecord::Schema.define(version: 2023_02_27_135458) do
   add_foreign_key "locations", "countries"
   add_foreign_key "locations", "vacancies"
   add_foreign_key "vacancies", "categories"
+  add_foreign_key "vacancies", "currencies"
   add_foreign_key "vacancies", "employers"
 end

@@ -25,6 +25,11 @@
     b= Location
     br
     = @vacancy.location.address
+  - unless @vacancy.salary_min.nil? && @vacancy.salary_max.nil?
+    p
+    b= t('helpers.label.vacancy.salary')
+    br
+      = vacancy_salary_range(@vacancy)
   p
     = link_to "Responses(#{@vacancy.responses.count})", hire_vacancy_responses_path(@vacancy), class: "text-decoration-none"
   = link_to t('.edit'), edit_hire_vacancy_path(@vacancy), class: 'link-dark'

@@ -10,6 +10,12 @@ p
 p
   br= t('hire.vacancies.show.type_of_employment')
   = @vacancy.category.name
+- unless @vacancy.salary_min.nil? && @vacancy.salary_max.nil?
+  p
+  b= t('helpers.label.vacancy.salary')
+  br
+    = vacancy_salary_range(@vacancy)
+
 - unless @vacancy.phone.empty?
   p
     b= t('helpers.label.vacancy.phone')
