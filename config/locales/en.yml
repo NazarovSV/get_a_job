@@ -32,6 +32,9 @@ en:
         house_number: "House number"
         address: 'Address'
         additional_info: "Additional Info"
+        salary_from: "Salary From"
+        salary_to: "Salary To"
+        currency: "Currency"
     responses:
       response:
         email: "Email"
@@ -78,3 +81,6 @@ en:
         covering_letter: "Covering letter"
   not_allowed: "not allowed to view this action"
   invalid: "is invalid"
+  salary_fork_invalid: "is lesser then min salary"
+  from_salary: "From %{salary} %{currency}"
+  to_salary: "To %{salary} %{currency}"

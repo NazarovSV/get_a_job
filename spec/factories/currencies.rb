@@ -2,15 +2,17 @@
 
 # == Schema Information
 #
-# Table name: categories
+# Table name: currencies
 #
 #  id         :bigint           not null, primary key
+#  code       :string           not null
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 FactoryBot.define do
-  factory :category do
-    name { Faker::Name.unique.name }
+  factory :currency do
+    sequence(:name) { |n| "Currency #{n}" }
+    sequence(:code) { |n| "CUR#{n}" }
   end
 end

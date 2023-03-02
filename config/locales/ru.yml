@@ -40,6 +40,9 @@ ru:
         house_number: "Номер дома"
         additional_info: "Дополниительная информация"
         address: "Адрес"
+        salary_from: "Зарплата от"
+        salary_to: "Зарплата до"
+        currency: "Валюта"
       show:
         type_of_employment: "Тип занятости"
     my_vacancies: 'Мои вакансии'
@@ -61,3 +64,6 @@ ru:
     index:
       empty: "Запрос пуст"
   invalid: "Не смогли подтвердить ваше местоположение"
+  salary_fork_invalid: "меньше минимального значения зарплаты"
+  from_salary: "От %{salary} %{currency}"
+  to_salary: "До %{salary} %{currency}"

@@ -6,6 +6,12 @@
   p
     = f.collection_select :category_id, Category.all, :id, :name, prompt: t('.type_of_employment'), class: "form-control"
   p
+    = f.text_field :salary_min, class: 'form-control', placeholder: t('.salary_from')
+  p
+    = f.text_field :salary_max, class: 'form-control', placeholder: t('.salary_to')
+  p
+    = f.collection_select :currency_id, Currency.all, :id, :name
+  p
     = f.text_field :email, class: 'form-control', placeholder: t('helpers.label.vacancy.email')
   p
     = f.text_field :phone, type: "tel", class: 'form-control', placeholder: t('helpers.label.vacancy.phone')

@@ -16,6 +16,16 @@ module ApplicationHelper
     content_tag :span, t(".#{state}"), class: color
   end
 
+  def vacancy_salary_range(vacancy)
+    if vacancy.salary_min.present? && vacancy.salary_max.present?
+      "#{vacancy.salary_min} - #{vacancy.salary_max} #{vacancy.currency.name}"
+    elsif vacancy.salary_min.present?
+      I18n.t('.from_salary', salary: vacancy.salary_min, currency: vacancy.currency.name)
+    elsif vacancy.salary_max.present?
+      I18n.t('.to_salary', salary: vacancy.salary_max, currency: vacancy.currency.name)
+    end
+  end
+
   private
 
   MESSAGE_TYPE = {

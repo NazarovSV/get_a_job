@@ -13,3 +13,9 @@ unless Category.any?
   create_category_with_translate(en_name: 'Remote', ru_name: 'Удаленный')
   create_category_with_translate(en_name: 'Rotational', ru_name: 'Вахтовый')
 end
+
+unless Currency.any?
+  Currency.create(name: 'Руб', code: 'RUB')
+  Currency.create(name: 'USD', code: 'USD')
+  Currency.create(name: 'EURO', code: 'EUR')
+end

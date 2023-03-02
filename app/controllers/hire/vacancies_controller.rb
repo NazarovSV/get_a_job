@@ -77,6 +77,9 @@ module Hire
                                       :email,
                                       :phone,
                                       :category_id,
+                                      :salary_min,
+                                      :salary_max,
+                                      :currency_id,
                                       location_attributes: [:address])
     end
 
