@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_28_134108) do
+ActiveRecord::Schema.define(version: 2023_03_02_204816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,16 @@ ActiveRecord::Schema.define(version: 2023_02_28_134108) do
     t.index ["reset_password_token"], name: "index_employers_on_reset_password_token", unique: true
   end
 
+  create_table "exchange_rates", force: :cascade do |t|
+    t.bigint "from_currency_id", null: false
+    t.bigint "to_currency_id", null: false
+    t.float "rate"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_currency_id"], name: "index_exchange_rates_on_from_currency_id"
+    t.index ["to_currency_id"], name: "index_exchange_rates_on_to_currency_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.bigint "country_id", null: false
     t.bigint "city_id", null: false
@@ -130,6 +140,8 @@ ActiveRecord::Schema.define(version: 2023_02_28_134108) do
   end
 
   add_foreign_key "cities", "countries"
+  add_foreign_key "exchange_rates", "currencies", column: "from_currency_id"
+  add_foreign_key "exchange_rates", "currencies", column: "to_currency_id"
   add_foreign_key "locations", "cities"
   add_foreign_key "locations", "countries"
   add_foreign_key "locations", "vacancies"

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get 'exchange_rates/exchange'
   get 'responses/index'
   devise_for :employees
   devise_for :employers
