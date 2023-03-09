@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
-class Hire::LocationsController < Hire::BaseController
-  skip_after_action :verify_authorized
+module Hire
+  class LocationsController < Hire::BaseController
+    skip_after_action :verify_authorized
 
-  def search
-    @locations = Location.first_five_address_contains(letters: params[:letters])
-  end
+    def search
+      @locations = Location.first_five_address_contains(letters: params[:letters])
+    end
 
-  private
+    private
 
-  def letters_params
-    params.require(:letters).permit(:letters)
+    def letters_params
+      params.require(:letters).permit(:letters)
+    end
   end
 end

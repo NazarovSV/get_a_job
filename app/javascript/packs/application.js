@@ -9,6 +9,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "bootstrap";
 import "packs/location"
+import "packs/currency_exchange"
 
 require("jquery")
 require("../stylesheets/application.scss");

@@ -50,6 +50,8 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to transition_from(:drafted).to(:published).on_event(:publish) }
   it { is_expected.to transition_from(:published).to(:archived).on_event(:archive) }
   it { is_expected.to transition_from(:archived).to(:published).on_event(:publish) }
+  it { is_expected.to validate_numericality_of(:salary_min).is_greater_than_or_equal_to(0) }
+  it { is_expected.to validate_numericality_of(:salary_max).is_greater_than_or_equal_to(0) }
 
   describe 'validate phone number' do
     it { expect(build(:vacancy)).to allow_value(Faker::PhoneNumber.phone_number).for(:phone) }
