@@ -3,7 +3,7 @@
 class ExchangeRatesController < ApplicationController
   before_action :load_currency
   def exchange
-    amount = exchange_params[:amount].to_f
+    amount = exchange_params[:amount].to_i
 
     @exchange_amounts = ExchangeRatesService.new.call(from: @current_currency, amount:)
 
@@ -13,7 +13,7 @@ class ExchangeRatesController < ApplicationController
   private
 
   def load_currency
-    @current_currency = Currency.find_by(id: exchange_params[:currency_id].to_i)
+    @current_currency = Currency.find_by(id: exchange_params[:currency_id])
   end
 
   def exchange_params

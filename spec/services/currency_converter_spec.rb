@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe CurrencyConverter do
-  let(:cache) { instance_double('ActiveSupport::Cache::MemoryStore') }
-  let(:bank) { instance_double('RussianCentralBankProvider') }
+  let(:cache) { double('ActiveSupport::Cache::MemoryStore') }
+  let(:bank) { double('RussianCentralBankProvider') }
   let(:from_currency) { create(:currency, name: 'USD', code: :USD) }
   let(:to_currency) { create(:currency, name: 'EUR', code: :EUR) }
   let(:amount) { 100 }
@@ -41,10 +41,11 @@ RSpec.describe CurrencyConverter do
       end
 
       it 'returns the cached exchange rate when available' do
+        expected_result = (amount * rate).round(2)
         key = "exchange_rate_#{from_currency.code}_#{to_currency.code}"
         allow(cache).to receive(:read).with(key, expires_in: described_class::CACHE_TTL).and_return(rate)
+
         expect(bank).not_to receive(:current_rate)
-        expected_result = (amount * rate).round(2)
         expect(subject.convert(amount, from: from_currency, to: to_currency)).to eq(expected_result)
       end
     end
