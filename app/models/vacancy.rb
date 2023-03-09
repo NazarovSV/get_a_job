@@ -48,6 +48,8 @@ class Vacancy < ApplicationRecord
   validates :title, :description, :email, presence: true
   validates :title, length: { maximum: 255 }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :salary_min, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :salary_max, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates_with PhoneNumberValidator
   validates_with SalaryForkValidator
 

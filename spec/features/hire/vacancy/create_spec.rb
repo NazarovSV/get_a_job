@@ -124,6 +124,61 @@ describe 'Only authenticated user as employer can add new vacancy', '
     end
   end
 
+  describe 'User can convert currency while inputting', js: true do
+    let!(:exchange_service) { double('ExchangeRatesService') }
+    let!(:employer) { create(:employer) }
+    let!(:usd) { create(:currency, name: 'USD', code: :USD) }
+    let!(:eur) { create(:currency, name: 'EUR', code: :EUR) }
+    let!(:gbp) { create(:currency, name: 'GBP', code: :GBP) }
+
+    before do
+      returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
+      second_returned_json = [{ amount: 800, currency: 'EUR' }, { amount: 700, currency: 'GBP' }]
+      allow(ExchangeRatesService).to receive(:new).and_return(exchange_service)
+      allow(exchange_service).to receive(:call).with(from: usd, amount: 100).and_return(returned_json)
+      allow(exchange_service).to receive(:call).with(from: usd, amount: 1000).and_return(second_returned_json)
+
+      sign_in_employer(employer)
+      click_on 'New'
+    end
+
+    it 'convert if min salary equal or greater then 100' do
+      fill_in 'Salary From', with: 100
+      expect(page).to have_content '80 EUR'
+      expect(page).to have_content '70 GBP'
+
+      fill_in 'Salary From', with: 1000
+      expect(page).to have_content '800 EUR'
+      expect(page).to have_content '700 GBP'
+    end
+
+    it 'convert if max salary equal or greater then 100' do
+      fill_in 'Salary To', with: 100
+      expect(page).to have_content '80 EUR'
+      expect(page).to have_content '70 GBP'
+
+      fill_in 'Salary To', with: 1000
+      expect(page).to have_content '800 EUR'
+      expect(page).to have_content '700 GBP'
+    end
+
+    it 'no effect if min salary lesser then 100' do
+      fill_in 'Salary From', with: 90
+
+      within '.salary_min_converted', visible: false do
+        expect(page.text).to be_empty
+      end
+    end
+
+    it 'no effect if max salary lesser then 100' do
+      fill_in 'Salary To', with: 90
+
+      within '.salary_max_converted', visible: false do
+        expect(page.text).to be_empty
+      end
+    end
+  end
+
   describe 'Unathenticated user' do
     it 'can`t access to creating vacancy path' do
       visit new_hire_vacancy_path

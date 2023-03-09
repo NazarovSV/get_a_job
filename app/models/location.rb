@@ -34,7 +34,6 @@ class Location < ApplicationRecord
   validates_with AddressValidator
   validates :country_id, :city_id, :address, presence: true
 
-
   geocoded_by :address, if: ->(record) { record.address.present? and record.address_changed? }
   before_validation :geocode
 
