@@ -117,7 +117,6 @@ describe 'Only authenticated user as employer can add new vacancy', '
       create(:vacancy)
 
       fill_in 'Address', with: 'Mos'
-
       find('.easy-autocomplete-container li', text: 'Russia, Moscow, Klimentovskiy Pereulok, 65').click
 
       expect(page).to have_content 'Russia, Moscow, Klimentovskiy Pereulok, 65'
