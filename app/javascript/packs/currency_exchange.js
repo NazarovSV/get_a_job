@@ -22,7 +22,7 @@ $(document).on('turbolinks:load', function () {
             let currency_id = $('#vacancy_currency_id option:selected').val()
 
             $.ajax({
-                url: location.origin + "/exchange_rates/exchange",
+                url: location.origin + "/exchange_rates",
                 data: { exchange_rate: { currency_id: currency_id, amount: field.val()} },
                 dataType: 'json',
                 success: function (data) {

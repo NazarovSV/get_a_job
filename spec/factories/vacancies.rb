@@ -67,8 +67,8 @@ FactoryBot.define do
       build(:location, vacancy:)
     end
 
-    after(:create) do |vacancy|
-      build(:location, vacancy:)
-    end
+    # after(:create) do |vacancy|
+    #   create(:location, vacancy:)
+    # end
   end
 end

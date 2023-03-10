@@ -2,7 +2,7 @@
 
 class ExchangeRatesController < ApplicationController
   before_action :load_currency
-  def exchange
+  def index
     amount = exchange_params[:amount].to_i
 
     @exchange_amounts = ExchangeRatesService.new.call(from: @current_currency, amount:)
