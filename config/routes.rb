@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'exchange_rates/exchange'
   get 'responses/index'
   devise_for :employees
   devise_for :employers
@@ -9,7 +8,9 @@ Rails.application.routes.draw do
   root to: 'vacancies#index'
 
   namespace :hire do
-    get 'locations/search', to: 'locations#search'
+    resources :locations, only: [] do
+      get :search, on: :collection
+    end
 
     resources :vacancies, shallow: true do
       resources :responses, only: %i[index show]
@@ -27,4 +28,5 @@ Rails.application.routes.draw do
 
   resources :vacancies, shallow: true, only: %i[index show]
   resources :searches, only: :index
+  resources :exchange_rates, only: :index
 end

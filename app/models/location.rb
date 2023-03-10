@@ -38,7 +38,7 @@ class Location < ApplicationRecord
   before_validation :geocode
 
   def self.first_five_address_contains(letters:)
-    where('LOWER(address) LIKE ?', "%#{letters.downcase}%").pluck(:address).uniq.first(5)
+    where('LOWER(address) LIKE ?', "%#{letters.downcase}%").select(:address).distinct.limit(5).pluck(:address)
   end
 
   private

@@ -10,12 +10,12 @@ RSpec.describe ExchangeRatesController, type: :controller do
   let!(:gbp) { create(:currency, name: 'GBP', code: :GBP) }
   let!(:exchange_service) { double('ExchangeRatesService') }
 
-  describe 'GET #exchange' do
+  describe 'GET #index' do
     before do
       returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
       allow(ExchangeRatesService).to receive(:new).and_return(exchange_service)
       allow(exchange_service).to receive(:call).with(from: usd, amount: 100).and_return(returned_json)
-      get :exchange, params: { exchange_rate: { amount: 100, currency_id: usd } }, format: :js
+      get :index, params: { exchange_rate: { amount: 100, currency_id: usd } }, format: :js
     end
 
     it 'returns an array of converted amounts and currency names' do
