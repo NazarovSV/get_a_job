@@ -6,6 +6,7 @@ module Hire
 
     def search
       @locations = Location.first_five_address_contains(letters: params[:letters])
+      render json: @locations
     end
 
     private
