@@ -5,7 +5,7 @@ document.addEventListener("turbolinks:load", function () {
         url: function(query) {
             return location.origin + "/hire/locations/search.json?letters=" + query;
         },
-        getValue: "name",
+        getValue: "address",
     };
 
     $input.easyAutocomplete(options);

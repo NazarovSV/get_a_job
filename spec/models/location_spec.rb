@@ -94,7 +94,7 @@ RSpec.describe Location, type: :model do
       end
 
       it 'returns the matching addresses' do
-        results = Location.first_five_address_contains(letters: 'Нов')
+        results = Location.first_five_address_contains(letters: 'Нов').pluck(:address)
         expect(results).to include('Россия, Москва, улица Новый Арбат, 21с1')
         expect(results).to include('Россия, Москва, Новочерёмушкинская улица, 39к1')
         expect(results).not_to include('Россия, Москва, Нахимовский проспект, 31к2')
