@@ -7,6 +7,10 @@ class RussianCentralBankProvider
     Money.default_bank = Money::Bank::RussianCentralBank.new
     Money.default_bank.update_rates
 
-    Money.default_bank.rates["#{from.code}_TO_#{to.code}"]
+    if from.code != :RUB || to.code != :RUB
+      Money.default_bank.rates["#{from.code}_TO_RUB"] * Money.default_bank.rates["RUB_TO_#{to.code}"]
+    else
+      Money.default_bank.rates["#{from.code}_TO_#{to.code}"]
+    end
   end
 end
