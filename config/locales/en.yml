@@ -35,6 +35,7 @@ en:
         salary_from: "Salary From"
         salary_to: "Salary To"
         currency: "Currency"
+        years_of_experience: "Years of experience"
     responses:
       response:
         email: "Email"

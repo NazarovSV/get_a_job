@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_230_302_204_816) do
+ActiveRecord::Schema.define(version: 20_230_312_092_020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -95,6 +93,22 @@ ActiveRecord::Schema.define(version: 20_230_302_204_816) do
     t.index ['to_currency_id'], name: 'index_exchange_rates_on_to_currency_id'
   end
 
+  create_table 'experience_translations', force: :cascade do |t|
+    t.bigint 'experience_id', null: false
+    t.string 'locale', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.string 'description', null: false
+    t.index ['experience_id'], name: 'index_experience_translations_on_experience_id'
+    t.index ['locale'], name: 'index_experience_translations_on_locale'
+  end
+
+  create_table 'experiences', force: :cascade do |t|
+    t.string 'description'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
   create_table 'locations', force: :cascade do |t|
     t.bigint 'country_id', null: false
     t.bigint 'city_id', null: false
@@ -135,9 +149,11 @@ ActiveRecord::Schema.define(version: 20_230_302_204_816) do
     t.integer 'salary_min'
     t.integer 'salary_max'
     t.bigint 'currency_id'
+    t.bigint 'experience_id', null: false
     t.index ['category_id'], name: 'index_vacancies_on_category_id'
     t.index ['currency_id'], name: 'index_vacancies_on_currency_id'
     t.index ['employer_id'], name: 'index_vacancies_on_employer_id'
+    t.index ['experience_id'], name: 'index_vacancies_on_experience_id'
   end
 
   add_foreign_key 'cities', 'countries'
@@ -149,4 +165,5 @@ ActiveRecord::Schema.define(version: 20_230_302_204_816) do
   add_foreign_key 'vacancies', 'categories'
   add_foreign_key 'vacancies', 'currencies'
   add_foreign_key 'vacancies', 'employers'
+  add_foreign_key 'vacancies', 'experiences'
 end

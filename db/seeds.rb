@@ -19,3 +19,17 @@ unless Currency.any?
   Currency.create(name: 'USD', code: 'USD')
   Currency.create(name: 'EURO', code: 'EUR')
 end
+
+def create_experience_with_translate(en_description:, ru_description:)
+  experience = Experience.new(description: ru_description)
+  experience.description_translations = { en: en_description, ru: ru_description }
+  experience.save!
+end
+
+unless Experience.any?
+  create_experience_with_translate(en_description: 'No need', ru_description: 'Опыт не требуется')
+  create_experience_with_translate(en_description: '1+ years', ru_description: '1+ год опыта')
+  create_experience_with_translate(en_description: '1-3 years', ru_description: '1 - 3 года опыта')
+  create_experience_with_translate(en_description: '3-5 years', ru_description: '3 - 5 лет опыта')
+  create_experience_with_translate(en_description: '5+ year', ru_description: '5 + лет опыта')
+end

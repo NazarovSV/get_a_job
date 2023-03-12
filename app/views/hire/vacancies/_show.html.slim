@@ -14,6 +14,10 @@
     br
     = @vacancy.category.name
   p
+    b= t('.years_of_experience')
+    br
+    = @vacancy.experience.description
+  p
     b= t('helpers.label.vacancy.email')
     br
     = @vacancy.email

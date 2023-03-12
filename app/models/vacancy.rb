@@ -4,31 +4,34 @@
 #
 # Table name: vacancies
 #
-#  id          :bigint           not null, primary key
-#  description :string           not null
-#  email       :string           not null
-#  phone       :string
-#  salary_max  :integer
-#  salary_min  :integer
-#  state       :string
-#  title       :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  category_id :bigint           not null
-#  currency_id :bigint
-#  employer_id :bigint           not null
+#  id            :bigint           not null, primary key
+#  description   :string           not null
+#  email         :string           not null
+#  phone         :string
+#  salary_max    :integer
+#  salary_min    :integer
+#  state         :string
+#  title         :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  category_id   :bigint           not null
+#  currency_id   :bigint
+#  employer_id   :bigint           not null
+#  experience_id :bigint           not null
 #
 # Indexes
 #
-#  index_vacancies_on_category_id  (category_id)
-#  index_vacancies_on_currency_id  (currency_id)
-#  index_vacancies_on_employer_id  (employer_id)
+#  index_vacancies_on_category_id    (category_id)
+#  index_vacancies_on_currency_id    (currency_id)
+#  index_vacancies_on_employer_id    (employer_id)
+#  index_vacancies_on_experience_id  (experience_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (currency_id => currencies.id)
 #  fk_rails_...  (employer_id => employers.id)
+#  fk_rails_...  (experience_id => experiences.id)
 #
 class Vacancy < ApplicationRecord
   before_validation :clear_currency_if_no_salary
@@ -36,8 +39,9 @@ class Vacancy < ApplicationRecord
   include AASM
   include PgSearch::Model
 
-  belongs_to :employer
   belongs_to :category
+  belongs_to :employer
+  belongs_to :experience
   belongs_to :currency, optional: true
   has_many :responses, dependent: :destroy
   has_one :location, dependent: :destroy, validate: true

@@ -2,6 +2,9 @@
 br
 
 h3= @vacancy.title
+p
+  br=t('hire.vacancies.form.years_of_experience')
+  = @vacancy.experience.description
 p= @vacancy.description
 p
   b= t('helpers.label.vacancy.email')
