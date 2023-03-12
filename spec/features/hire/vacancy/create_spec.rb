@@ -11,6 +11,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
     let!(:employer) { create(:employer) }
     let!(:currencies) { create_list(:currency, 3) }
     let!(:categories) { create_list(:category, 5) }
+    let!(:experience) { create_list(:experience, 3) }
     let(:vacancy) { build(:vacancy, employer:) }
     let(:location) { build(:location, vacancy: create(:vacancy)) }
 
@@ -28,6 +29,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Address', with: location.address
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
+      select experience.first.description, from: 'vacancy[experience_id]'
       select currencies.first.name, from: 'vacancy[currency_id]'
 
       click_on 'Create'
@@ -42,6 +44,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
                   .and have_content(vacancy.salary_min)
                   .and have_content(vacancy.salary_max)
                   .and have_content(currencies.first.name)
+                  .and have_content(experience.first.description)
     end
 
     it 'can add new vacancy without phone' do
@@ -53,6 +56,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
       select currencies.first.name, from: 'vacancy[currency_id]'
+      select experience.first.description, from: 'vacancy[experience_id]'
 
       click_on 'Create'
 

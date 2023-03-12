@@ -30,6 +30,7 @@ describe 'Any user can open vacancy and watch full info about job', '
                   .and have_content(vacancy.phone)
                   .and have_content(vacancy.location.address)
                   .and have_content(vacancy.category.name)
+                  .and have_content(vacancy.experience.description)
     end
 
     describe 'User can see salary range' do

@@ -5,7 +5,6 @@
 # Table name: categories
 #
 #  id         :bigint           not null, primary key
-#  name       :string
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -23,16 +22,9 @@ RSpec.describe Category, type: :model do
     expect(category).to be_valid
   end
 
-  it 'is invalid with unique name in the different locale' do
+  it 'is invalid with unique name in the different case' do
     create(:category, name: 'Category')
     category = build(:category, name: 'category')
-    expect(category).not_to be_valid
-  end
-
-  it 'is invalid with non unique name in the different locale' do
-    create(:category, name: 'Category')
-    category = build(:category, name: 'category')
-
     expect(category).not_to be_valid
   end
 end
