@@ -7,7 +7,7 @@ class ExchangeRatesService
 
   def call(from:, amount:)
     Currency.where.not(id: from.id).map do |to|
-      { amount: @currency_converter.convert(amount, from:, to:), currency: to.name }
+      { amount: @currency_converter.convert(amount:, from:, to:), currency: to.name }
     end
   end
 end

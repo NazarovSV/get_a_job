@@ -125,23 +125,28 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
   describe 'User can convert currency while inputting', js: true do
     let!(:exchange_service) { double('ExchangeRatesService') }
+    let!(:currency_converter) { double('CurrencyConverter') }
     let!(:employer) { create(:employer) }
     let!(:usd) { create(:currency, name: 'USD', code: :USD) }
     let!(:eur) { create(:currency, name: 'EUR', code: :EUR) }
     let!(:gbp) { create(:currency, name: 'GBP', code: :GBP) }
 
     before do
-      returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
-      second_returned_json = [{ amount: 800, currency: 'EUR' }, { amount: 700, currency: 'GBP' }]
+      usd_returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
+      usd_second_returned_json = [{ amount: 800, currency: 'EUR' }, { amount: 700, currency: 'GBP' }]
+      eur_returned_json = [{ amount: 100, currency: 'USD' }, { amount: 70, currency: 'GBP' }]
       allow(ExchangeRatesService).to receive(:new).and_return(exchange_service)
-      allow(exchange_service).to receive(:call).with(from: usd, amount: 100).and_return(returned_json)
-      allow(exchange_service).to receive(:call).with(from: usd, amount: 1000).and_return(second_returned_json)
+      allow(exchange_service).to receive(:call).with(from: usd, amount: 100).and_return(usd_returned_json)
+      allow(exchange_service).to receive(:call).with(from: usd, amount: 1000).and_return(usd_second_returned_json)
+      allow(exchange_service).to receive(:call).with(from: eur, amount: 80).and_return(eur_returned_json)
+      allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
+      allow(currency_converter).to receive(:convert).with(amount: 100, from: usd, to: eur).and_return(80)
 
       sign_in_employer(employer)
       click_on 'New'
     end
 
-    it 'convert if min salary equal or greater then 100' do
+    it 'convert if min salary equal or greater then 100', js: true do
       fill_in 'Salary From', with: 100
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
@@ -151,7 +156,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       expect(page).to have_content '700 GBP'
     end
 
-    it 'convert if max salary equal or greater then 100' do
+    it 'convert if max salary equal or greater then 100', js: true do
       fill_in 'Salary To', with: 100
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
@@ -175,6 +180,29 @@ describe 'Only authenticated user as employer can add new vacancy', '
       within '.salary_max_converted', visible: false do
         expect(page.text).to be_empty
       end
+    end
+
+    it 'save converted salary after failed creation', js: true do
+      fill_in 'Salary To', with: 100
+      expect(page).to have_content '80 EUR'
+      expect(page).to have_content '70 GBP'
+
+      click_on 'Create'
+
+      expect(page).to have_content '80 EUR'
+      expect(page).to have_content '70 GBP'
+    end
+
+    it 'convert amount if currency changed', js: true do
+      fill_in 'Salary From', with: 100
+      expect(page).to have_content '80 EUR'
+      expect(page).to have_content '70 GBP'
+
+      select 'EUR', from: 'vacancy[currency_id]'
+
+      expect(page).to have_content '100 USD'
+      expect(page).to have_content '70 GBP'
+      expect(page).to have_field('Salary From', with: 80)
     end
   end
 

@@ -8,7 +8,7 @@ class CurrencyConverter
     @bank = bank
   end
 
-  def convert(amount, from:, to:)
+  def convert(amount:, from:, to:)
     return amount if from == to
 
     rate = current_rate(from:, to:)

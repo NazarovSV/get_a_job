@@ -13,8 +13,8 @@ RSpec.describe ExchangeRatesService do
 
   describe '#call' do
     before do
-      allow(currency_converter).to receive(:convert).with(amount, from: usd, to: eur).and_return(800)
-      allow(currency_converter).to receive(:convert).with(amount, from: usd, to: gbp).and_return(700)
+      allow(currency_converter).to receive(:convert).with(amount:, from: usd, to: eur).and_return(800)
+      allow(currency_converter).to receive(:convert).with(amount:, from: usd, to: gbp).and_return(700)
     end
 
     it 'returns an array of converted amounts and currency names' do
