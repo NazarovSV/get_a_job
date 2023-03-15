@@ -10,6 +10,7 @@ import "channels"
 import "bootstrap";
 import "packs/location"
 import "packs/currency_exchange"
+import "packs/filter"
 
 require("jquery")
 require("../stylesheets/application.scss");

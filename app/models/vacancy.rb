@@ -73,9 +73,28 @@ class Vacancy < ApplicationRecord
     end
   end
 
+  def self.look(keywords: '', filters: {})
+    vacancies = published
+
+    return vacancies if keywords.blank? && filters.empty?
+
+    if filters[:city_id].present?
+      vacancies = vacancies.joins(:location).where(locations: { id: filters[:city_id] })
+      filters.delete(:city_id)
+    end
+
+    return vacancies.where(filters) if keywords.blank?
+
+    vacancies.where(filters).search(keywords)
+  end
+
   private
 
   def clear_currency_if_no_salary
     self.currency_id = nil if salary_min.blank? && salary_max.blank?
+  end
+
+  def located_at
+
   end
 end

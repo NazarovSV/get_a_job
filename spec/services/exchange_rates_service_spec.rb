@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe ExchangeRatesService do
+  subject { described_class.new(currency_converter:) }
+
   let(:currency_converter) { double('CurrencyConverter') }
   let(:usd) { create(:currency, name: 'USD', code: :USD) }
   let(:eur) { create(:currency, name: 'EUR', code: :EUR) }
   let(:gbp) { create(:currency, name: 'GBP', code: :GBP) }
   let(:amount) { 1000 }
-
-  subject { described_class.new(currency_converter:) }
 
   describe '#call' do
     before do
