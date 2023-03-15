@@ -44,6 +44,7 @@ ru:
         salary_to: "Зарплата до"
         currency: "Валюта"
         years_of_experience: "Требуемый опыт"
+        type_of_employment: "Тип занятости"
       show:
         type_of_employment: "Тип занятости"
     my_vacancies: 'Мои вакансии'
@@ -68,3 +69,11 @@ ru:
   salary_fork_invalid: "меньше минимального значения зарплаты"
   from_salary: "От %{salary} %{currency}"
   to_salary: "До %{salary} %{currency}"
+  shared:
+    search:
+      search: "Поиск"
+    toolbar:
+      type_of_employment: "Тип занятости"
+      currency: "Валюта"
+      years_of_experience: "Требуемый опыт"
+      city: "Местоположение"

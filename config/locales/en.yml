@@ -36,6 +36,7 @@ en:
         salary_to: "Salary To"
         currency: "Currency"
         years_of_experience: "Years of experience"
+        type_of_employment: "Type of employment"
     responses:
       response:
         email: "Email"
@@ -54,6 +55,11 @@ en:
       search: 'Search'
     search:
       search: Search
+    toolbar:
+      type_of_employment: "Type of employment"
+      currency: "Currency"
+      years_of_experience: "Years of experience"
+      city: "Location"
   vacancy:
     state:
       flash:
