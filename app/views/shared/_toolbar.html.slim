@@ -1,12 +1,18 @@
 p
   .filters
-    div class='container overflow-hidden'
-      div class='row gx-5'
-        .col
-          = select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name), class: "form-control", prompt: t('.type_of_employment')
-        .col
-          = select_tag :currency_id, options_from_collection_for_select(Currency.all, :id, :name), class: "form-control", prompt: t('.currency')
-        .col
-          = select_tag :experience_id, options_from_collection_for_select(Experience.all, :id, :description), class: "form-control", prompt: t('.years_of_experience')
-        .col
-          = select_tag :city_id, options_from_collection_for_select(City.all, :id, :name), class: "form-control", prompt: t('.city')
+    div class='container'
+      div class='row gx-2'
+        .row
+          .col
+            = select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name), class: "form-control", prompt: t('.type_of_employment')
+          .col
+            = select_tag :experience_id, options_from_collection_for_select(Experience.all, :id, :description), class: "form-control", prompt: t('.years_of_experience')
+          .col
+            = select_tag :city_id, options_from_collection_for_select(City.all, :id, :name), class: "form-control", prompt: t('.city')
+        .row
+          .col
+            = text_field_tag :salary_min, '', class: "form-control", placeholder: 'Salary From', type: :number, money_data_behavior: "filter"
+          .col
+            = text_field_tag :salary_max, '', class: "form-control", placeholder: 'Salary To', type: :number, money_data_behavior: "filter"
+          .col
+            = select_tag :currency_id, options_from_collection_for_select(Currency.all, :id, :name), class: "form-control"

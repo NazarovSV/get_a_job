@@ -3,14 +3,10 @@
 class SearchesController < ApplicationController
   def index
     @vacancies = Vacancy.look keywords: params['request'], filters: filters_params
-
-    # respond_to do |format|
-    #   format.js { render layout: false }
-    # end
   end
 
   def filters_params
-    params.permit(:category_id, :currency_id, :city_id, :experience_id)
+    params.permit(:category_id, :currency_id, :city_id, :experience_id, :salary_min, :salary_max)
   end
 
   private

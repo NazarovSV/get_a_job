@@ -74,18 +74,25 @@ class Vacancy < ApplicationRecord
   end
 
   def self.look(keywords: '', filters: {})
+    salary_min = filters.delete(:salary_min)
+    salary_max = filters.delete(:salary_max)
+    currency = filters.delete(:currency_id)
+
     vacancies = published
 
-    return vacancies if keywords.blank? && filters.empty?
-
+    vacancies = vacancies.search(keywords) if keywords.present?
     if filters[:city_id].present?
-      vacancies = vacancies.joins(:location).where(locations: { city_id: filters[:city_id] })
-      filters.delete(:city_id)
+      city_id = filters.delete(:city_id)
+      vacancies = vacancies.where(filters).joins(:location).where(locations: { city_id: })
+    else
+      vacancies = vacancies.where(filters)
     end
 
-    return vacancies.where(filters) if keywords.blank?
+    if salary_min.present? || salary_max.present?
+      vacancies = filter_by_salary(vacancies:, currency:, salary_min:, salary_max:)
+    end
 
-    vacancies.where(filters).search(keywords)
+    vacancies
   end
 
   private
@@ -94,5 +101,30 @@ class Vacancy < ApplicationRecord
     self.currency_id = nil if salary_min.blank? && salary_max.blank?
   end
 
-  def located_at; end
+  def self.filter_by_salary(vacancies:, currency:, salary_min:, salary_max:)
+    converter = CurrencyConverter.new
+    to = Currency.find(currency)
+    salary_min = salary_min.present? ? salary_min.to_i : 0
+    salary_max = salary_max.present? ? salary_max.to_i : Float::MAX.to_i
+
+    vacancies.select do |vacancy|
+      next(true) unless vacancy.currency_id.present?
+
+      # pry.byebug if vacancy.title == "C++ developer"
+
+      vacancy_min_salary = 0
+      if vacancy.salary_min.present?
+        vacancy_min_salary = converter.convert(amount: vacancy.salary_min, from: vacancy.currency,
+                                               to:)
+      end
+
+      vacancy_max_salary = Float::MAX.to_i
+      if vacancy.salary_max.present?
+        vacancy_max_salary = converter.convert(amount: vacancy.salary_max, from: vacancy.currency,
+                                               to:)
+      end
+
+      vacancy_min_salary <= salary_max && vacancy_max_salary >= salary_min
+    end
+  end
 end
