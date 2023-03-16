@@ -110,8 +110,6 @@ class Vacancy < ApplicationRecord
     vacancies.select do |vacancy|
       next(true) unless vacancy.currency_id.present?
 
-      # pry.byebug if vacancy.title == "C++ developer"
-
       vacancy_min_salary = 0
       if vacancy.salary_min.present?
         vacancy_min_salary = converter.convert(amount: vacancy.salary_min, from: vacancy.currency,
