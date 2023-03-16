@@ -34,7 +34,7 @@ FactoryBot.define do
     latitude { 55.7409061 }
     longitude { 37.6265976 }
 
-    association :vacancy, factory: :vacancy, strategy: :build
+    association :vacancy # , factory: :vacancy, strategy: :build
 
     trait :blank do
       address { '' }

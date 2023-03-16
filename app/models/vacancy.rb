@@ -79,7 +79,7 @@ class Vacancy < ApplicationRecord
     return vacancies if keywords.blank? && filters.empty?
 
     if filters[:city_id].present?
-      vacancies = vacancies.joins(:location).where(locations: { id: filters[:city_id] })
+      vacancies = vacancies.joins(:location).where(locations: { city_id: filters[:city_id] })
       filters.delete(:city_id)
     end
 
@@ -94,7 +94,5 @@ class Vacancy < ApplicationRecord
     self.currency_id = nil if salary_min.blank? && salary_max.blank?
   end
 
-  def located_at
-
-  end
+  def located_at; end
 end

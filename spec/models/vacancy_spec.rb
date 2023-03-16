@@ -116,4 +116,76 @@ RSpec.describe Vacancy, type: :model do
       expect(vacancy.currency_id).not_to be_nil
     end
   end
+
+  describe '#look' do
+    let!(:category) { create_list :category, 3 }
+    let!(:currency) { create_list :currency, 3 }
+    let!(:experience) { create_list :experience, 3 }
+    let!(:vacancy1) do
+      create(:vacancy,
+             :published,
+             :without_salary,
+             title: 'Ruby developer',
+             description: 'Ruby developer',
+             category: category.second,
+             currency: currency.first,
+             experience: experience.first,
+             address: 'Ukraine, Kyiv')
+    end
+    let!(:vacancy2) do
+      create(:vacancy,
+             :published,
+             salary_min: 10_000,
+             salary_max: 20_000,
+             title: 'Ruby developer 3',
+             description: 'Ruby developer 3',
+             category: category.first,
+             currency: currency.first,
+             experience: experience.first,
+             address: 'Ukraine, Kyiv')
+    end
+    let!(:vacancy3) do
+      create(:vacancy,
+             :published,
+             salary_min: 15_000,
+             salary_max: nil,
+             title: 'Ruby developer 23',
+             description: 'Ruby developer 23',
+             category: category.first,
+             currency: currency.second,
+             experience: experience.last,
+             address: 'UK, London')
+    end
+    let!(:vacancy4) do
+      create(:vacancy,
+             salary_min: nil,
+             salary_max: 16_000,
+             title: 'Ruby developer 4',
+             description: 'Ruby developer 4',
+             category: category.first,
+             currency: currency.second,
+             experience: experience.second,
+             address: 'Russia, Moscow')
+    end
+
+    it 'returns all published vacancies if no filter and keywords' do
+      expect(Vacancy.look).to contain_exactly(vacancy1, vacancy2, vacancy3)
+    end
+
+    it 'returns vacancy filtered by filter' do
+      expect(Vacancy.look(filters: { city_id: City.find_by(name: 'Kyiv') })).to contain_exactly(vacancy1, vacancy2)
+      expect(Vacancy.look(filters: { currency_id: currency.second })).to contain_exactly(vacancy3)
+      expect(Vacancy.look(filters: { category_id: category.second })).to contain_exactly(vacancy1)
+      expect(Vacancy.look(filters: { experience_id: experience.first })).to contain_exactly(vacancy1, vacancy2)
+    end
+
+    it 'returns vacancy filtered by filter and keywords' do
+      expect(Vacancy.look(keywords: 'Ruby developer 3',
+                          filters: { category_id: category.first })).to contain_exactly(vacancy2)
+    end
+
+    it 'not returns vacancy filtered by filter and keywords' do
+      expect(Vacancy.look(keywords: 'Ruby developer 2', filters: { category_id: category.first })).to be_empty
+    end
+  end
 end
