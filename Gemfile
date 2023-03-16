@@ -34,6 +34,8 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-rspec'
 end
 
 group :development do

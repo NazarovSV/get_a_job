@@ -46,6 +46,10 @@ FactoryBot.define do
     salary_min { rand(1_000..300_000) }
     salary_max { rand(300_001..1_000_000) }
 
+    transient do
+      address { 'Russia, Moscow, Klimentovskiy Pereulok, 65' }
+    end
+
     trait :blank_phone do
       phone { '' }
     end
@@ -67,12 +71,8 @@ FactoryBot.define do
       salary_max { nil }
     end
 
-    after(:build) do |vacancy|
-      build(:location, vacancy:)
+    after(:build) do |vacancy, evaluator|
+      build(:location, vacancy:, address: evaluator.address)
     end
-
-    # after(:create) do |vacancy|
-    #   create(:location, vacancy:)
-    # end
   end
 end

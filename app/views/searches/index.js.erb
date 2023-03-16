@@ -1,0 +1,5 @@
+<% if @vacancies.any?  %>
+  $('.job_list').html('<%= j render @vacancies %>')
+<% else %>
+  $('.job_list').html('<p>No vacancies found</p>')
+<% end %>

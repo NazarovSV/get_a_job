@@ -152,10 +152,12 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
     it 'convert if min salary equal or greater then 100', js: true do
       fill_in 'Salary From', with: 100
+      sleep 2
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
       fill_in 'Salary From', with: 1000
+      sleep 2
       expect(page).to have_content '800 EUR'
       expect(page).to have_content '700 GBP'
     end

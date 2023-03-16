@@ -14,7 +14,7 @@ function convertAmount(amount, id) {
 
     $.ajax({
         url: location.origin + "/exchange_rates",
-        data: { request: { amount: parseInt(amount), currency_from_id: currency_id } },
+        data: { exchange_rate: { amount: parseInt(amount), currency_from_id: currency_id } },
         dataType: 'json',
         success: function (data) {
             $("." + id + "_converted").html(exchanged_amounts(data))

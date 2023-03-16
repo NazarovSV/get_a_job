@@ -1,7 +1,5 @@
 document.addEventListener('turbolinks:load', function() {
     $(".filters select").on("change", function() {
-        // let selectId = $(this).attr("id");
-        // let value = $(this).val();
 
         let request = $('#request').val()
         let categoryId = $('.filters #category_id').val()
@@ -9,22 +7,32 @@ document.addEventListener('turbolinks:load', function() {
         let cityId = $('.filters #city_id').val()
         let experienceId = $('.filters #experience_id').val()
 
-        console.log(request)
-        console.log(categoryId)
-        console.log(currencyId)
-        console.log(cityId)
-        console.log(experienceId)
+        let filters = {}
+        if (request.length > 0) {
+            filters.request = request
+        }
+        if (categoryId.length > 0) {
+            filters.category_id = categoryId
+        }
+        if (currencyId.length > 0) {
+            filters.currency_id = currencyId
+        }
+        if (cityId.length > 0) {
+            filters.city_id = cityId
+        }
+        if (experienceId.length > 0) {
+            filters.experience_id = experienceId
+        }
 
         $.ajax({
             url: location.origin + "/searches/",
-            data: { request: request, currency_id: currencyId, category_id: categoryId, city_id: cityId, experience_id: experienceId },
-            dataType: 'json',
-            success: function (data) {
-                console.log('Success')
+            data: filters,
+            success: function() {
+                console.log('AJAX-запрос выполнен успешно!');
             },
-            error: function (data) {
-                console.log("Error:", data)
-            },
+            error: function() {
+                console.log('Произошла ошибка при выполнении AJAX-запроса!');
+            }
         })
     });
 })
