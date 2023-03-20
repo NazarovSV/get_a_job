@@ -7,13 +7,15 @@ describe 'Only authenticated user as employer can add new vacancy', '
   user can register as hire
   and create a new vacancy
 ' do
+  include_examples 'vacancy with converter stub'
+
   describe 'Authenticated user' do
+    include_examples 'currency list'
+
     let!(:employer) { create(:employer) }
-    let!(:currencies) { create_list(:currency, 3) }
     let!(:categories) { create_list(:category, 5) }
     let!(:experience) { create_list(:experience, 3) }
-    let(:vacancy) { build(:vacancy, employer:) }
-    let(:location) { build(:location, vacancy: create(:vacancy)) }
+    let!(:vacancy) { build(:vacancy, currency: @rub, employer:, address: 'UK, London') }
 
     before do
       sign_in_employer(employer)
@@ -22,15 +24,17 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
     it 'can add new vacancy with all filled fields' do
       fill_in 'Title', with: vacancy.title
-      select categories.second.name, from: 'vacancy[category_id]'
       fill_in 'Description', with: vacancy.description
-      fill_in 'Phone', with: vacancy.phone
       fill_in 'Email', with: vacancy.email
-      fill_in 'Address', with: location.address
+      fill_in 'Phone', with: vacancy.phone
+      fill_in 'Address', with: vacancy.location.address
+      select categories.second.name, from: 'vacancy[category_id]'
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
       select experience.first.description, from: 'vacancy[experience_id]'
-      select currencies.first.name, from: 'vacancy[currency_id]'
+      select @rub.name, from: 'vacancy[currency_id]'
+
+      sleep 4
 
       click_on 'Create'
 
@@ -39,11 +43,11 @@ describe 'Only authenticated user as employer can add new vacancy', '
                   .and have_content(vacancy.description)
                   .and have_content(vacancy.phone)
                   .and have_content(vacancy.email)
-                  .and have_content(location.address)
+                  .and have_content(vacancy.location.address)
                   .and have_content(categories.second.name)
                   .and have_content(vacancy.salary_min)
                   .and have_content(vacancy.salary_max)
-                  .and have_content(currencies.first.name)
+                  .and have_content(@rub.name)
                   .and have_content(experience.first.description)
     end
 
@@ -55,7 +59,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       select categories.second.name, from: 'vacancy[category_id]'
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
-      select currencies.first.name, from: 'vacancy[currency_id]'
+      select @rub.name, from: 'vacancy[currency_id]'
       select experience.first.description, from: 'vacancy[experience_id]'
 
       click_on 'Create'
@@ -118,7 +122,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
     end
 
     it 'can use autocomplete in address field', js: true do
-      create(:vacancy)
+      create(:vacancy, currency: @usd)
 
       fill_in 'Address', with: 'Mos'
       find('.easy-autocomplete-container li', text: 'Russia, Moscow, Klimentovskiy Pereulok, 65').click
@@ -129,22 +133,19 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
   describe 'User can convert currency while inputting', js: true do
     let!(:exchange_service) { double('ExchangeRatesService') }
-    let!(:currency_converter) { double('CurrencyConverter') }
     let!(:employer) { create(:employer) }
-    let!(:usd) { create(:currency, name: 'USD', code: :USD) }
-    let!(:eur) { create(:currency, name: 'EUR', code: :EUR) }
-    let!(:gbp) { create(:currency, name: 'GBP', code: :GBP) }
 
     before do
-      usd_returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
-      usd_second_returned_json = [{ amount: 800, currency: 'EUR' }, { amount: 700, currency: 'GBP' }]
-      eur_returned_json = [{ amount: 100, currency: 'USD' }, { amount: 70, currency: 'GBP' }]
       allow(ExchangeRatesService).to receive(:new).and_return(exchange_service)
-      allow(exchange_service).to receive(:call).with(from: usd, amount: 100).and_return(usd_returned_json)
-      allow(exchange_service).to receive(:call).with(from: usd, amount: 1000).and_return(usd_second_returned_json)
-      allow(exchange_service).to receive(:call).with(from: eur, amount: 80).and_return(eur_returned_json)
-      allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
-      allow(currency_converter).to receive(:convert).with(amount: 100, from: usd, to: eur).and_return(80)
+
+      eur_returned_json = [{ amount: 100, currency: 'USD' }, { amount: 70, currency: 'GBP' }]
+      allow(exchange_service).to receive(:call).with(from: @eur, amount: 80).and_return(eur_returned_json)
+
+      usd_returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
+      allow(exchange_service).to receive(:call).with(from: @usd, amount: 100).and_return(usd_returned_json)
+
+      usd_second_returned_json = [{ amount: 800, currency: 'EUR' }, { amount: 700, currency: 'GBP' }]
+      allow(exchange_service).to receive(:call).with(from: @usd, amount: 1000).and_return(usd_second_returned_json)
 
       sign_in_employer(employer)
       click_on 'New'

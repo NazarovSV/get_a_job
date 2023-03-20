@@ -4,20 +4,22 @@
 #
 # Table name: vacancies
 #
-#  id            :bigint           not null, primary key
-#  description   :string           not null
-#  email         :string           not null
-#  phone         :string
-#  salary_max    :integer
-#  salary_min    :integer
-#  state         :string
-#  title         :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint           not null
-#  currency_id   :bigint
-#  employer_id   :bigint           not null
-#  experience_id :bigint           not null
+#  id             :bigint           not null, primary key
+#  description    :string           not null
+#  email          :string           not null
+#  phone          :string
+#  salary_max     :integer
+#  salary_min     :integer
+#  state          :string
+#  title          :string           not null
+#  usd_salary_max :integer
+#  usd_salary_min :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  category_id    :bigint           not null
+#  currency_id    :bigint
+#  employer_id    :bigint           not null
+#  experience_id  :bigint           not null
 #
 # Indexes
 #
@@ -34,6 +36,7 @@
 #  fk_rails_...  (experience_id => experiences.id)
 #
 class Vacancy < ApplicationRecord
+  before_validation :fill_usd_salaries
   before_validation :clear_currency_if_no_salary
 
   include AASM
@@ -58,6 +61,11 @@ class Vacancy < ApplicationRecord
   validates_with SalaryForkValidator
 
   pg_search_scope :search, against: %i[title description]
+  scope :look, ->(keywords = '') { search(keywords) unless keywords.blank? }
+  scope :filtered_by_city, ->(city_id) { joins(:location).where(locations: { city_id: }) if city_id.present? }
+  scope :filtered_by_experience, ->(experience_id) { where(experience_id:) if experience_id.present? }
+  scope :filtered_by_category, ->(category_id) { where(category_id:) if category_id.present? }
+
 
   aasm column: 'state' do
     state :drafted, initial: true
@@ -73,56 +81,28 @@ class Vacancy < ApplicationRecord
     end
   end
 
-  def self.look(keywords: '', filters: {})
-    salary_min = filters.delete(:salary_min)
-    salary_max = filters.delete(:salary_max)
-    currency = filters.delete(:currency_id)
+  def self.filtered_by_salary(salary_min:, salary_max:, currency_id:)
+    return all if salary_min.blank? && salary_max.blank?
 
-    vacancies = published
+    rate = CurrencyConverter.new.current_rate_to_usd(currency_id:)
 
-    vacancies = vacancies.search(keywords) if keywords.present?
-    if filters[:city_id].present?
-      city_id = filters.delete(:city_id)
-      vacancies = vacancies.where(filters).joins(:location).where(locations: { city_id: })
-    else
-      vacancies = vacancies.where(filters)
-    end
+    salary_min = salary_min.present? ? salary_min * rate : 0
+    salary_max = salary_max.present? ? salary_max * rate : Float::MAX.to_i
 
-    if salary_min.present? || salary_max.present?
-      vacancies = filter_by_salary(vacancies:, currency:, salary_min:, salary_max:)
-    end
-
-    vacancies
+    where('(usd_salary_min is NULL or usd_salary_min <= ?) and (usd_salary_max is NULL or usd_salary_max >= ?)',
+          salary_max, salary_min)
   end
 
   private
 
-  def clear_currency_if_no_salary
-    self.currency_id = nil if salary_min.blank? && salary_max.blank?
+  def fill_usd_salaries
+    rate = CurrencyConverter.new.current_rate_to_usd(currency_id:)
+
+    self.usd_salary_min = salary_min.present? ? salary_min * rate : nil
+    self.usd_salary_max = salary_max.present? ? salary_max * rate : nil
   end
 
-  def self.filter_by_salary(vacancies:, currency:, salary_min:, salary_max:)
-    converter = CurrencyConverter.new
-    to = Currency.find(currency)
-    salary_min = salary_min.present? ? salary_min.to_i : 0
-    salary_max = salary_max.present? ? salary_max.to_i : Float::MAX.to_i
-
-    vacancies.select do |vacancy|
-      next(true) unless vacancy.currency_id.present?
-
-      vacancy_min_salary = 0
-      if vacancy.salary_min.present?
-        vacancy_min_salary = converter.convert(amount: vacancy.salary_min, from: vacancy.currency,
-                                               to:)
-      end
-
-      vacancy_max_salary = Float::MAX.to_i
-      if vacancy.salary_max.present?
-        vacancy_max_salary = converter.convert(amount: vacancy.salary_max, from: vacancy.currency,
-                                               to:)
-      end
-
-      vacancy_min_salary <= salary_max && vacancy_max_salary >= salary_min
-    end
+  def clear_currency_if_no_salary
+    self.currency_id = nil if salary_min.blank? && salary_max.blank?
   end
 end

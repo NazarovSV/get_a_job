@@ -11,6 +11,7 @@
 #
 FactoryBot.define do
   factory :experience do
-    sequence(:description) { |n| "Experience #{n} years" }
+    # sequence(:description) { |n| "Experience #{n} years" }
+    description { Faker::Name.unique.name }
   end
 end

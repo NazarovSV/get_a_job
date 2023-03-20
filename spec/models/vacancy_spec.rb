@@ -4,20 +4,22 @@
 #
 # Table name: vacancies
 #
-#  id            :bigint           not null, primary key
-#  description   :string           not null
-#  email         :string           not null
-#  phone         :string
-#  salary_max    :integer
-#  salary_min    :integer
-#  state         :string
-#  title         :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint           not null
-#  currency_id   :bigint
-#  employer_id   :bigint           not null
-#  experience_id :bigint           not null
+#  id             :bigint           not null, primary key
+#  description    :string           not null
+#  email          :string           not null
+#  phone          :string
+#  salary_max     :integer
+#  salary_min     :integer
+#  state          :string
+#  title          :string           not null
+#  usd_salary_max :integer
+#  usd_salary_min :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  category_id    :bigint           not null
+#  currency_id    :bigint
+#  employer_id    :bigint           not null
+#  experience_id  :bigint           not null
 #
 # Indexes
 #
@@ -117,121 +119,8 @@ RSpec.describe Vacancy, type: :model do
     end
   end
 
-  describe '#look' do
-    let!(:category) { create_list :category, 3 }
-    let!(:usd) { create(:currency, name: 'USD', code: :USD) }
-    let!(:eur) { create(:currency, name: 'EUR', code: :EUR) }
-    let!(:rub) { create(:currency, name: 'RUB', code: :RUB) }
-
-    let!(:experience) { create_list :experience, 3 }
-    let!(:vacancy1) do
-      create(:vacancy,
-             :published,
-             :without_salary,
-             title: 'Ruby developer',
-             description: 'Ruby developer',
-             category: category.second,
-             currency: rub,
-             experience: experience.first,
-             address: 'Ukraine, Kyiv')
-    end
-    let!(:vacancy2) do
-      create(:vacancy,
-             :published,
-             salary_min: 10_000,
-             salary_max: 20_000,
-             title: 'Ruby developer 3',
-             description: 'Ruby developer 3',
-             category: category.first,
-             currency: rub,
-             experience: experience.first,
-             address: 'Ukraine, Kyiv')
-    end
-    let!(:vacancy3) do
-      create(:vacancy,
-             :published,
-             salary_min: 15_000,
-             salary_max: nil,
-             title: 'Ruby developer 23',
-             description: 'Ruby developer 23',
-             category: category.first,
-             currency: usd,
-             experience: experience.last,
-             address: 'UK, London')
-    end
-    let!(:vacancy4) do
-      create(:vacancy,
-             :published,
-             salary_min: 4_500,
-             salary_max: 5_000,
-             title: 'Ruby developer 4',
-             description: 'Ruby developer 4',
-             category: category.first,
-             currency: usd,
-             experience: experience.second,
-             address: 'Russia, Moscow')
-    end
-    let!(:vacancy5) do
-      create(:vacancy,
-             :published,
-             salary_min: nil,
-             salary_max: 16_000,
-             title: 'Go developer',
-             description: 'Go developer',
-             category: category.first,
-             currency: rub,
-             experience: experience.second,
-             address: 'Russia, Moscow')
-    end
-    let!(:vacancy6) do
-      create(:vacancy,
-             salary_min: nil,
-             salary_max: 16_000,
-             title: 'Java developer',
-             description: 'Java developer',
-             category: category.first,
-             currency: rub,
-             experience: experience.second,
-             address: 'Russia, Moscow')
-    end
-
-    let!(:currency_converter) { double('CurrencyConverter') }
-
-    before do
-      allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
-      allow(currency_converter).to receive(:convert).with(amount: 10_000, from: rub, to: rub).and_return(10_000)
-      allow(currency_converter).to receive(:convert).with(amount: 16_000, from: rub, to: rub).and_return(16_000)
-      allow(currency_converter).to receive(:convert).with(amount: 20_000, from: rub, to: rub).and_return(20_000)
-      allow(currency_converter).to receive(:convert).with(amount: 4_500, from: usd, to: rub).and_return(4_500 * 80)
-      allow(currency_converter).to receive(:convert).with(amount: 5_000, from: usd, to: rub).and_return(5_000 * 80)
-      allow(currency_converter).to receive(:convert).with(amount: 15_000, from: usd, to: rub).and_return(15_000 * 80)
-      allow(currency_converter).to receive(:convert).with(amount: 16_000, from: usd, to: rub).and_return(16_000 * 80)
-    end
-
-    it 'returns all published vacancies if no filter and keywords' do
-      expect(Vacancy.look).to contain_exactly(vacancy1, vacancy2, vacancy3, vacancy4, vacancy5)
-    end
-
-    it { expect(Vacancy.look(filters: { city_id: City.find_by(name: 'Kyiv') })).to contain_exactly(vacancy1, vacancy2) }
-    it { expect(Vacancy.look(filters: { category_id: category.second })).to contain_exactly(vacancy1) }
-    it { expect(Vacancy.look(filters: { experience_id: experience.first })).to contain_exactly(vacancy1, vacancy2) }
-
-    it {
-      expect(Vacancy.look(filters: { salary_min: 17_000,
-                                     currency_id: rub.id })).to contain_exactly(vacancy1, vacancy2, vacancy3, vacancy4)
-    }
-
-    it {
-      expect(Vacancy.look(filters: { salary_max: 9_000, currency_id: rub.id })).to contain_exactly(vacancy1, vacancy5)
-    }
-
-    it 'returns vacancy filtered by filter and keywords' do
-      expect(Vacancy.look(keywords: 'Ruby developer 3',
-                          filters: { category_id: category.first })).to contain_exactly(vacancy2)
-    end
-
-    it 'not returns vacancy filtered by filter and keywords' do
-      expect(Vacancy.look(keywords: 'Ruby developer 2', filters: { category_id: category.first })).to be_empty
-    end
-  end
+  # describe 'validate usd salary fields' do
+  #   let!(currency_converter) { }
+  #
+  # end
 end

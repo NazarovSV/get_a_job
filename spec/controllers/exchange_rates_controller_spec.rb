@@ -5,18 +5,17 @@ require 'rails_helper'
 RSpec.describe ExchangeRatesController, type: :controller do
   render_views
 
-  let!(:usd) { create(:currency, name: 'USD', code: :USD) }
-  let!(:eur) { create(:currency, name: 'EUR', code: :EUR) }
-  let!(:gbp) { create(:currency, name: 'GBP', code: :GBP) }
+  include_examples 'currency list'
+
   let!(:exchange_service) { double('ExchangeRatesService') }
   let!(:currency_converter) { double('CurrencyConverter') }
 
   describe 'GET #index' do
     before do
-      returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
+      returned_json = [{ amount: 80, currency: @eur.code }, { amount: 70, currency: @gbp.code }]
       allow(ExchangeRatesService).to receive(:new).and_return(exchange_service)
-      allow(exchange_service).to receive(:call).with(from: usd, amount: 100).and_return(returned_json)
-      get :index, params: { exchange_rate: { amount: 100, currency_from_id: usd } }, format: :js
+      allow(exchange_service).to receive(:call).with(from: @usd, amount: 100).and_return(returned_json)
+      get :index, params: { exchange_rate: { amount: 100, currency_from_id: @usd } }, format: :js
     end
 
     it 'returns an array of converted amounts and currency names' do
@@ -40,8 +39,8 @@ RSpec.describe ExchangeRatesController, type: :controller do
   describe 'GET #convert' do
     before do
       allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
-      allow(currency_converter).to receive(:convert).with(amount: 100, from: usd, to: eur).and_return(80)
-      get :convert, params: { exchange_rate: { amount: 100, currency_from_id: usd.id, currency_to_id: eur.id } },
+      allow(currency_converter).to receive(:convert).with(amount: 100, from: @usd, to: @eur).and_return(80)
+      get :convert, params: { exchange_rate: { amount: 100, currency_from_id: @usd.id, currency_to_id: @eur.id } },
                     format: :js
     end
 
