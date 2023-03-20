@@ -8,9 +8,9 @@ class RussianCentralBankProvider
     Money.default_bank.update_rates
 
     if from.code != :RUB || to.code != :RUB
-      Money.default_bank.rates["#{from.code}_TO_RUB"] * Money.default_bank.rates["RUB_TO_#{to.code}"]
+      Money.default_bank.rates["#{from.code}_TO_RUB"].to_f * Money.default_bank.rates["RUB_TO_#{to.code}"].to_f
     else
-      Money.default_bank.rates["#{from.code}_TO_#{to.code}"]
+      Money.default_bank.rates["#{from.code}_TO_#{to.code}"].to_f
     end
   end
 end

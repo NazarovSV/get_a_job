@@ -7,6 +7,8 @@ describe 'Any user can search vacancies by key words', '
   find a new job
   user can search vacancy by key words
 ' do
+  include_examples 'currency list'
+
   describe 'search' do
     describe 'valid input' do
       let!(:vacancies) do
@@ -53,9 +55,6 @@ describe 'Any user can search vacancies by key words', '
 
   describe 'filter' do
     let!(:category) { create_list :category, 3 }
-    let!(:rub) { create(:currency, name: 'RUB', code: :RUB) }
-    let!(:usd) { create(:currency, name: 'USD', code: :USD) }
-    let!(:eur) { create(:currency, name: 'EUR', code: :EUR) }
 
     let!(:experience) { create_list :experience, 3 }
     let!(:vacancies_for_filter) do
@@ -66,9 +65,10 @@ describe 'Any user can search vacancies by key words', '
                title: 'Ruby developer',
                description: 'Ruby developer',
                category: category.second,
-               currency: rub,
+               currency: @rub,
                experience: experience.first,
-               address: 'Ukraine, Kyiv'),
+               address: 'Ukraine, Kyiv',
+               skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
                salary_min: 10_000,
@@ -76,9 +76,10 @@ describe 'Any user can search vacancies by key words', '
                title: 'Java developer',
                description: 'Java developer',
                category: category.first,
-               currency: rub,
+               currency: @rub,
                experience: experience.first,
-               address: 'Ukraine, Kyiv'),
+               address: 'Ukraine, Kyiv',
+               skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
                salary_min: 15_000,
@@ -86,9 +87,10 @@ describe 'Any user can search vacancies by key words', '
                title: 'C# developer',
                description: 'C# developer',
                category: category.first,
-               currency: rub,
+               currency: @rub,
                experience: experience.last,
-               address: 'UK, London'),
+               address: 'UK, London',
+               skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
                salary_min: 4_500,
@@ -96,9 +98,10 @@ describe 'Any user can search vacancies by key words', '
                title: 'C++ developer',
                description: 'C++ developer',
                category: category.first,
-               currency: usd,
+               currency: @usd,
                experience: experience.second,
-               address: 'Russia, Moscow'),
+               address: 'Russia, Moscow',
+               skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
                salary_min: nil,
@@ -106,9 +109,10 @@ describe 'Any user can search vacancies by key words', '
                title: 'Go developer',
                description: 'Go developer',
                category: category.first,
-               currency: rub,
+               currency: @rub,
                experience: experience.second,
-               address: 'Russia, Moscow')
+               address: 'Russia, Moscow',
+               skip_fill_usd_salaries: false)
       ]
     end
 
@@ -116,12 +120,13 @@ describe 'Any user can search vacancies by key words', '
 
     before do
       allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
-      allow(currency_converter).to receive(:convert).with(amount: 10_000, from: rub, to: rub).and_return(10_000)
-      allow(currency_converter).to receive(:convert).with(amount: 15_000, from: rub, to: rub).and_return(15_000)
-      allow(currency_converter).to receive(:convert).with(amount: 16_000, from: rub, to: rub).and_return(16_000)
-      allow(currency_converter).to receive(:convert).with(amount: 20_000, from: rub, to: rub).and_return(20_000)
-      allow(currency_converter).to receive(:convert).with(amount: 4_500, from: usd, to: rub).and_return(4_500 * 2)
-      allow(currency_converter).to receive(:convert).with(amount: 5_000, from: usd, to: rub).and_return(5_000 * 2)
+      allow(currency_converter).to receive(:convert).with(amount: 10_000, from: @rub, to: @rub).and_return(10_000)
+      allow(currency_converter).to receive(:convert).with(amount: 15_000, from: @rub, to: @rub).and_return(15_000)
+      allow(currency_converter).to receive(:convert).with(amount: 16_000, from: @rub, to: @rub).and_return(16_000)
+      allow(currency_converter).to receive(:convert).with(amount: 20_000, from: @rub, to: @rub).and_return(20_000)
+      allow(currency_converter).to receive(:convert).with(amount: 4_500, from: @usd, to: @rub).and_return(4_500 * 2)
+      allow(currency_converter).to receive(:convert).with(amount: 5_000, from: @usd, to: @rub).and_return(5_000 * 2)
+      allow(currency_converter).to receive(:current_rate_to_usd).with(currency_id: @rub.id).and_return(1.0 / 80)
     end
 
     it 'return filtered vacancy without keyword', js: true do
@@ -154,7 +159,7 @@ describe 'Any user can search vacancies by key words', '
       fill_in 'request', with: 'Java developer'
 
       within '.filters' do
-        select rub.name, from: 'currency_id'
+        select @rub.name, from: 'currency_id'
         select category.first.name, from: 'category_id'
       end
 
@@ -170,12 +175,12 @@ describe 'Any user can search vacancies by key words', '
     it 'return filtered vacancy filtered by min salary', js: true do
       visit vacancies_path
       within '.filters' do
-        select rub.name, from: 'currency_id'
+        select @rub.name, from: 'currency_id'
       end
 
       fill_in 'Salary From', with: '17000'
 
-      sleep 5
+      sleep 2
 
       expect(page).to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
@@ -188,7 +193,7 @@ describe 'Any user can search vacancies by key words', '
       visit vacancies_path
 
       within '.filters' do
-        select rub.name, from: 'currency_id'
+        select @rub.name, from: 'currency_id'
       end
 
       fill_in 'Salary To', with: '14000'

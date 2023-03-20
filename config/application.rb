@@ -19,6 +19,7 @@ module GetAJob
 
     config.i18n.default_locale = :en
     config.i18n.locale = :en
+    config.active_job.queue_adapter = :sidekiq
 
     config.autoload_paths += Dir[File.join(Rails.root, 'app', 'models', 'validators')]
     # Configuration for the application, engines, and railties goes here.

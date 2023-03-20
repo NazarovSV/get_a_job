@@ -2,7 +2,7 @@
 
 class SearchesController < ApplicationController
   def index
-    @vacancies = Vacancy.look keywords: params['request'], filters: filters_params
+    @vacancies = SearchService.call keywords: params['request'], filters: filters_params
   end
 
   def filters_params

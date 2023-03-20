@@ -4,20 +4,22 @@
 #
 # Table name: vacancies
 #
-#  id            :bigint           not null, primary key
-#  description   :string           not null
-#  email         :string           not null
-#  phone         :string
-#  salary_max    :integer
-#  salary_min    :integer
-#  state         :string
-#  title         :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint           not null
-#  currency_id   :bigint
-#  employer_id   :bigint           not null
-#  experience_id :bigint           not null
+#  id             :bigint           not null, primary key
+#  description    :string           not null
+#  email          :string           not null
+#  phone          :string
+#  salary_max     :integer
+#  salary_min     :integer
+#  state          :string
+#  title          :string           not null
+#  usd_salary_max :integer
+#  usd_salary_min :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  category_id    :bigint           not null
+#  currency_id    :bigint
+#  employer_id    :bigint           not null
+#  experience_id  :bigint           not null
 #
 # Indexes
 #
@@ -48,6 +50,7 @@ FactoryBot.define do
 
     transient do
       address { 'Russia, Moscow, Klimentovskiy Pereulok, 65' }
+      skip_fill_usd_salaries { true }
     end
 
     trait :blank_phone do
@@ -73,6 +76,10 @@ FactoryBot.define do
 
     after(:build) do |vacancy, evaluator|
       build(:location, vacancy:, address: evaluator.address)
+    end
+
+    before(:build) do |vacancy, evaluator|
+      vacancy.class.skip_callback(:validation, :before, :fill_usd_salaries)  if evaluator.skip_fill_usd_salaries
     end
   end
 end
