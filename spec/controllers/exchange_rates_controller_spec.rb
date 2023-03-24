@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe ExchangeRatesController, type: :controller do
   render_views
 
-  include_examples 'currency list'
+  include_context 'Currency'
 
   let!(:exchange_service) { double('ExchangeRatesService') }
   let!(:currency_converter) { double('CurrencyConverter') }

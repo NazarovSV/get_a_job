@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CurrencyConverter do
-  include_examples 'vacancies list'
+  include_context 'Vacancies'
 
   subject { described_class.new(cache:, bank:) }
 

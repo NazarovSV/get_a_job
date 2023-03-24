@@ -7,7 +7,7 @@ describe 'Any user can search vacancies by key words', '
   find a new job
   user can search vacancy by key words
 ' do
-  include_examples 'currency list'
+  include_context 'Currency'
 
   describe 'search' do
     describe 'valid input' do
@@ -55,7 +55,6 @@ describe 'Any user can search vacancies by key words', '
 
   describe 'filter' do
     let!(:category) { create_list :category, 3 }
-
     let!(:experience) { create_list :experience, 3 }
     let!(:vacancies_for_filter) do
       [
@@ -185,7 +184,7 @@ describe 'Any user can search vacancies by key words', '
       expect(page).to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
       expect(page).to have_content vacancies_for_filter.third.title
-      expect(page).not_to have_content vacancies_for_filter.fourth.title
+      expect(page).to have_content vacancies_for_filter.fourth.title
       expect(page).not_to have_content vacancies_for_filter.last.title
     end
 
@@ -201,7 +200,7 @@ describe 'Any user can search vacancies by key words', '
       expect(page).to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
       expect(page).not_to have_content vacancies_for_filter.third.title
-      expect(page).to have_content vacancies_for_filter.fourth.title
+      expect(page).not_to have_content vacancies_for_filter.fourth.title
       expect(page).to have_content vacancies_for_filter.last.title
     end
   end

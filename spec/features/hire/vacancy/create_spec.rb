@@ -7,11 +7,9 @@ describe 'Only authenticated user as employer can add new vacancy', '
   user can register as hire
   and create a new vacancy
 ' do
-  include_examples 'vacancy with converter stub'
+  include_context 'Currency'
 
   describe 'Authenticated user' do
-    include_examples 'currency list'
-
     let!(:employer) { create(:employer) }
     let!(:categories) { create_list(:category, 5) }
     let!(:experience) { create_list(:experience, 3) }
@@ -33,8 +31,6 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Salary To', with: vacancy.salary_max
       select experience.first.description, from: 'vacancy[experience_id]'
       select @rub.name, from: 'vacancy[currency_id]'
-
-      sleep 4
 
       click_on 'Create'
 
@@ -122,24 +118,23 @@ describe 'Only authenticated user as employer can add new vacancy', '
     end
 
     it 'can use autocomplete in address field', js: true do
-      create(:vacancy, currency: @usd)
+      create(:location, address: 'Russia, Moscow, Klimentovskiy Pereulok, 65')
 
       fill_in 'Address', with: 'Mos'
+      sleep 1
       find('.easy-autocomplete-container li', text: 'Russia, Moscow, Klimentovskiy Pereulok, 65').click
 
       expect(page).to have_content 'Russia, Moscow, Klimentovskiy Pereulok, 65'
     end
   end
 
-  describe 'User can convert currency while inputting', js: true do
+  context 'User can convert currency while inputting', js: true do
     let!(:exchange_service) { double('ExchangeRatesService') }
+    let!(:currency_converter) { double('CurrencyConverter') }
     let!(:employer) { create(:employer) }
 
     before do
       allow(ExchangeRatesService).to receive(:new).and_return(exchange_service)
-
-      eur_returned_json = [{ amount: 100, currency: 'USD' }, { amount: 70, currency: 'GBP' }]
-      allow(exchange_service).to receive(:call).with(from: @eur, amount: 80).and_return(eur_returned_json)
 
       usd_returned_json = [{ amount: 80, currency: 'EUR' }, { amount: 70, currency: 'GBP' }]
       allow(exchange_service).to receive(:call).with(from: @usd, amount: 100).and_return(usd_returned_json)
@@ -147,18 +142,25 @@ describe 'Only authenticated user as employer can add new vacancy', '
       usd_second_returned_json = [{ amount: 800, currency: 'EUR' }, { amount: 700, currency: 'GBP' }]
       allow(exchange_service).to receive(:call).with(from: @usd, amount: 1000).and_return(usd_second_returned_json)
 
+      allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
+      allow(currency_converter).to receive(:convert).with(amount: 100, from: @usd, to: @eur).and_return(80)
+      allow(currency_converter).to receive(:current_rate_to_usd).and_return(1)
+
+      eur_returned_json = [{ amount: 100, currency: 'USD' }, { amount: 70, currency: 'GBP' }]
+      allow(exchange_service).to receive(:call).with(from: @eur, amount: 80).and_return(eur_returned_json)
+
       sign_in_employer(employer)
       click_on 'New'
     end
 
     it 'convert if min salary equal or greater then 100', js: true do
       fill_in 'Salary From', with: 100
-      sleep 2
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
-      fill_in 'Salary From', with: 1000
       sleep 2
+
+      fill_in 'Salary From', with: 1000
       expect(page).to have_content '800 EUR'
       expect(page).to have_content '700 GBP'
     end
@@ -201,11 +203,13 @@ describe 'Only authenticated user as employer can add new vacancy', '
     end
 
     it 'convert amount if currency changed', js: true do
+      select @usd.name, from: 'vacancy[currency_id]'
+
       fill_in 'Salary From', with: 100
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
-      select 'EUR', from: 'vacancy[currency_id]'
+      select @eur.name, from: 'vacancy[currency_id]'
 
       expect(page).to have_content '100 USD'
       expect(page).to have_content '70 GBP'

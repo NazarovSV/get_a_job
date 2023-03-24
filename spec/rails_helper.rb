@@ -42,7 +42,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include FeatureHelpers, type: :feature
 
-  Capybara.javascript_driver = :selenium_chrome#_headless
+  Capybara.javascript_driver = :selenium_chrome_headless
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -87,4 +87,74 @@ RSpec.configure do |config|
   Pundit::Matchers.configure do |config|
     config.user_alias = :employer
   end
+
+  Geocoder.configure(lookup: :test)
+  Geocoder::Lookup::Test.add_stub(  "New York, NY", [
+    {
+      'coordinates'  => [40.7143528, -74.0059731],
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'city'         => 'New York',
+      'country'      => 'United States',
+      'country_code' => 'US'
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "Russia, Moscow, Klimentovskiy Pereulok, 65", [
+    {
+      'coordinates'  => [0.01, 0.01],
+      'address'      => 'Russia, Moscow, Klimentovskiy Pereulok, 65',
+      'city'         => 'Moscow',
+      'country'      => 'Russia',
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "Ukraine, Kyiv", [
+    {
+      'coordinates'  => [0.02, 0.02],
+      'address'      => 'Ukraine, Kyiv',
+      'city'         => 'Kyiv',
+      'country'      => 'Ukraine'
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "UK, London", [
+    {
+      'coordinates'  => [0.03, 0.03],
+      'address'      => 'UK, London',
+      'city'         => 'London',
+      'country'      => 'UK'
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "Russia, Moscow", [
+    {
+      'coordinates'  => [0.04, 0.04],
+      'address'      => 'Russia, Moscow',
+      'city'         => 'Moscow',
+      'country'      => 'Russia'
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "Россия, Москва, улица Новый Арбат, 21с1", [
+    {
+      'coordinates'  => [0.041, 0.041],
+      'address'      => 'Россия, Москва, улица Новый Арбат, 21с1',
+      'city'         => 'Moscow',
+      'country'      => 'Russia'
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "Россия, Москва, Новочерёмушкинская улица, 39к1", [
+    {
+      'coordinates'  => [0.042, 0.042],
+      'address'      => 'Россия, Москва, Новочерёмушкинская улица, 39к1',
+      'city'         => 'Moscow',
+      'country'      => 'Russia'
+    }
+  ])
+  Geocoder::Lookup::Test.add_stub(  "Россия, Москва, Нахимовский проспект, 31к2", [
+    {
+      'coordinates'  => [0.043, 0.043],
+      'address'      => 'Россия, Москва, Нахимовский проспект, 31к2',
+      'city'         => 'Moscow',
+      'country'      => 'Russia'
+    }
+  ])
+  Geocoder::Lookup::Test.set_default_stub([])
 end

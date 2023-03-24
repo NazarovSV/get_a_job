@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Hire::VacanciesController, type: :controller do
-  include_examples 'currency list'
+  include_context 'Currency'
 
   describe 'POST #create' do
     let!(:employer) { create(:employer) }

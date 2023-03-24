@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ExchangeRatesService do
-  include_examples 'currency list'
+  include_context 'Currency'
   subject { described_class.new(currency_converter:) }
 
   let(:currency_converter) { double('CurrencyConverter') }
