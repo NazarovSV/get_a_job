@@ -12,8 +12,8 @@
 #  salary_min     :integer
 #  state          :string
 #  title          :string           not null
-#  usd_salary_max :integer
-#  usd_salary_min :integer
+#  usd_salary_max :float
+#  usd_salary_min :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  category_id    :bigint           not null
@@ -36,7 +36,7 @@
 #  fk_rails_...  (experience_id => experiences.id)
 #
 class Vacancy < ApplicationRecord
-  before_validation :fill_usd_salaries
+  before_validation :fill_usd_salaries, unless: :skip_fill_usd_salaries
   before_validation :clear_currency_if_no_salary
 
   include AASM
@@ -61,11 +61,12 @@ class Vacancy < ApplicationRecord
   validates_with SalaryForkValidator
 
   pg_search_scope :search, against: %i[title description]
-  scope :look, ->(keywords = '') { search(keywords) unless keywords.blank? }
+  scope :look, ->(keywords = '') { search(keywords) if keywords.present? }
   scope :filtered_by_city, ->(city_id) { joins(:location).where(locations: { city_id: }) if city_id.present? }
   scope :filtered_by_experience, ->(experience_id) { where(experience_id:) if experience_id.present? }
   scope :filtered_by_category, ->(category_id) { where(category_id:) if category_id.present? }
 
+  attr_accessor :skip_fill_usd_salaries
 
   aasm column: 'state' do
     state :drafted, initial: true

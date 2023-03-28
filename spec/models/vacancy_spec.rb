@@ -12,8 +12,8 @@
 #  salary_min     :integer
 #  state          :string
 #  title          :string           not null
-#  usd_salary_max :integer
-#  usd_salary_min :integer
+#  usd_salary_max :float
+#  usd_salary_min :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  category_id    :bigint           not null

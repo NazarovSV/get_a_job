@@ -44,24 +44,29 @@ RSpec.describe SearchService do
 
       context 'when filtering by experience' do
         it 'returns only vacancies in the first experience' do
-          expect(described_class.call(filters: { experience_id: @experience.first })).to contain_exactly(@ruby_dev, @js_dev, @go_dev)
+          expect(described_class.call(filters: { experience_id: @experience.first })).to contain_exactly(@ruby_dev,
+                                                                                                         @js_dev, @go_dev)
         end
       end
 
       context 'when filtering by salary' do
         it 'return vacancy filtered by min salary equal or greater then 17_000 rub' do
-          expect(described_class.call(filters: { salary_min: 17_000, currency_id: @rub.id })).to contain_exactly(@ruby_dev, @js_dev, @c_sharp_dev, @c_plus_dev)
+          expect(described_class.call(filters: { salary_min: 17_000,
+                                                 currency_id: @rub.id })).to contain_exactly(@ruby_dev, @js_dev,
+                                                                                             @c_sharp_dev, @c_plus_dev)
         end
 
         it 'return vacancy filtered by max salary equal or lesser then 9_000 rub' do
-          expect(described_class.call(filters: { salary_max: 9_000, currency_id: @rub.id })).to contain_exactly(@ruby_dev, @go_dev)
+          expect(described_class.call(filters: { salary_max: 9_000,
+                                                 currency_id: @rub.id })).to contain_exactly(@ruby_dev, @go_dev)
         end
       end
     end
 
     context 'when filtering by filter and keywords' do
       it 'returns vacancy filtered by filter and keywords' do
-        expect(described_class.call(keywords: 'JS', filters: { category_id: @category.first })).to contain_exactly(@js_dev)
+        expect(described_class.call(keywords: 'JS',
+                                    filters: { category_id: @category.first })).to contain_exactly(@js_dev)
       end
 
       it 'does not return vacancy filtered by filter and keywords' do
@@ -74,11 +79,11 @@ RSpec.describe SearchService do
         experience = @experience.first
 
         expect(described_class.call(keywords: 'Go', filters: { city_id: moscow_city,
-                                               category_id: category,
-                                               experience_id: experience,
-                                               salary_min: 10_000,
-                                               salary_max: 20_000,
-                                               currency: @rub })).to contain_exactly(@go_dev)
+                                                               category_id: category,
+                                                               experience_id: experience,
+                                                               salary_min: 10_000,
+                                                               salary_max: 20_000,
+                                                               currency: @rub })).to contain_exactly(@go_dev)
       end
     end
 

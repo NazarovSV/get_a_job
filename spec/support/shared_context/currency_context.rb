@@ -9,5 +9,3 @@ RSpec.shared_context 'Currency' do
     @gbp = create(:currency, name: 'GBP', code: :GBP)
   end
 end
-
-

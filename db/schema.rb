@@ -151,8 +151,8 @@ ActiveRecord::Schema.define(version: 2023_03_17_151611) do
     t.integer "salary_max"
     t.bigint "currency_id"
     t.bigint "experience_id", null: false
-    t.integer "usd_salary_min"
-    t.integer "usd_salary_max"
+    t.float "usd_salary_min"
+    t.float "usd_salary_max"
     t.index ["category_id"], name: "index_vacancies_on_category_id"
     t.index ["currency_id"], name: "index_vacancies_on_currency_id"
     t.index ["employer_id"], name: "index_vacancies_on_employer_id"
