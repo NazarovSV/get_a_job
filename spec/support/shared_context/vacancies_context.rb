@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 RSpec.shared_context 'Vacancies' do
   include_context 'Currency'
 
@@ -18,47 +17,52 @@ RSpec.shared_context 'Vacancies' do
                        category: @category.second,
                        currency: @rub,
                        experience: @experience.first,
-                       address: 'Ukraine, Kyiv')
+                       address: 'Ukraine, Kyiv',
+                       skip_fill_usd_salaries: false)
     @js_dev = create(:vacancy,
-                       :published,
-                       salary_min: 10_000,
-                       salary_max: 20_000,
-                       title: 'JS developer',
-                       description: 'JS developer',
-                       category: @category.first,
-                       currency: @rub,
-                       experience: @experience.first,
-                       address: 'Ukraine, Kyiv')
+                     :published,
+                     salary_min: 10_000,
+                     salary_max: 20_000,
+                     title: 'JS developer',
+                     description: 'JS developer',
+                     category: @category.first,
+                     currency: @rub,
+                     experience: @experience.first,
+                     address: 'Ukraine, Kyiv',
+                     skip_fill_usd_salaries: false)
     @c_sharp_dev = create(:vacancy,
-                       :published,
-                       salary_min: 15_000,
-                       salary_max: nil,
-                       title: 'c# developer',
-                       description: 'c# developer',
-                       category: @category.first,
-                       currency: @usd,
-                       experience: @experience.last,
-                       address: 'UK, London')
+                          :published,
+                          salary_min: 15_000,
+                          salary_max: nil,
+                          title: 'c# developer',
+                          description: 'c# developer',
+                          category: @category.first,
+                          currency: @usd,
+                          experience: @experience.last,
+                          address: 'UK, London',
+                          skip_fill_usd_salaries: false)
     @c_plus_dev = create(:vacancy,
-                       :published,
-                       salary_min: 4_500,
-                       salary_max: 5_000,
-                       title: 'c++ developer',
-                       description: 'c++ developer',
-                       category: @category.first,
-                       currency: @usd,
-                       experience: @experience.second,
-                       address: 'Russia, Moscow')
+                         :published,
+                         salary_min: 4_500,
+                         salary_max: 5_000,
+                         title: 'c++ developer',
+                         description: 'c++ developer',
+                         category: @category.first,
+                         currency: @usd,
+                         experience: @experience.second,
+                         address: 'Russia, Moscow',
+                         skip_fill_usd_salaries: false)
     @go_dev = create(:vacancy,
-                       :published,
-                       salary_min: nil,
-                       salary_max: 16_000,
-                       title: 'Go developer',
-                       description: 'Go developer',
-                       category: @category.first,
-                       currency: @rub,
-                       experience: @experience.first,
-                       address: 'Russia, Moscow')
+                     :published,
+                     salary_min: nil,
+                     salary_max: 16_000,
+                     title: 'Go developer',
+                     description: 'Go developer',
+                     category: @category.first,
+                     currency: @rub,
+                     experience: @experience.first,
+                     address: 'Russia, Moscow',
+                     skip_fill_usd_salaries: false)
     @java_dev = create(:vacancy,
                        salary_min: nil,
                        salary_max: 16_000,
@@ -67,8 +71,7 @@ RSpec.shared_context 'Vacancies' do
                        category: @category.first,
                        currency: @rub,
                        experience: @experience.second,
-                       address: 'Russia, Moscow')
+                       address: 'Russia, Moscow',
+                       skip_fill_usd_salaries: false)
   end
 end
-
-

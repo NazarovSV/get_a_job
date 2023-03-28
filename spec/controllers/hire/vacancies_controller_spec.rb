@@ -23,9 +23,9 @@ RSpec.describe Hire::VacanciesController, type: :controller do
                                                            experience_id: experience.first.id,
                                                            location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
-           # .and change(Country, :count).by(1)
-           # .and change(City, :count).by(1)
-           .and change(Location, :count).by(1)
+                                      # .and change(Country, :count).by(1)
+                                      # .and change(City, :count).by(1)
+                                      .and change(Location, :count).by(1)
       end
 
       it 'redirects to created vacancy' do

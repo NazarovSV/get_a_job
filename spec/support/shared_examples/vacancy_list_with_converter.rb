@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # # frozen_string_literal: true
 #
 # RSpec.shared_examples 'vacancy with converter stub' do

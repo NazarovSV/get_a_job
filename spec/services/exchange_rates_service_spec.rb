@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe ExchangeRatesService do
-  include_context 'Currency'
   subject { described_class.new(currency_converter:) }
+
+  include_context 'Currency'
 
   let(:currency_converter) { double('CurrencyConverter') }
   let(:amount) { 1000 }

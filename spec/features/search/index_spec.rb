@@ -125,6 +125,7 @@ describe 'Any user can search vacancies by key words', '
       allow(currency_converter).to receive(:convert).with(amount: 20_000, from: @rub, to: @rub).and_return(20_000)
       allow(currency_converter).to receive(:convert).with(amount: 4_500, from: @usd, to: @rub).and_return(4_500 * 2)
       allow(currency_converter).to receive(:convert).with(amount: 5_000, from: @usd, to: @rub).and_return(5_000 * 2)
+      allow(currency_converter).to receive(:current_rate_to_usd).with(currency_id: @usd.id).and_return(1.0)
       allow(currency_converter).to receive(:current_rate_to_usd).with(currency_id: @rub.id).and_return(1.0 / 80)
     end
 

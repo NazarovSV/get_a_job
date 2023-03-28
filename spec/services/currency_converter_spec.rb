@@ -3,14 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe CurrencyConverter do
-  include_context 'Vacancies'
-
   subject { described_class.new(cache:, bank:) }
+
+  include_context 'Vacancies'
 
   let(:cache) { double('ActiveSupport::Cache::MemoryStore') }
   let(:bank) { double('RussianCentralBankProvider') }
-  # let(:from_currency) { create(:currency, name: 'USD', code: :USD) }
-  # let(:to_currency) { create(:currency, name: 'EUR', code: :EUR) }
   let(:amount) { 100 }
 
   describe '#convert' do

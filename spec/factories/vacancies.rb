@@ -12,8 +12,8 @@
 #  salary_min     :integer
 #  state          :string
 #  title          :string           not null
-#  usd_salary_max :integer
-#  usd_salary_min :integer
+#  usd_salary_max :float
+#  usd_salary_min :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  category_id    :bigint           not null
@@ -47,6 +47,8 @@ FactoryBot.define do
     experience
     salary_min { rand(1_000..300_000) }
     salary_max { rand(300_001..1_000_000) }
+    usd_salary_min { nil }
+    usd_salary_max { nil }
 
     transient do
       address { 'Russia, Moscow, Klimentovskiy Pereulok, 65' }
@@ -75,11 +77,8 @@ FactoryBot.define do
     end
 
     after(:build) do |vacancy, evaluator|
+      vacancy.skip_fill_usd_salaries = evaluator.skip_fill_usd_salaries
       build(:location, vacancy:, address: evaluator.address)
-    end
-
-    before(:build) do |vacancy, evaluator|
-      vacancy.class.skip_callback(:validation, :before, :fill_usd_salaries)  if evaluator.skip_fill_usd_salaries
     end
   end
 end

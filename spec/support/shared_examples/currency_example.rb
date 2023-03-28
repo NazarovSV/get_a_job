@@ -12,4 +12,3 @@
 #   #   @gbp = create(:currency, name: 'GBP', code: :GBP)
 #   # end
 # end
-
