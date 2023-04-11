@@ -206,6 +206,42 @@ describe 'Any user can search vacancies by key words', '
     end
   end
 
+  describe 'pagination', js: true  do
+    let!(:category) { create_list :category, 3 }
+    let!(:vacancies_ruby_first_category) { [] }
+
+    before do
+      15.times do
+        vacancies_ruby_first_category << create(:vacancy,
+                                                :published,
+                                                title: "Ruby Vacancy #{Faker::Name.unique.name}",
+                                                category: category.first)
+        create(:vacancy, :published, title: "Ruby Another Vacancy #{Faker::Name.unique.name}", category: category.second)
+        create(:vacancy, :published, title: "Go Vacancy #{Faker::Name.unique.name}", category: category.first)
+      end
+    end
+
+    it 'it works with filter and keywords' do
+      visit vacancies_path
+      fill_in 'request', with: 'Ruby'
+
+      sleep 3
+
+      within '.filters' do
+        select category.first.name, from: 'category_id'
+      end
+      sleep 5
+
+      vacancies_ruby_first_category.each_slice(10) do |vacancies|
+        vacancies.each do |vacancy|
+          expect(page).to have_content vacancy.title
+        end
+
+        click_on 'Next'
+      end
+    end
+  end
+
   describe 'invalid input', js: true do
     it 'return No vacancies found' do
       visit vacancies_path

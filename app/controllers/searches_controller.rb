@@ -2,7 +2,7 @@
 
 class SearchesController < ApplicationController
   def index
-    @vacancies = SearchService.call keywords: params['request'], filters: filters_params
+    @pagy, @vacancies = pagy(SearchService.call(keywords: params['request'], filters: filters_params), items: 1)
   end
 
   def filters_params

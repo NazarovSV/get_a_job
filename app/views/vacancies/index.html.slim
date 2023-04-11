@@ -2,4 +2,5 @@
 h1 Vacancies:
 br
 .job_list
-  =render @vacancies
+  = render @vacancies
+  == pagy_bootstrap_nav @pagy
