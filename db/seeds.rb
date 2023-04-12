@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 def create_category_with_translate(en_name:, ru_name:)
-  category = Category.new(name: en_name)
-  category.name_translations = { en: en_name, ru: ru_name }
-  category.save!
+  employment = Employment.new(name: en_name)
+  employment.name_translations = { en: en_name, ru: ru_name }
+  employment.save!
 end
 
-unless Category.any?
+unless Employment.any?
   create_category_with_translate(en_name: 'Full', ru_name: 'Полный')
   create_category_with_translate(en_name: 'Partial', ru_name: 'Частичный')
   create_category_with_translate(en_name: 'Shift', ru_name: 'Сменный')

@@ -4,7 +4,7 @@
   p
     = f.text_area :description, class: 'form-control', rows: '5', placeholder: t('helpers.label.vacancy.description')
   p
-    = f.collection_select :category_id, Category.all, :id, :name, prompt: t('.type_of_employment'), class: "form-control"
+    = f.collection_select :employment_id, Employment.all, :id, :name, prompt: t('.type_of_employment'), class: "form-control"
   p
     = f.collection_select :experience_id, Experience.all, :id, :description, prompt: t('.years_of_experience'), class: "form-control"
   p

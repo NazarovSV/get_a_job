@@ -1,7 +1,7 @@
 
 function search() {
     let request = $('#request').val()
-    let categoryId = $('.filters #category_id').val()
+    let employmentId = $('.filters #employment_id').val()
     let currencyId = $('.filters #currency_id').val()
     let cityId = $('.filters #city_id').val()
     let experienceId = $('.filters #experience_id').val()
@@ -10,17 +10,17 @@ function search() {
 
     let filters = {
         request: request,
-        category_id: categoryId,
+        employment_id: employmentId,
         currency_id: currencyId,
         city_id: cityId,
         experience_id: experienceId,
     };
 
-    if (!isNaN(salary_min)) {
+    if (!isNaN(salary_min) && salary_min >= 100) {
         filters.salary_min = salary_min
     }
 
-    if (!isNaN(salary_max)) {
+    if (!isNaN(salary_max) && salary_min >= 100) {
         filters.salary_max = salary_max
     }
 

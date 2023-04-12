@@ -23,7 +23,7 @@ describe 'Employer can open his vacancies and watch final version', '
                   .and have_content(vacancy.email)
                   .and have_content(vacancy.phone)
                   .and have_content(vacancy.location.address)
-                  .and have_content(vacancy.category.name)
+                  .and have_content(vacancy.employment.name)
     end
 
     describe 'User can see salary range' do

@@ -9,9 +9,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class Category < ApplicationRecord
-  has_many :vacancies
-
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-  translates :name, dependent: :destroy
+FactoryBot.define do
+  factory :employment do
+    name { Faker::Name.unique.name }
+  end
 end

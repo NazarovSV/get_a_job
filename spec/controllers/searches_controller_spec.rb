@@ -5,18 +5,18 @@ require 'rails_helper'
 RSpec.describe SearchesController, type: :controller do
   describe 'GET #index' do
     let!(:employer) { create(:employer) }
-    let!(:category) { create_list(:category, 3) }
+    let!(:employment) { create_list(:employment, 3) }
     let!(:vacancies) do
       [
-        create(:vacancy, :published, title: 'title published one', category: category.first),
-        create(:vacancy, :published, title: 'title published second', category: category.second),
-        create(:vacancy, title: 'title drafted', category: category.third),
-        create(:vacancy, :archived, title: 'title archived', category: category.second)
+        create(:vacancy, :published, title: 'title published one', employment: employment.first),
+        create(:vacancy, :published, title: 'title published second', employment: employment.second),
+        create(:vacancy, title: 'title drafted', employment: employment.third),
+        create(:vacancy, :archived, title: 'title archived', employment: employment.second)
       ]
     end
 
     describe 'valid request' do
-      before { get :index, params: { request: vacancies.first.title, category_id: category.first }, xhr: true }
+      before { get :index, params: { request: vacancies.first.title, employment_id: employment.first }, xhr: true }
 
       it 'renders index view' do
         expect(response).to render_template :index

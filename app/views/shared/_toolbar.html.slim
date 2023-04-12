@@ -4,7 +4,7 @@ p
       div class='row gx-2'
         .row
           .col
-            = select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name), class: "form-control", prompt: t('.type_of_employment')
+            = select_tag :employment_id, options_from_collection_for_select(Employment.all, :id, :name), class: "form-control", prompt: t('.type_of_employment')
           .col
             = select_tag :experience_id, options_from_collection_for_select(Experience.all, :id, :description), class: "form-control", prompt: t('.years_of_experience')
           .col

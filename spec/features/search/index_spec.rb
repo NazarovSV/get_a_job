@@ -54,7 +54,7 @@ describe 'Any user can search vacancies by key words', '
   end
 
   describe 'filter' do
-    let!(:category) { create_list :category, 3 }
+    let!(:employments) { create_list :employment, 3 }
     let!(:experience) { create_list :experience, 3 }
     let!(:vacancies_for_filter) do
       [
@@ -63,7 +63,7 @@ describe 'Any user can search vacancies by key words', '
                :without_salary,
                title: 'Ruby developer',
                description: 'Ruby developer',
-               category: category.second,
+               employment: employments.second,
                currency: @rub,
                experience: experience.first,
                address: 'Ukraine, Kyiv',
@@ -74,7 +74,7 @@ describe 'Any user can search vacancies by key words', '
                salary_max: 20_000,
                title: 'Java developer',
                description: 'Java developer',
-               category: category.first,
+               employment: employments.first,
                currency: @rub,
                experience: experience.first,
                address: 'Ukraine, Kyiv',
@@ -85,7 +85,7 @@ describe 'Any user can search vacancies by key words', '
                salary_max: nil,
                title: 'C# developer',
                description: 'C# developer',
-               category: category.first,
+               employment: employments.first,
                currency: @rub,
                experience: experience.last,
                address: 'UK, London',
@@ -96,7 +96,7 @@ describe 'Any user can search vacancies by key words', '
                salary_max: 5_000,
                title: 'C++ developer',
                description: 'C++ developer',
-               category: category.first,
+               employment: employments.first,
                currency: @usd,
                experience: experience.second,
                address: 'Russia, Moscow',
@@ -107,7 +107,7 @@ describe 'Any user can search vacancies by key words', '
                salary_max: 16_000,
                title: 'Go developer',
                description: 'Go developer',
-               category: category.first,
+               employment: employments.first,
                currency: @rub,
                experience: experience.second,
                address: 'Russia, Moscow',
@@ -133,7 +133,7 @@ describe 'Any user can search vacancies by key words', '
       visit vacancies_path
 
       within '.filters' do
-        select category.first.name, from: 'category_id'
+        select employments.first.name, from: 'employment_id'
       end
 
       expect(page).not_to have_content vacancies_for_filter.first.title
@@ -160,7 +160,7 @@ describe 'Any user can search vacancies by key words', '
 
       within '.filters' do
         select @rub.name, from: 'currency_id'
-        select category.first.name, from: 'category_id'
+        select employments.first.name, from: 'employment_id'
       end
 
       sleep 2
@@ -174,6 +174,7 @@ describe 'Any user can search vacancies by key words', '
 
     it 'return filtered vacancy filtered by min salary', js: true do
       visit vacancies_path
+
       within '.filters' do
         select @rub.name, from: 'currency_id'
       end
@@ -207,18 +208,18 @@ describe 'Any user can search vacancies by key words', '
   end
 
   describe 'pagination', js: true do
-    let!(:category) { create_list :category, 3 }
-    let!(:vacancies_ruby_first_category) { [] }
+    let!(:employments) { create_list :employment, 3 }
+    let!(:vacancies_ruby_first_employment) { [] }
 
     before do
       15.times do
-        vacancies_ruby_first_category << create(:vacancy,
-                                                :published,
-                                                title: "Ruby Vacancy #{Faker::Name.unique.name}",
-                                                category: category.first)
+        vacancies_ruby_first_employment << create(:vacancy,
+                                                  :published,
+                                                  title: "Ruby Vacancy #{Faker::Name.unique.name}",
+                                                  employment: employments.first)
         create(:vacancy, :published, title: "Ruby Another Vacancy #{Faker::Name.unique.name}",
-                                     category: category.second)
-        create(:vacancy, :published, title: "Go Vacancy #{Faker::Name.unique.name}", category: category.first)
+                                     employment: employments.second)
+        create(:vacancy, :published, title: "Go Vacancy #{Faker::Name.unique.name}", employment: employments.first)
       end
     end
 
@@ -227,17 +228,17 @@ describe 'Any user can search vacancies by key words', '
       fill_in 'request', with: 'Ruby'
 
       within '.filters' do
-        select category.first.name, from: 'category_id'
+        select employments.first.name, from: 'employment_id'
       end
 
       size = 10
 
-      vacancies_ruby_first_category.each_slice(size).with_index do |vacancies, index|
+      vacancies_ruby_first_employment.each_slice(size).with_index do |vacancies, index|
         vacancies.each do |vacancy|
           expect(page).to have_content vacancy.title
         end
 
-        click_on 'Next' unless vacancies_ruby_first_category.length / size == index
+        click_on 'Next' unless vacancies_ruby_first_employment.length / size == index
       end
     end
   end

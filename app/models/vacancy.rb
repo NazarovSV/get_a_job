@@ -16,23 +16,23 @@
 #  usd_salary_min :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  category_id    :bigint           not null
 #  currency_id    :bigint
 #  employer_id    :bigint           not null
+#  employment_id  :bigint           not null
 #  experience_id  :bigint           not null
 #
 # Indexes
 #
-#  index_vacancies_on_category_id    (category_id)
 #  index_vacancies_on_currency_id    (currency_id)
 #  index_vacancies_on_employer_id    (employer_id)
+#  index_vacancies_on_employment_id  (employment_id)
 #  index_vacancies_on_experience_id  (experience_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (currency_id => currencies.id)
 #  fk_rails_...  (employer_id => employers.id)
+#  fk_rails_...  (employment_id => employments.id)
 #  fk_rails_...  (experience_id => experiences.id)
 #
 class Vacancy < ApplicationRecord
@@ -42,7 +42,7 @@ class Vacancy < ApplicationRecord
   include AASM
   include PgSearch::Model
 
-  belongs_to :category
+  belongs_to :employment
   belongs_to :employer
   belongs_to :experience
   belongs_to :currency, optional: true
@@ -64,7 +64,7 @@ class Vacancy < ApplicationRecord
   scope :look, ->(keywords = '') { search(keywords) if keywords.present? }
   scope :filtered_by_city, ->(city_id) { joins(:location).where(locations: { city_id: }) if city_id.present? }
   scope :filtered_by_experience, ->(experience_id) { where(experience_id:) if experience_id.present? }
-  scope :filtered_by_category, ->(category_id) { where(category_id:) if category_id.present? }
+  scope :filtered_by_employment, ->(employment_id) { where(employment_id:) if employment_id.present? }
 
   attr_accessor :skip_fill_usd_salaries
 

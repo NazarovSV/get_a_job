@@ -15,12 +15,12 @@ RSpec.describe SearchService do
     context 'when filtering without keywords' do
       context 'when filtering by all filters' do
         let(:moscow_city) { City.find_by(name: 'Moscow') }
-        let(:category) { @category.first }
+        let(:employment) { @employment.first }
         let(:experience) { @experience.first }
 
         it 'return vacancy filtered by all filters' do
           expect(described_class.call(filters: { city_id: moscow_city,
-                                                 category_id: category,
+                                                 employment_id: employment,
                                                  experience_id: experience,
                                                  salary_min: 10_000,
                                                  salary_max: 20_000,
@@ -38,7 +38,7 @@ RSpec.describe SearchService do
 
       context 'when filtering by category' do
         it 'returns only vacancies in the second category' do
-          expect(described_class.call(filters: { category_id: @category.second })).to contain_exactly(@ruby_dev)
+          expect(described_class.call(filters: { employment_id: @employment.second })).to contain_exactly(@ruby_dev)
         end
       end
 
@@ -66,20 +66,20 @@ RSpec.describe SearchService do
     context 'when filtering by filter and keywords' do
       it 'returns vacancy filtered by filter and keywords' do
         expect(described_class.call(keywords: 'JS',
-                                    filters: { category_id: @category.first })).to contain_exactly(@js_dev)
+                                    filters: { employment_id: @employment.first })).to contain_exactly(@js_dev)
       end
 
       it 'does not return vacancy filtered by filter and keywords' do
-        expect(described_class.call(keywords: 'Ruby', filters: { category_id: @category.first })).to be_empty
+        expect(described_class.call(keywords: 'Ruby', filters: { employment_id: @employment.first })).to be_empty
       end
 
       it 'return vacancy filtered by all filters and keywords' do
         moscow_city = City.find_by(name: 'Moscow')
-        category = @category.first
+        category = @employment.first
         experience = @experience.first
 
         expect(described_class.call(keywords: 'Go', filters: { city_id: moscow_city,
-                                                               category_id: category,
+                                                               employment_id: category,
                                                                experience_id: experience,
                                                                salary_min: 10_000,
                                                                salary_max: 20_000,
