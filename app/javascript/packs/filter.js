@@ -82,7 +82,7 @@ function search() {
     console.log(queryString)
 
     $.ajax({
-        url: location.origin + "/searches/",
+        url: location.origin + "/searches.js",
         data: filters,
         success: function () {
             console.log('AJAX-запрос выполнен успешно!');
