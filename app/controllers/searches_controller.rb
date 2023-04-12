@@ -2,7 +2,12 @@
 
 class SearchesController < ApplicationController
   def index
-    @pagy, @vacancies = pagy(SearchService.call(keywords: params['request'], filters: filters_params), items: 1)
+    @pagy, @vacancies = pagy(SearchService.call(keywords: params['request'], filters: filters_params), items: 10)
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def filters_params

@@ -1,5 +1,6 @@
 <% if @vacancies.any?  %>
   $('.job_list').html('<%= j render "searches/search", vacancies: @vacancies, pagy: @pagy %>')
+  $('.pagination a').attr('data-remote', 'true')
 <% else %>
   $('.job_list').html('<p>No vacancies found</p>')
 <% end %>

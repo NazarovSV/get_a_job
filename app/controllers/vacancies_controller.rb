@@ -6,7 +6,7 @@ class VacanciesController < ApplicationController
   add_breadcrumb I18n.t('.bread_vacancies'), :root_path
 
   def index
-    @pagy, @vacancies = pagy(Vacancy.published, items: 2)
+    @pagy, @vacancies = pagy(Vacancy.published, items: 10)
   end
 
   def show
