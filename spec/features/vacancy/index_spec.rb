@@ -9,8 +9,6 @@ describe 'Any user can view list of vacancies', '
   describe 'Unauthenticated user' do
     let!(:vacancies) { create_list(:vacancy, 30) }
 
-    # before { vacancies.first(10).each(&:publish!) }
-
     it 'sees list of published vacancies' do
       vacancies.first(10).each(&:publish!)
 

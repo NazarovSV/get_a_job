@@ -53,7 +53,6 @@ FactoryBot.define do
     transient do
       address { 'Russia, Moscow, Klimentovskiy Pereulok, 65' }
       skip_fill_usd_salaries { true }
-      siquence_title { false }
     end
 
     trait :blank_phone do

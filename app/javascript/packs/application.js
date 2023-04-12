@@ -11,7 +11,6 @@ import "bootstrap";
 import "packs/location"
 import "packs/currency_exchange"
 import "packs/filter"
-import "packs/pagy"
 
 require("jquery")
 require("../stylesheets/application.scss");
