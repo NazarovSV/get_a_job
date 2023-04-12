@@ -16,23 +16,23 @@
 #  usd_salary_min :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  category_id    :bigint           not null
 #  currency_id    :bigint
 #  employer_id    :bigint           not null
+#  employment_id  :bigint           not null
 #  experience_id  :bigint           not null
 #
 # Indexes
 #
-#  index_vacancies_on_category_id    (category_id)
 #  index_vacancies_on_currency_id    (currency_id)
 #  index_vacancies_on_employer_id    (employer_id)
+#  index_vacancies_on_employment_id  (employment_id)
 #  index_vacancies_on_experience_id  (experience_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (currency_id => currencies.id)
 #  fk_rails_...  (employer_id => employers.id)
+#  fk_rails_...  (employment_id => employments.id)
 #  fk_rails_...  (experience_id => experiences.id)
 #
 FactoryBot.define do
@@ -42,7 +42,7 @@ FactoryBot.define do
     phone { Faker::PhoneNumber.phone_number }
     email { Faker::Internet.email }
     employer
-    category
+    employment
     currency
     experience
     salary_min { rand(1_000..300_000) }

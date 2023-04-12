@@ -11,7 +11,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
   describe 'Authenticated user' do
     let!(:employer) { create(:employer) }
-    let!(:categories) { create_list(:category, 5) }
+    let!(:employments) { create_list(:employment, 5) }
     let!(:experience) { create_list(:experience, 3) }
     let!(:vacancy) { build(:vacancy, currency: @rub, employer:, address: 'UK, London') }
 
@@ -26,7 +26,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Email', with: vacancy.email
       fill_in 'Phone', with: vacancy.phone
       fill_in 'Address', with: vacancy.location.address
-      select categories.second.name, from: 'vacancy[category_id]'
+      select employments.second.name, from: 'vacancy[employment_id]'
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
       select experience.first.description, from: 'vacancy[experience_id]'
@@ -40,7 +40,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
                   .and have_content(vacancy.phone)
                   .and have_content(vacancy.email)
                   .and have_content(vacancy.location.address)
-                  .and have_content(categories.second.name)
+                  .and have_content(employments.second.name)
                   .and have_content(vacancy.salary_min)
                   .and have_content(vacancy.salary_max)
                   .and have_content(@rub.name)
@@ -52,7 +52,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Description', with: vacancy.description
       fill_in 'Email', with: vacancy.email
       fill_in 'Address', with: vacancy.location.address
-      select categories.second.name, from: 'vacancy[category_id]'
+      select employments.second.name, from: 'vacancy[employment_id]'
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
       select @rub.name, from: 'vacancy[currency_id]'

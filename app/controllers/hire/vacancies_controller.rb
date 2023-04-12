@@ -76,7 +76,7 @@ module Hire
                                       :description,
                                       :email,
                                       :phone,
-                                      :category_id,
+                                      :employment_id,
                                       :currency_id,
                                       :experience_id,
                                       :salary_min,

@@ -4,17 +4,17 @@ RSpec.shared_context 'Vacancies' do
   include_context 'Currency'
 
   before do
-    Category.delete_all
+    Employment.delete_all
     Experience.delete_all
 
-    @category = create_list(:category, 3)
+    @employment = create_list(:employment, 3)
     @experience = create_list(:experience, 3)
     @ruby_dev = create(:vacancy,
                        :published,
                        :without_salary,
                        title: 'Ruby developer',
                        description: 'Ruby developer',
-                       category: @category.second,
+                       employment: @employment.second,
                        currency: @rub,
                        experience: @experience.first,
                        address: 'Ukraine, Kyiv',
@@ -25,7 +25,7 @@ RSpec.shared_context 'Vacancies' do
                      salary_max: 20_000,
                      title: 'JS developer',
                      description: 'JS developer',
-                     category: @category.first,
+                     employment: @employment.first,
                      currency: @rub,
                      experience: @experience.first,
                      address: 'Ukraine, Kyiv',
@@ -36,7 +36,7 @@ RSpec.shared_context 'Vacancies' do
                           salary_max: nil,
                           title: 'c# developer',
                           description: 'c# developer',
-                          category: @category.first,
+                          employment: @employment.first,
                           currency: @usd,
                           experience: @experience.last,
                           address: 'UK, London',
@@ -47,7 +47,7 @@ RSpec.shared_context 'Vacancies' do
                          salary_max: 5_000,
                          title: 'c++ developer',
                          description: 'c++ developer',
-                         category: @category.first,
+                         employment: @employment.first,
                          currency: @usd,
                          experience: @experience.second,
                          address: 'Russia, Moscow',
@@ -58,7 +58,7 @@ RSpec.shared_context 'Vacancies' do
                      salary_max: 16_000,
                      title: 'Go developer',
                      description: 'Go developer',
-                     category: @category.first,
+                     employment: @employment.first,
                      currency: @rub,
                      experience: @experience.first,
                      address: 'Russia, Moscow',
@@ -68,7 +68,7 @@ RSpec.shared_context 'Vacancies' do
                        salary_max: 16_000,
                        title: 'Java developer',
                        description: 'Java developer',
-                       category: @category.first,
+                       employment: @employment.first,
                        currency: @rub,
                        experience: @experience.second,
                        address: 'Russia, Moscow',

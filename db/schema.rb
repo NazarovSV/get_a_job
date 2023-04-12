@@ -10,26 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_17_151611) do
+ActiveRecord::Schema.define(version: 2023_04_12_104142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "categories", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "category_translations", force: :cascade do |t|
-    t.bigint "category_id", null: false
-    t.string "locale", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "name", null: false
-    t.index ["category_id"], name: "index_category_translations_on_category_id"
-    t.index ["locale"], name: "index_category_translations_on_locale"
-  end
 
   create_table "cities", force: :cascade do |t|
     t.string "name", null: false
@@ -84,14 +68,20 @@ ActiveRecord::Schema.define(version: 2023_03_17_151611) do
     t.index ["reset_password_token"], name: "index_employers_on_reset_password_token", unique: true
   end
 
-  create_table "exchange_rates", force: :cascade do |t|
-    t.bigint "from_currency_id", null: false
-    t.bigint "to_currency_id", null: false
-    t.float "rate"
+  create_table "employment_translations", force: :cascade do |t|
+    t.bigint "employment_id", null: false
+    t.string "locale", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_currency_id"], name: "index_exchange_rates_on_from_currency_id"
-    t.index ["to_currency_id"], name: "index_exchange_rates_on_to_currency_id"
+    t.string "name", null: false
+    t.index ["employment_id"], name: "index_employment_translations_on_employment_id"
+    t.index ["locale"], name: "index_employment_translations_on_locale"
+  end
+
+  create_table "employments", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "experience_translations", force: :cascade do |t|
@@ -146,27 +136,25 @@ ActiveRecord::Schema.define(version: 2023_03_17_151611) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "employer_id", null: false
     t.string "state"
-    t.bigint "category_id", null: false
+    t.bigint "employment_id", null: false
     t.integer "salary_min"
     t.integer "salary_max"
     t.bigint "currency_id"
     t.bigint "experience_id", null: false
     t.float "usd_salary_min"
     t.float "usd_salary_max"
-    t.index ["category_id"], name: "index_vacancies_on_category_id"
     t.index ["currency_id"], name: "index_vacancies_on_currency_id"
     t.index ["employer_id"], name: "index_vacancies_on_employer_id"
+    t.index ["employment_id"], name: "index_vacancies_on_employment_id"
     t.index ["experience_id"], name: "index_vacancies_on_experience_id"
   end
 
   add_foreign_key "cities", "countries"
-  add_foreign_key "exchange_rates", "currencies", column: "from_currency_id"
-  add_foreign_key "exchange_rates", "currencies", column: "to_currency_id"
   add_foreign_key "locations", "cities"
   add_foreign_key "locations", "countries"
   add_foreign_key "locations", "vacancies"
-  add_foreign_key "vacancies", "categories"
   add_foreign_key "vacancies", "currencies"
   add_foreign_key "vacancies", "employers"
+  add_foreign_key "vacancies", "employments"
   add_foreign_key "vacancies", "experiences"
 end

@@ -2,29 +2,30 @@
 
 # == Schema Information
 #
-# Table name: categories
+# Table name: employments
 #
 #  id         :bigint           not null, primary key
+#  name       :string
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 require 'rails_helper'
 
-RSpec.describe Category, type: :model do
+RSpec.describe Employment, type: :model do
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to have_many(:vacancies) }
   it { is_expected.to have_many(:translations).dependent(:destroy) }
 
   it 'is valid with unique name' do
-    create(:category, name: 'Category')
-    category = build(:category, name: 'Another category')
-    expect(category).to be_valid
+    create(:employment, name: 'Employment')
+    employment = build(:employment, name: 'Another employment')
+    expect(employment).to be_valid
   end
 
   it 'is invalid with unique name in the different case' do
-    create(:category, name: 'Category')
-    category = build(:category, name: 'category')
-    expect(category).not_to be_valid
+    create(:employment, name: 'Employment')
+    employment = build(:employment, name: 'employment')
+    expect(employment).not_to be_valid
   end
 end

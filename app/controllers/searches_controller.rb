@@ -11,7 +11,7 @@ class SearchesController < ApplicationController
   end
 
   def filters_params
-    params.permit(:category_id, :currency_id, :city_id, :experience_id, :salary_min, :salary_max)
+    params.permit(:employment_id, :currency_id, :city_id, :experience_id, :salary_min, :salary_max)
   end
 
   private

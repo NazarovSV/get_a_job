@@ -16,23 +16,23 @@
 #  usd_salary_min :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  category_id    :bigint           not null
 #  currency_id    :bigint
 #  employer_id    :bigint           not null
+#  employment_id  :bigint           not null
 #  experience_id  :bigint           not null
 #
 # Indexes
 #
-#  index_vacancies_on_category_id    (category_id)
 #  index_vacancies_on_currency_id    (currency_id)
 #  index_vacancies_on_employer_id    (employer_id)
+#  index_vacancies_on_employment_id  (employment_id)
 #  index_vacancies_on_experience_id  (experience_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (currency_id => currencies.id)
 #  fk_rails_...  (employer_id => employers.id)
+#  fk_rails_...  (employment_id => employments.id)
 #  fk_rails_...  (experience_id => experiences.id)
 #
 require 'rails_helper'
@@ -47,7 +47,7 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to validate_length_of(:title).is_at_most(255) }
   it { is_expected.to allow_value('address@email.com').for(:email) }
   it { is_expected.to belong_to :employer }
-  it { is_expected.to belong_to :category }
+  it { is_expected.to belong_to :employment }
   it { is_expected.to belong_to :experience }
   it { is_expected.to belong_to(:currency).optional }
   it { is_expected.to have_one(:location).dependent(:destroy) }

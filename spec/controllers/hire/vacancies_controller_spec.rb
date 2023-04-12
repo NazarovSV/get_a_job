@@ -7,10 +7,10 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
   describe 'POST #create' do
     let!(:employer) { create(:employer) }
-    let!(:category) { create(:category) }
+    let!(:employment) { create(:employment) }
     let!(:currencies) { create_list(:currency, 3) }
     let!(:experience) { create_list(:experience, 3) }
-    let(:vacancy) { build(:vacancy, category:, currency: currencies.first, employer:) }
+    let(:vacancy) { build(:vacancy, employment:, currency: currencies.first, employer:) }
 
     before { login_employer(employer) }
 
@@ -18,7 +18,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
       it 'saves a new vacancy in the database' do
         expect do
           post :create,
-               params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+               params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                            currency_id: @usd.id,
                                                            experience_id: experience.first.id,
                                                            location_attributes: attributes_for(:location)) }
@@ -30,7 +30,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
       it 'redirects to created vacancy' do
         post :create,
-             params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+             params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                          currency_id: currencies.first.id,
                                                          experience_id: experience.first.id,
                                                          location_attributes: attributes_for(:location)) }
@@ -40,14 +40,14 @@ RSpec.describe Hire::VacanciesController, type: :controller do
 
       it 'don`t saves a new country and city if it already exists in database' do
         post :create,
-             params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+             params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                          currency_id: currencies.first.id,
                                                          experience_id: experience.first.id,
                                                          location_attributes: attributes_for(:location)) }
 
         expect do
           post :create,
-               params: { vacancy: attributes_for(:vacancy, category_id: vacancy.category_id,
+               params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                            currency_id: currencies.first.id,
                                                            experience_id: experience.first.id,
                                                            location_attributes: attributes_for(:location)) }
