@@ -4,29 +4,31 @@
 #
 # Table name: vacancies
 #
-#  id             :bigint           not null, primary key
-#  description    :string           not null
-#  email          :string           not null
-#  phone          :string
-#  salary_max     :integer
-#  salary_min     :integer
-#  state          :string
-#  title          :string           not null
-#  usd_salary_max :float
-#  usd_salary_min :float
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  currency_id    :bigint
-#  employer_id    :bigint           not null
-#  employment_id  :bigint           not null
-#  experience_id  :bigint           not null
+#  id                :bigint           not null, primary key
+#  description       :string           not null
+#  email             :string           not null
+#  phone             :string
+#  salary_max        :integer
+#  salary_min        :integer
+#  state             :string
+#  title             :string           not null
+#  usd_salary_max    :float
+#  usd_salary_min    :float
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  currency_id       :bigint
+#  employer_id       :bigint           not null
+#  employment_id     :bigint           not null
+#  experience_id     :bigint           not null
+#  specialization_id :bigint
 #
 # Indexes
 #
-#  index_vacancies_on_currency_id    (currency_id)
-#  index_vacancies_on_employer_id    (employer_id)
-#  index_vacancies_on_employment_id  (employment_id)
-#  index_vacancies_on_experience_id  (experience_id)
+#  index_vacancies_on_currency_id        (currency_id)
+#  index_vacancies_on_employer_id        (employer_id)
+#  index_vacancies_on_employment_id      (employment_id)
+#  index_vacancies_on_experience_id      (experience_id)
+#  index_vacancies_on_specialization_id  (specialization_id)
 #
 # Foreign Keys
 #
@@ -34,6 +36,7 @@
 #  fk_rails_...  (employer_id => employers.id)
 #  fk_rails_...  (employment_id => employments.id)
 #  fk_rails_...  (experience_id => experiences.id)
+#  fk_rails_...  (specialization_id => specializations.id)
 #
 class Vacancy < ApplicationRecord
   before_validation :fill_usd_salaries, unless: :skip_fill_usd_salaries
@@ -46,6 +49,7 @@ class Vacancy < ApplicationRecord
   belongs_to :employer
   belongs_to :experience
   belongs_to :currency, optional: true
+  belongs_to :specialization
   has_many :responses, dependent: :destroy
   has_one :location, dependent: :destroy, validate: true
 
@@ -65,6 +69,7 @@ class Vacancy < ApplicationRecord
   scope :filtered_by_city, ->(city_id) { joins(:location).where(locations: { city_id: }) if city_id.present? }
   scope :filtered_by_experience, ->(experience_id) { where(experience_id:) if experience_id.present? }
   scope :filtered_by_employment, ->(employment_id) { where(employment_id:) if employment_id.present? }
+  scope :filtered_by_specialization, ->(specialization_id) { where(specialization_id:) if specialization_id.present? }
 
   attr_accessor :skip_fill_usd_salaries
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_12_104142) do
+ActiveRecord::Schema.define(version: 2023_04_12_143618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,22 @@ ActiveRecord::Schema.define(version: 2023_04_12_104142) do
     t.index ["vacancy_id"], name: "index_responses_on_vacancy_id"
   end
 
+  create_table "specialization_translations", force: :cascade do |t|
+    t.bigint "specialization_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "name", null: false
+    t.index ["locale"], name: "index_specialization_translations_on_locale"
+    t.index ["specialization_id"], name: "index_specialization_translations_on_specialization_id"
+  end
+
+  create_table "specializations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "vacancies", force: :cascade do |t|
     t.string "title", null: false
     t.string "description", null: false
@@ -143,10 +159,12 @@ ActiveRecord::Schema.define(version: 2023_04_12_104142) do
     t.bigint "experience_id", null: false
     t.float "usd_salary_min"
     t.float "usd_salary_max"
+    t.bigint "specialization_id"
     t.index ["currency_id"], name: "index_vacancies_on_currency_id"
     t.index ["employer_id"], name: "index_vacancies_on_employer_id"
     t.index ["employment_id"], name: "index_vacancies_on_employment_id"
     t.index ["experience_id"], name: "index_vacancies_on_experience_id"
+    t.index ["specialization_id"], name: "index_vacancies_on_specialization_id"
   end
 
   add_foreign_key "cities", "countries"
@@ -157,4 +175,5 @@ ActiveRecord::Schema.define(version: 2023_04_12_104142) do
   add_foreign_key "vacancies", "employers"
   add_foreign_key "vacancies", "employments"
   add_foreign_key "vacancies", "experiences"
+  add_foreign_key "vacancies", "specializations"
 end

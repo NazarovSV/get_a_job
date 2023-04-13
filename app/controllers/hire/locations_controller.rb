@@ -5,7 +5,6 @@ module Hire
     skip_after_action :verify_authorized
 
     def search
-      # pry.byebug
       @locations = Location.first_five_address_contains(letters: params[:letters])
       render json: @locations
     end

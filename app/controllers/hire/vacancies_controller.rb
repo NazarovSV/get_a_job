@@ -81,6 +81,7 @@ module Hire
                                       :experience_id,
                                       :salary_min,
                                       :salary_max,
+                                      :specialization_id,
                                       location_attributes: [:address])
     end
 

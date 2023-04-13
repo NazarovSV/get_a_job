@@ -33,3 +33,16 @@ unless Experience.any?
   create_experience_with_translate(en_description: '3-5 years', ru_description: '3 - 5 лет опыта')
   create_experience_with_translate(en_description: '5+ year', ru_description: '5 + лет опыта')
 end
+
+def create_specialization_with_translate(en_name:, ru_name:)
+  specialization = Specialization.new(name: en_name)
+  specialization.name_translations = { en: en_name, ru: ru_name }
+  specialization.save!
+end
+
+unless Specialization.any?
+  create_specialization_with_translate(en_name: 'Driver', ru_name: 'Водитель')
+  create_specialization_with_translate(en_name: 'IT', ru_name: 'IT')
+  create_specialization_with_translate(en_name: 'Manager', ru_name: 'Менеджер')
+  create_specialization_with_translate(en_name: 'Doctor', ru_name: 'Доктор')
+end

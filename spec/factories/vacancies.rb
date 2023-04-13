@@ -4,29 +4,31 @@
 #
 # Table name: vacancies
 #
-#  id             :bigint           not null, primary key
-#  description    :string           not null
-#  email          :string           not null
-#  phone          :string
-#  salary_max     :integer
-#  salary_min     :integer
-#  state          :string
-#  title          :string           not null
-#  usd_salary_max :float
-#  usd_salary_min :float
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  currency_id    :bigint
-#  employer_id    :bigint           not null
-#  employment_id  :bigint           not null
-#  experience_id  :bigint           not null
+#  id                :bigint           not null, primary key
+#  description       :string           not null
+#  email             :string           not null
+#  phone             :string
+#  salary_max        :integer
+#  salary_min        :integer
+#  state             :string
+#  title             :string           not null
+#  usd_salary_max    :float
+#  usd_salary_min    :float
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  currency_id       :bigint
+#  employer_id       :bigint           not null
+#  employment_id     :bigint           not null
+#  experience_id     :bigint           not null
+#  specialization_id :bigint
 #
 # Indexes
 #
-#  index_vacancies_on_currency_id    (currency_id)
-#  index_vacancies_on_employer_id    (employer_id)
-#  index_vacancies_on_employment_id  (employment_id)
-#  index_vacancies_on_experience_id  (experience_id)
+#  index_vacancies_on_currency_id        (currency_id)
+#  index_vacancies_on_employer_id        (employer_id)
+#  index_vacancies_on_employment_id      (employment_id)
+#  index_vacancies_on_experience_id      (experience_id)
+#  index_vacancies_on_specialization_id  (specialization_id)
 #
 # Foreign Keys
 #
@@ -34,6 +36,7 @@
 #  fk_rails_...  (employer_id => employers.id)
 #  fk_rails_...  (employment_id => employments.id)
 #  fk_rails_...  (experience_id => experiences.id)
+#  fk_rails_...  (specialization_id => specializations.id)
 #
 FactoryBot.define do
   factory :vacancy do
@@ -45,6 +48,7 @@ FactoryBot.define do
     employment
     currency
     experience
+    specialization
     salary_min { rand(1_000..300_000) }
     salary_max { rand(300_001..1_000_000) }
     usd_salary_min { nil }

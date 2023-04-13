@@ -60,6 +60,7 @@ en:
       currency: "Currency"
       years_of_experience: "Years of experience"
       city: "Location"
+      specialization: "Specialization"
   vacancy:
     state:
       flash:

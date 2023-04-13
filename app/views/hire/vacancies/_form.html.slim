@@ -18,6 +18,8 @@
   p
     = f.text_field :email, class: 'form-control', placeholder: t('helpers.label.vacancy.email')
   p
+    = f.collection_select :specialization_id, Specialization.all, :id, :name
+  p
     = f.text_field :phone, type: "tel", class: 'form-control', placeholder: t('helpers.label.vacancy.phone')
   = f.fields_for :location do |f_loc|
     p
