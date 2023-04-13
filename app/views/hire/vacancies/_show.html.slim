@@ -35,6 +35,10 @@
     br
       = vacancy_salary_range(@vacancy)
   p
+    b= Specialization
+    br
+      = @vacancy.specialization.name
+  p
     = link_to "Responses(#{@vacancy.responses.count})", hire_vacancy_responses_path(@vacancy), class: "text-decoration-none"
   = link_to t('.edit'), edit_hire_vacancy_path(@vacancy), class: 'link-dark'
   - if @vacancy.drafted?

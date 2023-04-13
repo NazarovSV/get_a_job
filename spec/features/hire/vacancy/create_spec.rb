@@ -13,6 +13,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
     let!(:employer) { create(:employer) }
     let!(:employments) { create_list(:employment, 5) }
     let!(:experience) { create_list(:experience, 3) }
+    let!(:specializations) { create_list(:specialization, 4) }
     let!(:vacancy) { build(:vacancy, currency: @rub, employer:, address: 'UK, London') }
 
     before do
@@ -30,6 +31,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
       select experience.first.description, from: 'vacancy[experience_id]'
+      select specializations.second.name, from: 'vacancy[specialization_id]'
       select @rub.name, from: 'vacancy[currency_id]'
 
       click_on 'Create'
@@ -45,6 +47,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
                   .and have_content(vacancy.salary_max)
                   .and have_content(@rub.name)
                   .and have_content(experience.first.description)
+                  .and have_content(specializations.second.name)
     end
 
     it 'can add new vacancy without phone' do

@@ -56,6 +56,7 @@ describe 'Any user can search vacancies by key words', '
   describe 'filter' do
     let!(:employments) { create_list :employment, 3 }
     let!(:experience) { create_list :experience, 3 }
+    let!(:specializations) { create_list :specialization, 2 }
     let!(:vacancies_for_filter) do
       [
         create(:vacancy,
@@ -67,6 +68,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.first,
                address: 'Ukraine, Kyiv',
+               specialization: specializations.first,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -78,6 +80,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.first,
                address: 'Ukraine, Kyiv',
+               specialization: specializations.first,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -89,6 +92,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.last,
                address: 'UK, London',
+               specialization: specializations.second,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -100,6 +104,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @usd,
                experience: experience.second,
                address: 'Russia, Moscow',
+               specialization: specializations.second,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -111,6 +116,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.second,
                address: 'Russia, Moscow',
+               specialization: specializations.second,
                skip_fill_usd_salaries: false)
       ]
     end
@@ -138,6 +144,16 @@ describe 'Any user can search vacancies by key words', '
 
       expect(page).not_to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
+      expect(page).to have_content vacancies_for_filter.third.title
+      expect(page).to have_content vacancies_for_filter.fourth.title
+      expect(page).to have_content vacancies_for_filter.last.title
+
+      within '.filters' do
+        select specializations.second.name, from: 'specialization_id'
+      end
+
+      expect(page).not_to have_content vacancies_for_filter.first.title
+      expect(page).not_to have_content vacancies_for_filter.second.title
       expect(page).to have_content vacancies_for_filter.third.title
       expect(page).to have_content vacancies_for_filter.fourth.title
       expect(page).to have_content vacancies_for_filter.last.title

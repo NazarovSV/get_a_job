@@ -7,6 +7,7 @@ function search() {
     let experienceId = $('.filters #experience_id').val()
     let salary_min = $('.filters #salary_min').val()
     let salary_max = $('.filters #salary_max').val()
+    let specializationId = $('.filters #specialization_id').val()
 
     let filters = {
         request: request,
@@ -14,6 +15,7 @@ function search() {
         currency_id: currencyId,
         city_id: cityId,
         experience_id: experienceId,
+        specialization_id: specializationId
     };
 
     if (!isNaN(salary_min) && salary_min >= 100) {
