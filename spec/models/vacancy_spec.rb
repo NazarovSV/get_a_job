@@ -162,4 +162,14 @@ RSpec.describe Vacancy, type: :model do
       expect(Vacancy.filtered_by_specialization(specializations.first.id) ).to match_array(first_specialization_vacancies)
     end
   end
+
+  describe '.filtered_by_salary' do
+    include_context 'Vacancies'
+
+    it 'return vacancy with suitable salary' do
+      expected_result = [@ruby_dev, @js_dev, @go_dev, @java_dev]
+      expect(Vacancy.filtered_by_salary(salary_min: 10_000, salary_max: 20_000, currency_id: @rub.id)).to match_array(expected_result)
+    end
+
+  end
 end
