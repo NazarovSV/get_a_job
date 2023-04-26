@@ -1,24 +1,44 @@
-# README
+# Get A Job
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Проект представляет собой сайт по поиску работы или работников. Реализованы основные функции:
+- Регистрация в качестве работодателя/соискателя
+- Создание вакансии
+- Отклик на вакансию
+- Поиск вакансий по ключевым словам и фильтрам.
 
-Things you may want to cover:
+## Используемые технологии
+- Ruby 3.1.2
+- Ruby On Rails 6
+- Postgresql
+- BDD/TDD(Rspec/Capybara)
+- Devise
+- Pundit
+- AASM
+- pg_search
+- Globalize
+- Pagy
 
-* Ruby version
+## Как запустить проект
+Склонировать репозиторий:
 
-* System dependencies
+    git clone https://github.com/NazarovSV/qna.git
+  
+Установить все зависимости с помощью команды:
 
-* Configuration
+    bundle install
+  
+Создать базу данных и выполнить миграции:
 
-* Database creation
+    bundle exec rails db:create
+    bundle exec rails db:migrate
+  
+Запустить локальный сервер:
 
-* Database initialization
+    bundle exec rails s
+  
+Открыть приложение в браузере по адресу http://localhost:3000.
 
-* How to run the test suite
+## Как запустить тесты
+Чтобы запустить тесты, необходимо выполнить команду:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    bundle exec rspec
