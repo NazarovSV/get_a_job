@@ -123,43 +123,42 @@ RSpec.describe Vacancy, type: :model do
     end
   end
 
-
   describe '.filtered_by_city' do
-    let!(:moscow_vacancies) { create_list(:vacancy, 2, address: 'Russia, Moscow')}
-    let!(:london_vacancies) { create_list(:vacancy, 2, address: 'UK, London')}
+    let!(:moscow_vacancies) { create_list(:vacancy, 2, address: 'Russia, Moscow') }
+    let!(:london_vacancies) { create_list(:vacancy, 2, address: 'UK, London') }
 
     it 'return only moscow vacancies' do
-      expect(Vacancy.filtered_by_city(City.find_by(name: 'Moscow').id) ).to match_array(moscow_vacancies)
+      expect(Vacancy.filtered_by_city(City.find_by(name: 'Moscow').id)).to match_array(moscow_vacancies)
     end
   end
 
   describe '.filtered_by_experience' do
-    let!(:experiences) { create_list(:experience, 2)}
-    let!(:first_experiences_vacancies) { create_list(:vacancy, 2, experience: experiences.first)}
-    let!(:second_experiences_vacancies) { create_list(:vacancy, 2, experience: experiences.second)}
+    let!(:experiences) { create_list(:experience, 2) }
+    let!(:first_experiences_vacancies) { create_list(:vacancy, 2, experience: experiences.first) }
+    let!(:second_experiences_vacancies) { create_list(:vacancy, 2, experience: experiences.second) }
 
     it 'return only first experience vacancies' do
-      expect(Vacancy.filtered_by_experience(experiences.first.id) ).to match_array(first_experiences_vacancies)
+      expect(Vacancy.filtered_by_experience(experiences.first.id)).to match_array(first_experiences_vacancies)
     end
   end
 
   describe '.filtered_by_employment' do
-    let!(:employments) { create_list(:employment, 2)}
-    let!(:first_employment_vacancies) { create_list(:vacancy, 2, employment: employments.first)}
-    let!(:second_employment_vacancies) { create_list(:vacancy, 2, employment: employments.second)}
+    let!(:employments) { create_list(:employment, 2) }
+    let!(:first_employment_vacancies) { create_list(:vacancy, 2, employment: employments.first) }
+    let!(:second_employment_vacancies) { create_list(:vacancy, 2, employment: employments.second) }
 
     it 'return only first employment vacancies' do
-      expect(Vacancy.filtered_by_employment(employments.first.id) ).to match_array(first_employment_vacancies)
+      expect(Vacancy.filtered_by_employment(employments.first.id)).to match_array(first_employment_vacancies)
     end
   end
 
   describe '.filtered_by_specialization' do
-    let!(:specializations) { create_list(:specialization, 2)}
-    let!(:first_specialization_vacancies) { create_list(:vacancy, 2, specialization: specializations.first)}
-    let!(:second_specialization_vacancies) { create_list(:vacancy, 2, specialization: specializations.second)}
+    let!(:specializations) { create_list(:specialization, 2) }
+    let!(:first_specialization_vacancies) { create_list(:vacancy, 2, specialization: specializations.first) }
+    let!(:second_specialization_vacancies) { create_list(:vacancy, 2, specialization: specializations.second) }
 
     it 'return only first specialization vacancies' do
-      expect(Vacancy.filtered_by_specialization(specializations.first.id) ).to match_array(first_specialization_vacancies)
+      expect(Vacancy.filtered_by_specialization(specializations.first.id)).to match_array(first_specialization_vacancies)
     end
   end
 
@@ -168,7 +167,8 @@ RSpec.describe Vacancy, type: :model do
 
     it 'return vacancy with suitable salary' do
       expected_result = [@ruby_dev, @js_dev, @go_dev, @java_dev]
-      expect(Vacancy.filtered_by_salary(salary_min: 10_000, salary_max: 20_000, currency_id: @rub.id)).to match_array(expected_result)
+      expect(Vacancy.filtered_by_salary(salary_min: 10_000, salary_max: 20_000,
+                                        currency_id: @rub.id)).to match_array(expected_result)
     end
   end
 end

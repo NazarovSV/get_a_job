@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class USDSalaryUpdaterJob < ApplicationJob
+class UsdSalaryUpdaterJob < ApplicationJob
   queue_as :default
 
   def perform(*_args)
-    USDSalaryService.call
+    UsdSalaryService.call
   end
 end

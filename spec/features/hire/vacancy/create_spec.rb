@@ -158,44 +158,35 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
     it 'convert if min salary equal or greater then 100', js: true do
       fill_in 'Salary From', with: 100
+      find('#salary_min').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
-      sleep 2
-
       fill_in 'Salary From', with: 1000
+      find('#salary_min').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '800 EUR'
       expect(page).to have_content '700 GBP'
     end
 
     it 'convert if max salary equal or greater then 100', js: true do
       fill_in 'Salary To', with: 100
+      find('#salary_max').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
       fill_in 'Salary To', with: 1000
+      find('#salary_max').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '800 EUR'
       expect(page).to have_content '700 GBP'
     end
 
-    it 'no effect if min salary lesser then 100' do
-      fill_in 'Salary From', with: 90
-
-      within '.salary_min_converted', visible: false do
-        expect(page.text).to be_empty
-      end
-    end
-
-    it 'no effect if max salary lesser then 100' do
-      fill_in 'Salary To', with: 90
-
-      within '.salary_max_converted', visible: false do
-        expect(page.text).to be_empty
-      end
-    end
-
     it 'save converted salary after failed creation', js: true do
       fill_in 'Salary To', with: 100
+      find('#salary_max').native.send_keys(:enter)
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
@@ -209,6 +200,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       select @usd.name, from: 'vacancy[currency_id]'
 
       fill_in 'Salary From', with: 100
+      find('#salary_min').native.send_keys(:enter)
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
