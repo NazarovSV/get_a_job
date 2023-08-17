@@ -6,9 +6,12 @@ RSpec.shared_context 'Vacancies' do
   before do
     Employment.delete_all
     Experience.delete_all
+    Specialization.delete_all
 
     @employment = create_list(:employment, 3)
     @experience = create_list(:experience, 3)
+    @specializations = create_list(:specialization, 2)
+
     @ruby_dev = create(:vacancy,
                        :published,
                        :without_salary,
@@ -18,7 +21,8 @@ RSpec.shared_context 'Vacancies' do
                        currency: @rub,
                        experience: @experience.first,
                        address: 'Ukraine, Kyiv',
-                       skip_fill_usd_salaries: false)
+                       skip_fill_usd_salaries: false,
+                       specialization: @specializations.first)
     @js_dev = create(:vacancy,
                      :published,
                      salary_min: 10_000,
@@ -29,7 +33,8 @@ RSpec.shared_context 'Vacancies' do
                      currency: @rub,
                      experience: @experience.first,
                      address: 'Ukraine, Kyiv',
-                     skip_fill_usd_salaries: false)
+                     skip_fill_usd_salaries: false,
+                     specialization: @specializations.first)
     @c_sharp_dev = create(:vacancy,
                           :published,
                           salary_min: 15_000,
@@ -40,7 +45,8 @@ RSpec.shared_context 'Vacancies' do
                           currency: @usd,
                           experience: @experience.last,
                           address: 'UK, London',
-                          skip_fill_usd_salaries: false)
+                          skip_fill_usd_salaries: false,
+                          specialization: @specializations.first)
     @c_plus_dev = create(:vacancy,
                          :published,
                          salary_min: 4_500,
@@ -51,7 +57,8 @@ RSpec.shared_context 'Vacancies' do
                          currency: @usd,
                          experience: @experience.second,
                          address: 'Russia, Moscow',
-                         skip_fill_usd_salaries: false)
+                         skip_fill_usd_salaries: false,
+                         specialization: @specializations.second)
     @go_dev = create(:vacancy,
                      :published,
                      salary_min: nil,
@@ -62,7 +69,8 @@ RSpec.shared_context 'Vacancies' do
                      currency: @rub,
                      experience: @experience.first,
                      address: 'Russia, Moscow',
-                     skip_fill_usd_salaries: false)
+                     skip_fill_usd_salaries: false,
+                     specialization: @specializations.second)
     @java_dev = create(:vacancy,
                        salary_min: nil,
                        salary_max: 16_000,
@@ -72,6 +80,7 @@ RSpec.shared_context 'Vacancies' do
                        currency: @rub,
                        experience: @experience.second,
                        address: 'Russia, Moscow',
-                       skip_fill_usd_salaries: false)
+                       skip_fill_usd_salaries: false,
+                       specialization: @specializations.second)
   end
 end

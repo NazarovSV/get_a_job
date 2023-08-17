@@ -10,6 +10,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
     let!(:employment) { create(:employment) }
     let!(:currencies) { create_list(:currency, 3) }
     let!(:experience) { create_list(:experience, 3) }
+    let!(:specializations) { create_list(:specialization, 3) }
     let(:vacancy) { build(:vacancy, employment:, currency: currencies.first, employer:) }
 
     before { login_employer(employer) }
@@ -21,10 +22,11 @@ RSpec.describe Hire::VacanciesController, type: :controller do
                params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                            currency_id: @usd.id,
                                                            experience_id: experience.first.id,
+                                                           specialization_id: specializations.first.id,
                                                            location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
-                                      # .and change(Country, :count).by(1)
-                                      # .and change(City, :count).by(1)
+                                      .and change(Country, :count).by(1)
+                                      .and change(City, :count).by(1)
                                       .and change(Location, :count).by(1)
       end
 
@@ -33,6 +35,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
              params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                          currency_id: currencies.first.id,
                                                          experience_id: experience.first.id,
+                                                         specialization_id: specializations.first.id,
                                                          location_attributes: attributes_for(:location)) }
         expect(response).to redirect_to hire_vacancy_path(id: assigns(:vacancy).id)
         expect(flash[:notice]).to match('Your vacancy successfully created.')
@@ -43,6 +46,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
              params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                          currency_id: currencies.first.id,
                                                          experience_id: experience.first.id,
+                                                         specialization_id: specializations.first.id,
                                                          location_attributes: attributes_for(:location)) }
 
         expect do
@@ -50,6 +54,7 @@ RSpec.describe Hire::VacanciesController, type: :controller do
                params: { vacancy: attributes_for(:vacancy, employment_id: vacancy.employment_id,
                                                            currency_id: currencies.first.id,
                                                            experience_id: experience.first.id,
+                                                           specialization_id: specializations.first.id,
                                                            location_attributes: attributes_for(:location)) }
         end.to change(Vacancy, :count).by(1)
            .and change(Location, :count).by(1)

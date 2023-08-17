@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: categories
+# Table name: employments
 #
 #  id         :bigint           not null, primary key
 #  name       :string           not null

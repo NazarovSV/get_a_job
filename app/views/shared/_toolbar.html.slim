@@ -16,3 +16,5 @@ p
             = text_field_tag :salary_max, '', class: "form-control", placeholder: 'Salary To', type: :number, money_data_behavior: "filter"
           .col
             = select_tag :currency_id, options_from_collection_for_select(Currency.all, :id, :name), class: "form-control"
+          .col
+            = select_tag :specialization_id, options_from_collection_for_select(Specialization.all, :id, :name), class: "form-control", prompt: t('.specialization')

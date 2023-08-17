@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe USDSalaryService do
+RSpec.describe UsdSalaryService do
   subject { described_class }
 
   describe '#call' do

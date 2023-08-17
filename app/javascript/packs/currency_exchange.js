@@ -34,13 +34,14 @@ function showExchangedAmounts() {
             convertAmount(field.val(), id);
         }
 
-        field.on('input', function () {
-            let amount = field.val()
-            if (parseInt(amount) < 100)
-                return
+        field.on('keypress', function (e) {
 
-            convertAmount(amount, id)
-        })
+	    if (e.key == 'Enter') {
+	        let amount = field.val()
+
+                convertAmount(amount, id)		    
+            }
+	})
     })
 }
 

@@ -17,6 +17,7 @@ RSpec.describe SearchService do
         let(:moscow_city) { City.find_by(name: 'Moscow') }
         let(:employment) { @employment.first }
         let(:experience) { @experience.first }
+        let(:specialization) { @specializations.second }
 
         it 'return vacancy filtered by all filters' do
           expect(described_class.call(filters: { city_id: moscow_city,
@@ -24,6 +25,7 @@ RSpec.describe SearchService do
                                                  experience_id: experience,
                                                  salary_min: 10_000,
                                                  salary_max: 20_000,
+                                                 specialization_id: specialization,
                                                  currency: @rub })).to contain_exactly(@go_dev)
         end
       end
@@ -46,6 +48,13 @@ RSpec.describe SearchService do
         it 'returns only vacancies in the first experience' do
           expect(described_class.call(filters: { experience_id: @experience.first })).to contain_exactly(@ruby_dev,
                                                                                                          @js_dev, @go_dev)
+        end
+      end
+
+      context 'when filtering by specialization' do
+        it 'return only vacancies with first specialization' do
+          expect(described_class.call(filters: { specialization_id: @specializations.first })).to contain_exactly(@ruby_dev,
+                                                                                                                  @js_dev, @c_sharp_dev)
         end
       end
 
@@ -77,12 +86,14 @@ RSpec.describe SearchService do
         moscow_city = City.find_by(name: 'Moscow')
         category = @employment.first
         experience = @experience.first
+        specialization = @specializations.second
 
         expect(described_class.call(keywords: 'Go', filters: { city_id: moscow_city,
                                                                employment_id: category,
                                                                experience_id: experience,
                                                                salary_min: 10_000,
                                                                salary_max: 20_000,
+                                                               specialization_id: specialization,
                                                                currency: @rub })).to contain_exactly(@go_dev)
       end
     end

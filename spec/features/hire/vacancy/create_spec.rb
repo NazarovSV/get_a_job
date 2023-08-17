@@ -13,6 +13,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
     let!(:employer) { create(:employer) }
     let!(:employments) { create_list(:employment, 5) }
     let!(:experience) { create_list(:experience, 3) }
+    let!(:specializations) { create_list(:specialization, 4) }
     let!(:vacancy) { build(:vacancy, currency: @rub, employer:, address: 'UK, London') }
 
     before do
@@ -30,6 +31,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       fill_in 'Salary From', with: vacancy.salary_min
       fill_in 'Salary To', with: vacancy.salary_max
       select experience.first.description, from: 'vacancy[experience_id]'
+      select specializations.second.name, from: 'vacancy[specialization_id]'
       select @rub.name, from: 'vacancy[currency_id]'
 
       click_on 'Create'
@@ -45,6 +47,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
                   .and have_content(vacancy.salary_max)
                   .and have_content(@rub.name)
                   .and have_content(experience.first.description)
+                  .and have_content(specializations.second.name)
     end
 
     it 'can add new vacancy without phone' do
@@ -155,44 +158,35 @@ describe 'Only authenticated user as employer can add new vacancy', '
 
     it 'convert if min salary equal or greater then 100', js: true do
       fill_in 'Salary From', with: 100
+      find('#salary_min').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
-      sleep 2
-
       fill_in 'Salary From', with: 1000
+      find('#salary_min').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '800 EUR'
       expect(page).to have_content '700 GBP'
     end
 
     it 'convert if max salary equal or greater then 100', js: true do
       fill_in 'Salary To', with: 100
+      find('#salary_max').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
       fill_in 'Salary To', with: 1000
+      find('#salary_max').native.send_keys(:enter)
+      wait_for_ajax
       expect(page).to have_content '800 EUR'
       expect(page).to have_content '700 GBP'
     end
 
-    it 'no effect if min salary lesser then 100' do
-      fill_in 'Salary From', with: 90
-
-      within '.salary_min_converted', visible: false do
-        expect(page.text).to be_empty
-      end
-    end
-
-    it 'no effect if max salary lesser then 100' do
-      fill_in 'Salary To', with: 90
-
-      within '.salary_max_converted', visible: false do
-        expect(page.text).to be_empty
-      end
-    end
-
     it 'save converted salary after failed creation', js: true do
       fill_in 'Salary To', with: 100
+      find('#salary_max').native.send_keys(:enter)
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 
@@ -206,6 +200,7 @@ describe 'Only authenticated user as employer can add new vacancy', '
       select @usd.name, from: 'vacancy[currency_id]'
 
       fill_in 'Salary From', with: 100
+      find('#salary_min').native.send_keys(:enter)
       expect(page).to have_content '80 EUR'
       expect(page).to have_content '70 GBP'
 

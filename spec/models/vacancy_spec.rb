@@ -4,29 +4,31 @@
 #
 # Table name: vacancies
 #
-#  id             :bigint           not null, primary key
-#  description    :string           not null
-#  email          :string           not null
-#  phone          :string
-#  salary_max     :integer
-#  salary_min     :integer
-#  state          :string
-#  title          :string           not null
-#  usd_salary_max :float
-#  usd_salary_min :float
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  currency_id    :bigint
-#  employer_id    :bigint           not null
-#  employment_id  :bigint           not null
-#  experience_id  :bigint           not null
+#  id                :bigint           not null, primary key
+#  description       :string           not null
+#  email             :string           not null
+#  phone             :string
+#  salary_max        :integer
+#  salary_min        :integer
+#  state             :string
+#  title             :string           not null
+#  usd_salary_max    :float
+#  usd_salary_min    :float
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  currency_id       :bigint
+#  employer_id       :bigint           not null
+#  employment_id     :bigint           not null
+#  experience_id     :bigint           not null
+#  specialization_id :bigint
 #
 # Indexes
 #
-#  index_vacancies_on_currency_id    (currency_id)
-#  index_vacancies_on_employer_id    (employer_id)
-#  index_vacancies_on_employment_id  (employment_id)
-#  index_vacancies_on_experience_id  (experience_id)
+#  index_vacancies_on_currency_id        (currency_id)
+#  index_vacancies_on_employer_id        (employer_id)
+#  index_vacancies_on_employment_id      (employment_id)
+#  index_vacancies_on_experience_id      (experience_id)
+#  index_vacancies_on_specialization_id  (specialization_id)
 #
 # Foreign Keys
 #
@@ -34,6 +36,7 @@
 #  fk_rails_...  (employer_id => employers.id)
 #  fk_rails_...  (employment_id => employments.id)
 #  fk_rails_...  (experience_id => experiences.id)
+#  fk_rails_...  (specialization_id => specializations.id)
 #
 require 'rails_helper'
 
@@ -49,6 +52,7 @@ RSpec.describe Vacancy, type: :model do
   it { is_expected.to belong_to :employer }
   it { is_expected.to belong_to :employment }
   it { is_expected.to belong_to :experience }
+  it { is_expected.to belong_to :specialization }
   it { is_expected.to belong_to(:currency).optional }
   it { is_expected.to have_one(:location).dependent(:destroy) }
   it { is_expected.to have_many(:responses).dependent(:destroy) }
@@ -119,8 +123,52 @@ RSpec.describe Vacancy, type: :model do
     end
   end
 
-  # describe 'validate usd salary fields' do
-  #   let!(currency_converter) { }
-  #
-  # end
+  describe '.filtered_by_city' do
+    let!(:moscow_vacancies) { create_list(:vacancy, 2, address: 'Russia, Moscow') }
+    let!(:london_vacancies) { create_list(:vacancy, 2, address: 'UK, London') }
+
+    it 'return only moscow vacancies' do
+      expect(Vacancy.filtered_by_city(City.find_by(name: 'Moscow').id)).to match_array(moscow_vacancies)
+    end
+  end
+
+  describe '.filtered_by_experience' do
+    let!(:experiences) { create_list(:experience, 2) }
+    let!(:first_experiences_vacancies) { create_list(:vacancy, 2, experience: experiences.first) }
+    let!(:second_experiences_vacancies) { create_list(:vacancy, 2, experience: experiences.second) }
+
+    it 'return only first experience vacancies' do
+      expect(Vacancy.filtered_by_experience(experiences.first.id)).to match_array(first_experiences_vacancies)
+    end
+  end
+
+  describe '.filtered_by_employment' do
+    let!(:employments) { create_list(:employment, 2) }
+    let!(:first_employment_vacancies) { create_list(:vacancy, 2, employment: employments.first) }
+    let!(:second_employment_vacancies) { create_list(:vacancy, 2, employment: employments.second) }
+
+    it 'return only first employment vacancies' do
+      expect(Vacancy.filtered_by_employment(employments.first.id)).to match_array(first_employment_vacancies)
+    end
+  end
+
+  describe '.filtered_by_specialization' do
+    let!(:specializations) { create_list(:specialization, 2) }
+    let!(:first_specialization_vacancies) { create_list(:vacancy, 2, specialization: specializations.first) }
+    let!(:second_specialization_vacancies) { create_list(:vacancy, 2, specialization: specializations.second) }
+
+    it 'return only first specialization vacancies' do
+      expect(Vacancy.filtered_by_specialization(specializations.first.id)).to match_array(first_specialization_vacancies)
+    end
+  end
+
+  describe '.filtered_by_salary' do
+    include_context 'Vacancies'
+
+    it 'return vacancy with suitable salary' do
+      expected_result = [@ruby_dev, @js_dev, @go_dev, @java_dev]
+      expect(Vacancy.filtered_by_salary(salary_min: 10_000, salary_max: 20_000,
+                                        currency_id: @rub.id)).to match_array(expected_result)
+    end
+  end
 end

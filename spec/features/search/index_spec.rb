@@ -56,6 +56,7 @@ describe 'Any user can search vacancies by key words', '
   describe 'filter' do
     let!(:employments) { create_list :employment, 3 }
     let!(:experience) { create_list :experience, 3 }
+    let!(:specializations) { create_list :specialization, 2 }
     let!(:vacancies_for_filter) do
       [
         create(:vacancy,
@@ -67,17 +68,19 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.first,
                address: 'Ukraine, Kyiv',
+               specialization: specializations.first,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
                salary_min: 10_000,
-               salary_max: 20_000,
+               salary_max: 21_000,
                title: 'Java developer',
                description: 'Java developer',
                employment: employments.first,
                currency: @rub,
                experience: experience.first,
                address: 'Ukraine, Kyiv',
+               specialization: specializations.first,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -89,6 +92,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.last,
                address: 'UK, London',
+               specialization: specializations.second,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -100,6 +104,7 @@ describe 'Any user can search vacancies by key words', '
                currency: @usd,
                experience: experience.second,
                address: 'Russia, Moscow',
+               specialization: specializations.second,
                skip_fill_usd_salaries: false),
         create(:vacancy,
                :published,
@@ -111,11 +116,12 @@ describe 'Any user can search vacancies by key words', '
                currency: @rub,
                experience: experience.second,
                address: 'Russia, Moscow',
+               specialization: specializations.second,
                skip_fill_usd_salaries: false)
       ]
     end
 
-    let!(:currency_converter) { double('CurrencyConverter') }
+    let!(:currency_converter) { instance_double('CurrencyConverter') }
 
     before do
       allow(CurrencyConverter).to receive(:new).and_return(currency_converter)
@@ -143,6 +149,16 @@ describe 'Any user can search vacancies by key words', '
       expect(page).to have_content vacancies_for_filter.last.title
 
       within '.filters' do
+        select specializations.second.name, from: 'specialization_id'
+      end
+
+      expect(page).not_to have_content vacancies_for_filter.first.title
+      expect(page).not_to have_content vacancies_for_filter.second.title
+      expect(page).to have_content vacancies_for_filter.third.title
+      expect(page).to have_content vacancies_for_filter.fourth.title
+      expect(page).to have_content vacancies_for_filter.last.title
+
+      within '.filters' do
         select vacancies_for_filter.third.location.city.name, from: 'city_id'
       end
 
@@ -163,7 +179,7 @@ describe 'Any user can search vacancies by key words', '
         select employments.first.name, from: 'employment_id'
       end
 
-      sleep 2
+      wait_for_ajax
 
       expect(page).not_to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
@@ -177,11 +193,11 @@ describe 'Any user can search vacancies by key words', '
 
       within '.filters' do
         select @rub.name, from: 'currency_id'
+        fill_in 'Salary From', with: '17000'
+        find('#salary_min').native.send_keys(:enter)
       end
 
-      fill_in 'Salary From', with: '17000'
-
-      sleep 2
+      wait_for_ajax
 
       expect(page).to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
@@ -195,13 +211,15 @@ describe 'Any user can search vacancies by key words', '
 
       within '.filters' do
         select @rub.name, from: 'currency_id'
+        fill_in 'Salary To', with: '14000'
+        find('#salary_max').native.send_keys(:enter)
       end
 
-      fill_in 'Salary To', with: '14000'
+      wait_for_ajax
 
       expect(page).to have_content vacancies_for_filter.first.title
       expect(page).to have_content vacancies_for_filter.second.title
-      expect(page).not_to have_content vacancies_for_filter.third.title
+      expect(page).to have_content vacancies_for_filter.third.title
       expect(page).not_to have_content vacancies_for_filter.fourth.title
       expect(page).to have_content vacancies_for_filter.last.title
     end
