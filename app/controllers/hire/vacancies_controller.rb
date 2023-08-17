@@ -72,16 +72,11 @@ module Hire
     end
 
     def vacancy_params
-      params.require(:vacancy).permit(:title,
-                                      :description,
-                                      :email,
-                                      :phone,
-                                      :employment_id,
-                                      :currency_id,
-                                      :experience_id,
-                                      :salary_min,
-                                      :salary_max,
-                                      :specialization_id,
+      params.require(:vacancy).permit(:title, :description,
+                                      :email, :phone,
+                                      :employment_id, :currency_id,
+                                      :experience_id, :salary_min,
+                                      :salary_max, :specialization_id,
                                       location_attributes: [:address])
     end
 

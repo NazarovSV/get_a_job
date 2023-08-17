@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SearchService
+  # rubocop:disable Metrics/AbcSize
   def self.call(keywords: '', filters: {})
     Vacancy.published
            .look(keywords)
@@ -12,4 +13,5 @@ class SearchService
                                salary_max: filters[:salary_max]&.to_i,
                                currency_id: filters[:currency_id]&.to_i)
   end
+  # rubocop:enable Metrics/AbcSize
 end
